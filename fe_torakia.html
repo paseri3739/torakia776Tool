@@ -7,537 +7,526 @@
         <script src="./index.js"></script>
     </head>
     <body onload="init();" id="mainwindow">
-        <form name="form1">
-            <input type="button" value="次の乱数表" onclick="next();" />
-            <input type="text" size="10" id="rand_start" accesskey="s" />個目からの<input
-                type="text"
-                size="10"
-                id="rand_max"
-            />個の乱数に<input type="button" value="変更" onclick="change_max();" />
-            <hr />
-            <label for="view_val">乱数の現在位置</label
-            ><input type="text" size="10" id="view_val" onchange="view_val_f();" accesskey="n" />
-            <input type="button" value="-1p" onclick="view_val_updown(-55);" /><input
-                type="button"
-                value="-10"
-                onclick="view_val_updown(-10);"
-            /><input type="button" value="-" onclick="view_val_updown(-1);" accesskey="<" /><input
-                type="button"
-                value="+"
-                onclick="view_val_updown(1);"
-                accesskey=">"
-            /><input type="button" value="+10" onclick="view_val_updown(10);" /><input
-                type="button"
-                value="+1p"
-                onclick="view_val_updown(55);"
-            />
-            <input
-                type="button"
-                value="現在位置←目標位置"
-                onclick="document.getElementById('view_val').value=document.getElementById('lv_val').value;view_val_f();"
-            /><br />
-            乱数値：<span id="view_val_v">(乱数の値)</span>
-            <hr />
-            <label for="lv_val">乱数の目標位置</label
-            ><input type="text" size="10" id="lv_val" onchange="lv_val_f();" accesskey="m" />
-            <input type="button" value="-1p" onclick="lv_val_updown(-55);" /><input
-                type="button"
-                value="-10"
-                onclick="lv_val_updown(-10);"
-            /><input type="button" value="-" onclick="lv_val_updown(-1);" accesskey="," /><input
-                type="button"
-                value="+"
-                onclick="lv_val_updown(1);"
-                accesskey="."
-            /><input type="button" value="+10" onclick="lv_val_updown(10);" /><input
-                type="button"
-                value="+1p"
-                onclick="lv_val_updown(55);"
-            />
-            <input
-                type="button"
-                value="目標位置←現在位置"
-                onclick="document.getElementById('lv_val').value=document.getElementById('view_val').value;lv_val_f();"
-            />
-            +<input type="checkbox" id="glance_ck" onclick="lv_val_f();" /><select
-                id="glance"
-                onchange="lv_val_f();"
-                onkeyup="lv_val_f();"
-                class="right"
-            >
-                <script type="text/javascript">
-                    var i;
-                    for (i = -999; i < 1001; i++) {
-                        document.write("<option>" + i + "</option>");
-                    }
-                    document.getElementById("glance").selectedIndex = 999;
-                </script></select
-            >個先を見る<input type="button" value="反映" onclick="glance_a()" /><br />
-            乱数値：<span id="lv_val_v">(乱数の値)</span>
-            <hr />
-            現在位置検索<br />
-            <input type="checkbox" id="search_dtb" onclick="search_m_onchange();" /><label for="search_dtb">指定マップのみ</label>
-            <input
-                type="text"
-                id="search_ma"
-                size="20"
-                onkeyup="search_m_onchange();"
-                title="cx検索 全角や大文字には反応しないので注意"
-            /><input
-                type="button"
-                value="○"
-                onclick="document.getElementById('search_ma').value+='o';search_mx_onchange();"
-                accesskey="c"
-            /><input
-                type="button"
-                value="×"
-                onclick="document.getElementById('search_ma').value+='x';search_mx_onchange();"
-                accesskey="x"
-            />
-            <input
-                type="button"
-                value="消去"
-                onclick="document.getElementById('search_ma').value='';search_m_onchange();"
-            /><br />
-            <input type="button" value="前" onclick="search_updown(-1);" /><input
-                type="button"
-                value="次"
-                onclick="search_updown(1);"
-            />
-            <input type="button" value="全て表示" onclick="all_show(0);" />↑入力文字数：<span id="search_len">(入力文字数)</span>
-            <input type="checkbox" id="inpl" checked onclick="search_m_onchange();" value="1" /><label for="inpl"
-                >入力分を加算</label
-            ><br />
-            <span id="search_m_ret">(現在位置)</span>
-            <hr />
-            <input type="checkbox" id="pikacheck" onclick="pikasort(1);" title="cxの並びが同じものを集めます" /><label
-                for="pikacheck"
-                title="cxの並びが同じものを集めます"
-                >○×ソート</label
-            >
-            <span id="map">(map)</span><input type="button" id="mapsw" value="--" onclick="map_swap()" />(<span id="rasucmpt"
-                >(らす)</span
-            >) 検索タイプ
-            <select id="search_type" onchange="Change_type();">
-                <option>レベルアップ</option>
-                <option>戦闘</option>
-                <option>戦闘＋レベルアップ</option>
-                <option>拡張</option>
-            </select>
-            <input type="button" onclick="displaystyle('tlvup',0);" value="表示/非表示" />
-            <table border="0" cellpadding="2" cellspacing="0">
-                <tbody>
-                    <tr id="tlvup">
-                        <td>
-                            <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
-                                <script type="text/javascript">
-                                    generateUnitDataOption();
-                                </script>
-                            </select>
-                            <input type="button" value="セット" onclick="ch_OnChange(1);" />
-                            <table border="0" cellpadding="0" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td><br /></td>
-                                        <td><br /></td>
-                                        <td>
-                                            <select id="chall" onchange="ch_all();">
-                                                <option>--一括変更--</option>
-                                                <option>上昇しないとダメ</option>
-                                                <option>+1以上上昇</option>
-                                                <option>どちらでもよい</option>
-                                                <option>上昇しちゃダメ</option>
-                                                <option>--MAX--</option>
-                                            </select>
-                                        </td>
-                                        <td class="ryo">現在</td>
-                                        <td class="ryo">目標</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                id="pls"
-                                                size="4"
-                                                onchange="document.getElementById('plkae').checked=0;lvup(1,0);"
-                                                class="right"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <script type="text/javascript">
-                                        generateLevelUpSpecifyOption();
-                                    </script>
-                                    <tr>
-                                        <td class="view">♪：</td>
-                                        <td><input type="text" id="react" size="4" onchange="calc_lvlup();" class="view" /></td>
-                                        <td>
-                                            <select id="chreact" onchange="calc_lvlup();">
-                                                <option>でないとダメ</option>
-                                                <option selected>どちらでもよい</option>
-                                                <option>でちゃダメ</option>
-                                            </select>
-                                        </td>
-                                        <td id="reactpl" class="view"><br /></td>
-                                        <td id="reactpm" class="view"><br /></td>
-                                        <td id="reactpp" class="view"><br /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            かつ
-                            <select id="growmin" onchange="calc_lvlup();">
-                                <script type="text/javascript">
-                                    var i;
-                                    for (i = 0; i < global.prvn.length + 1; i++) {
-                                        document.write("<option>" + i + "</option>");
-                                    }
-                                    document.getElementById("growmin").selectedIndex = 8;
-                                </script></select
-                            >個以上
-                            <select id="growmax" onchange="calc_lvlup();">
-                                <script type="text/javascript">
-                                    var i;
-                                    for (i = 0; i < global.prvn.length + 1; i++) {
-                                        document.write("<option>" + i + "</option>");
-                                    }
-                                    document.getElementById("growmax").selectedIndex = global.prvn.length;
-                                </script></select
-                            >個以下の能力が上昇<br />
-                            ・上記条件を満たす場所
-                        </td>
-                        <td>
-                            聖戦士の書<br />
+        <input type="button" value="次の乱数表" onclick="next();" />
+        <input type="text" size="10" id="rand_start" accesskey="s" />個目からの<input
+            type="text"
+            size="10"
+            id="rand_max"
+        />個の乱数に<input type="button" value="変更" onclick="change_max();" />
+        <hr />
+        <label for="view_val">乱数の現在位置</label
+        ><input type="text" size="10" id="view_val" onchange="view_val_f();" accesskey="n" />
+        <input type="button" value="-1p" onclick="view_val_updown(-55);" /><input
+            type="button"
+            value="-10"
+            onclick="view_val_updown(-10);"
+        /><input type="button" value="-" onclick="view_val_updown(-1);" accesskey="<" /><input
+            type="button"
+            value="+"
+            onclick="view_val_updown(1);"
+            accesskey=">"
+        /><input type="button" value="+10" onclick="view_val_updown(10);" /><input
+            type="button"
+            value="+1p"
+            onclick="view_val_updown(55);"
+        />
+        <input
+            type="button"
+            value="現在位置←目標位置"
+            onclick="document.getElementById('view_val').value=document.getElementById('lv_val').value;view_val_f();"
+        /><br />
+        乱数値：<span id="view_val_v">(乱数の値)</span>
+        <hr />
+        <label for="lv_val">乱数の目標位置</label
+        ><input type="text" size="10" id="lv_val" onchange="lv_val_f();" accesskey="m" />
+        <input type="button" value="-1p" onclick="lv_val_updown(-55);" /><input
+            type="button"
+            value="-10"
+            onclick="lv_val_updown(-10);"
+        /><input type="button" value="-" onclick="lv_val_updown(-1);" accesskey="," /><input
+            type="button"
+            value="+"
+            onclick="lv_val_updown(1);"
+            accesskey="."
+        /><input type="button" value="+10" onclick="lv_val_updown(10);" /><input
+            type="button"
+            value="+1p"
+            onclick="lv_val_updown(55);"
+        />
+        <input
+            type="button"
+            value="目標位置←現在位置"
+            onclick="document.getElementById('lv_val').value=document.getElementById('view_val').value;lv_val_f();"
+        />
+        +<input type="checkbox" id="glance_ck" onclick="lv_val_f();" /><select
+            id="glance"
+            onchange="lv_val_f();"
+            onkeyup="lv_val_f();"
+            class="right"
+        >
+            <script type="text/javascript">
+                var i;
+                for (i = -999; i < 1001; i++) {
+                    document.write("<option>" + i + "</option>");
+                }
+                document.getElementById("glance").selectedIndex = 999;
+            </script></select
+        >個先を見る<input type="button" value="反映" onclick="glance_a()" /><br />
+        乱数値：<span id="lv_val_v">(乱数の値)</span>
+        <hr />
+        現在位置検索<br />
+        <input type="checkbox" id="search_dtb" onclick="search_m_onchange();" /><label for="search_dtb">指定マップのみ</label>
+        <input
+            type="text"
+            id="search_ma"
+            size="20"
+            onkeyup="search_m_onchange();"
+            title="cx検索 全角や大文字には反応しないので注意"
+        /><input
+            type="button"
+            value="○"
+            onclick="document.getElementById('search_ma').value+='o';search_mx_onchange();"
+            accesskey="c"
+        /><input
+            type="button"
+            value="×"
+            onclick="document.getElementById('search_ma').value+='x';search_mx_onchange();"
+            accesskey="x"
+        />
+        <input type="button" value="消去" onclick="document.getElementById('search_ma').value='';search_m_onchange();" /><br />
+        <input type="button" value="前" onclick="search_updown(-1);" /><input
+            type="button"
+            value="次"
+            onclick="search_updown(1);"
+        />
+        <input type="button" value="全て表示" onclick="all_show(0);" />↑入力文字数：<span id="search_len">(入力文字数)</span>
+        <input type="checkbox" id="inpl" checked onclick="search_m_onchange();" value="1" /><label for="inpl">入力分を加算</label
+        ><br />
+        <span id="search_m_ret">(現在位置)</span>
+        <hr />
+        <input type="checkbox" id="pikacheck" onclick="pikasort(1);" title="cxの並びが同じものを集めます" /><label
+            for="pikacheck"
+            title="cxの並びが同じものを集めます"
+            >○×ソート</label
+        >
+        <span id="map">(map)</span><input type="button" id="mapsw" value="--" onclick="map_swap()" />(<span id="rasucmpt"
+            >(らす)</span
+        >) 検索タイプ
+        <select id="search_type" onchange="Change_type();">
+            <option>レベルアップ</option>
+            <option>戦闘</option>
+            <option>戦闘＋レベルアップ</option>
+            <option>拡張</option>
+        </select>
+        <input type="button" onclick="displaystyle('tlvup',0);" value="表示/非表示" />
+        <table border="0" cellpadding="2" cellspacing="0">
+            <tbody>
+                <tr id="tlvup">
+                    <td>
+                        <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
                             <script type="text/javascript">
-                                var i, j;
-                                for (i = 0; i < global.ringselect.length; i++) {
-                                    document.write('<select id="afua' + i + '" onchange="afua_change();">');
-                                    for (j in global.ring) {
-                                        document.write("<option>" + global.ring[j][0] + "</option>");
-                                    }
-                                    document.write("</select><br>");
-                                    document.getElementById("afua" + i).selectedIndex = 0;
-                                }
+                                generateUnitDataOption();
                             </script>
-                        </td>
-                        <td>
-                            <div id="map_val_n" class="tbl">(乱数の値)</div>
-                            <div class="tbl">
-                                ↓ 実回数:<span id="sub_val">(差)</span> F法横:<span id="sub_hfal">(差)</span> F法縦:<span
-                                    id="sub_vfal"
-                                    >(差)</span
-                                >
-                                移動力
-                                <select id="mv" onchange="Change_type();">
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option selected>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                </select>
-                            </div>
-                            <div id="map_val_t" class="tbl">(乱数の値)</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="button" value="前" onclick="kouho_updown(-1);" /><input
-                type="button"
-                value="次"
-                onclick="kouho_updown(1);"
-            />
-            <input type="button" value="現在位置以降で最も近い候補" onclick="kouho_next(1);" accesskey="j" />
-            <input type="button" value="全て表示" onclick="all_show(1);" />
-            <div id="kouho">(候補の乱数番号)</div>
-            <table border="0" cellpadding="0" cellspacing="0">
-                <tbody>
-                    <tr>
-                        <td>
-                            拡張検索 <input type="button" value="検索開始" onclick="search_thread();" />
-                            <input type="button" value="+LvUP" onclick="thread_lvup();" /><br />
-                            <textarea id="search_mc" cols="30" rows="20"></textarea>
-                        </td>
-                        <td>
-                            <input type="button" value="予測消費回数" onclick="yosoku();" /> <span id="yosokukai">未検索</span
-                            ><br />
-                            <input type="button" value="戦闘検索" onclick="battle_search();" />
-                            <span id="bt_kouho">未検索</span>
-                            <table border="1" cellpadding="2" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td class="bt">攻撃側</td>
-                                        <td class="bt">防御側</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bt">
-                                            HP<select id="athp" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 80; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("athp").selectedIndex = 39;
-                                                </script>
-                                            </select>
-                                            最大HP<select id="atmhp" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 80; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("atmhp").selectedIndex = 59;
-                                                </script>
-                                            </select>
-                                            攻撃<select id="atatc" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(100, "atatc", 20);
-                                                </script>
-                                            </select>
-                                            防御<select id="atdef" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(51, "atdef", 10);
-                                                </script>
-                                            </select>
-                                            <br />命中<select id="athit" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(101, "athit", 90);
-                                                </script>
-                                            </select>
-                                            必殺<select id="atcrt" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(101, "atcrt", 10);
-                                                </script>
-                                            </select>
-                                            必殺係数<select id="atcrtkei" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(6, "atcrtkei", 1);
-                                                </script>
-                                            </select>
-                                            <br />Lv<select id="atlvl" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 20; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("atlvl").selectedIndex = 9;
-                                                </script>
-                                            </select>
-                                            技<select id="atskl" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(41, "atskl", 10);
-                                                </script>
-                                            </select>
-                                            攻速<select id="atspd" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(41, "atspd", 10);
-                                                </script>
-                                            </select>
-                                            運<select id="atluck" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(31, "atluck", 10);
-                                                </script>
-                                            </select>
-                                            <br />スキル<br />
+                        </select>
+                        <input type="button" value="セット" onclick="ch_OnChange(1);" />
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td><br /></td>
+                                    <td><br /></td>
+                                    <td>
+                                        <select id="chall" onchange="ch_all();">
+                                            <option>--一括変更--</option>
+                                            <option>上昇しないとダメ</option>
+                                            <option>+1以上上昇</option>
+                                            <option>どちらでもよい</option>
+                                            <option>上昇しちゃダメ</option>
+                                            <option>--MAX--</option>
+                                        </select>
+                                    </td>
+                                    <td class="ryo">現在</td>
+                                    <td class="ryo">目標</td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="pls"
+                                            size="4"
+                                            onchange="document.getElementById('plkae').checked=0;lvup(1,0);"
+                                            class="right"
+                                        />
+                                    </td>
+                                </tr>
+                                <script type="text/javascript">
+                                    generateLevelUpSpecifyOption();
+                                </script>
+                                <tr>
+                                    <td class="view">♪：</td>
+                                    <td><input type="text" id="react" size="4" onchange="calc_lvlup();" class="view" /></td>
+                                    <td>
+                                        <select id="chreact" onchange="calc_lvlup();">
+                                            <option>でないとダメ</option>
+                                            <option selected>どちらでもよい</option>
+                                            <option>でちゃダメ</option>
+                                        </select>
+                                    </td>
+                                    <td id="reactpl" class="view"><br /></td>
+                                    <td id="reactpm" class="view"><br /></td>
+                                    <td id="reactpp" class="view"><br /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        かつ
+                        <select id="growmin" onchange="calc_lvlup();">
+                            <script type="text/javascript">
+                                var i;
+                                for (i = 0; i < global.prvn.length + 1; i++) {
+                                    document.write("<option>" + i + "</option>");
+                                }
+                                document.getElementById("growmin").selectedIndex = 8;
+                            </script></select
+                        >個以上
+                        <select id="growmax" onchange="calc_lvlup();">
+                            <script type="text/javascript">
+                                var i;
+                                for (i = 0; i < global.prvn.length + 1; i++) {
+                                    document.write("<option>" + i + "</option>");
+                                }
+                                document.getElementById("growmax").selectedIndex = global.prvn.length;
+                            </script></select
+                        >個以下の能力が上昇<br />
+                        ・上記条件を満たす場所
+                    </td>
+                    <td>
+                        聖戦士の書<br />
+                        <script type="text/javascript">
+                            var i, j;
+                            for (i = 0; i < global.ringselect.length; i++) {
+                                document.write('<select id="afua' + i + '" onchange="afua_change();">');
+                                for (j in global.ring) {
+                                    document.write("<option>" + global.ring[j][0] + "</option>");
+                                }
+                                document.write("</select><br>");
+                                document.getElementById("afua" + i).selectedIndex = 0;
+                            }
+                        </script>
+                    </td>
+                    <td>
+                        <div id="map_val_n" class="tbl">(乱数の値)</div>
+                        <div class="tbl">
+                            ↓ 実回数:<span id="sub_val">(差)</span> F法横:<span id="sub_hfal">(差)</span> F法縦:<span
+                                id="sub_vfal"
+                                >(差)</span
+                            >
+                            移動力
+                            <select id="mv" onchange="Change_type();">
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option selected>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                            </select>
+                        </div>
+                        <div id="map_val_t" class="tbl">(乱数の値)</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="button" value="前" onclick="kouho_updown(-1);" /><input
+            type="button"
+            value="次"
+            onclick="kouho_updown(1);"
+        />
+        <input type="button" value="現在位置以降で最も近い候補" onclick="kouho_next(1);" accesskey="j" />
+        <input type="button" value="全て表示" onclick="all_show(1);" />
+        <div id="kouho">(候補の乱数番号)</div>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td>
+                        拡張検索 <input type="button" value="検索開始" onclick="search_thread();" />
+                        <input type="button" value="+LvUP" onclick="thread_lvup();" /><br />
+                        <textarea id="search_mc" cols="30" rows="20"></textarea>
+                    </td>
+                    <td>
+                        <input type="button" value="予測消費回数" onclick="yosoku();" /> <span id="yosokukai">未検索</span><br />
+                        <input type="button" value="戦闘検索" onclick="battle_search();" />
+                        <span id="bt_kouho">未検索</span>
+                        <table border="1" cellpadding="2" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="bt">攻撃側</td>
+                                    <td class="bt">防御側</td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">
+                                        HP<select id="athp" onchange="battle_s();">
                                             <script type="text/javascript">
-                                                generateSkillList();
+                                                var i;
+                                                for (i = 0; i < 80; i++) {
+                                                    document.write("<option>" + (i + 1) + "</option>");
+                                                }
+                                                document.getElementById("athp").selectedIndex = 39;
                                             </script>
-                                            <br /><span class="cbx"
-                                                ><input
-                                                    type="checkbox"
-                                                    id="attsuigeki"
-                                                    value="1"
-                                                    checked
-                                                    onclick="battle_ss(0);"
-                                                /><label for="attsuigeki">追撃</label></span
-                                            >
-                                        </td>
-                                        <td class="bt">
-                                            HP<select id="dfhp" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 80; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("dfhp").selectedIndex = 39;
-                                                </script>
-                                            </select>
-                                            最大HP<select id="dfmhp" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 80; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("dfmhp").selectedIndex = 59;
-                                                </script>
-                                            </select>
-                                            攻撃<select id="dfatc" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(100, "dfatc", 20);
-                                                </script>
-                                            </select>
-                                            防御<select id="dfdef" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(51, "dfdef", 10);
-                                                </script>
-                                            </select>
-                                            <br />命中<select id="dfhit" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(101, "dfhit", 40);
-                                                </script>
-                                            </select>
-                                            必殺<select id="dfcrt" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(101, "dfcrt", 2);
-                                                </script>
-                                            </select>
-                                            必殺係数<select id="dfcrtkei" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(6, "dfcrtkei", 1);
-                                                </script>
-                                            </select>
-                                            <br />Lv<select id="dflvl" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 20; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("dflvl").selectedIndex = 9;
-                                                </script>
-                                            </select>
-                                            技<select id="dfskl" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(41, "dfskl", 5);
-                                                </script>
-                                            </select>
-                                            攻速<select id="dfspd" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(41, "dfspd", 5);
-                                                </script>
-                                            </select>
-                                            運<select id="dfluck" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(31, "dfluck", 5);
-                                                </script>
-                                            </select>
-                                            <br />スキル<br />
+                                        </select>
+                                        最大HP<select id="atmhp" onchange="battle_s();">
                                             <script type="text/javascript">
-                                                generateEnemySkillList();
+                                                var i;
+                                                for (i = 0; i < 80; i++) {
+                                                    document.write("<option>" + (i + 1) + "</option>");
+                                                }
+                                                document.getElementById("atmhp").selectedIndex = 59;
                                             </script>
-                                            <br /><span class="cbx"
-                                                ><input
-                                                    type="checkbox"
-                                                    id="hangeki"
-                                                    value="1"
-                                                    checked
-                                                    onclick="battle_ss(1);"
-                                                /><label for="hangeki">反撃</label></span
-                                            >
-                                            <span class="cbx"
-                                                ><input type="checkbox" id="dftsuigeki" value="1" onclick="battle_ss(2);" /><label
-                                                    for="dftsuigeki"
-                                                    >追撃</label
-                                                ></span
-                                            >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bt">
-                                            HP<select id="athpmin" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(81, "athpmin", 1);
-                                                </script></select
-                                            >以上<select id="athpmax" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(81, "athpmax", 80);
-                                                </script></select
-                                            >以下 <input type="checkbox" id="athitf" value="1" onclick="battle_s();" /><label
-                                                for="athitf"
-                                                >スリープ</label
-                                            >
-                                        </td>
-                                        <td class="bt">
-                                            HP<select id="dfhpmin" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(81, "dfhpmin", 0);
-                                                </script></select
-                                            >以上<select id="dfhpmax" onchange="battle_s();">
-                                                <script type="text/javascript">
-                                                    generateOption(81, "dfhpmax", 0);
-                                                </script></select
-                                            >以下 <input type="checkbox" id="dfhitf" value="1" onclick="battle_s();" /><label
-                                                for="dfhitf"
-                                                >スリープ</label
-                                            >
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table border="1" cellpadding="2" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td>攻撃側</td>
-                                        <td id="at0" class="bts">-</td>
-                                        <td id="at1" class="bts">-</td>
-                                        <td id="at2" class="bts">-</td>
-                                        <td id="at3" class="bts">-</td>
-                                        <td id="at4" class="bts">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>防御側</td>
-                                        <td id="df0" class="bts">-</td>
-                                        <td id="df1" class="bts">-</td>
-                                        <td id="df2" class="bts">-</td>
-                                        <td id="df3" class="bts">-</td>
-                                        <td id="df4" class="bts">-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table border="1" cellpadding="2" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="2">
-                                            <input type="checkbox" id="sakiyomi" value="1" checked onclick="battle_s();" /><label
-                                                for="sakiyomi"
-                                                >予測消費</label
-                                            ><br /><input
+                                        </select>
+                                        攻撃<select id="atatc" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(100, "atatc", 20);
+                                            </script>
+                                        </select>
+                                        防御<select id="atdef" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(51, "atdef", 10);
+                                            </script>
+                                        </select>
+                                        <br />命中<select id="athit" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(101, "athit", 90);
+                                            </script>
+                                        </select>
+                                        必殺<select id="atcrt" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(101, "atcrt", 10);
+                                            </script>
+                                        </select>
+                                        必殺係数<select id="atcrtkei" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(6, "atcrtkei", 1);
+                                            </script>
+                                        </select>
+                                        <br />Lv<select id="atlvl" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                var i;
+                                                for (i = 0; i < 20; i++) {
+                                                    document.write("<option>" + (i + 1) + "</option>");
+                                                }
+                                                document.getElementById("atlvl").selectedIndex = 9;
+                                            </script>
+                                        </select>
+                                        技<select id="atskl" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(41, "atskl", 10);
+                                            </script>
+                                        </select>
+                                        攻速<select id="atspd" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(41, "atspd", 10);
+                                            </script>
+                                        </select>
+                                        運<select id="atluck" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(31, "atluck", 10);
+                                            </script>
+                                        </select>
+                                        <br />スキル<br />
+                                        <script type="text/javascript">
+                                            generateSkillList();
+                                        </script>
+                                        <br /><span class="cbx"
+                                            ><input
                                                 type="checkbox"
-                                                id="plkae"
+                                                id="attsuigeki"
                                                 value="1"
                                                 checked
-                                                onclick="battle_s();"
-                                            /><label for="plkae">自動変更</label>
-                                        </td>
-                                        <td id="usrd" rowspan="2"><br /></td>
-                                        <td>攻撃側</td>
-                                        <td id="att">-</td>
-                                        <td id="atahp">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>防御側</td>
-                                        <td id="dft">-</td>
-                                        <td id="dfahp">-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr />
-            <input type="button" onclick="createTable(1);" value="乱数値の表示" /> |
-            <input type="button" onclick="createTable(2);" value="乱数表" /> |
-            <input type="button" onclick="createTable(0);" value="非表示" />
-            <div id="randnum">(乱数の値)</div>
-        </form>
+                                                onclick="battle_ss(0);"
+                                            /><label for="attsuigeki">追撃</label></span
+                                        >
+                                    </td>
+                                    <td class="bt">
+                                        HP<select id="dfhp" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                var i;
+                                                for (i = 0; i < 80; i++) {
+                                                    document.write("<option>" + (i + 1) + "</option>");
+                                                }
+                                                document.getElementById("dfhp").selectedIndex = 39;
+                                            </script>
+                                        </select>
+                                        最大HP<select id="dfmhp" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                var i;
+                                                for (i = 0; i < 80; i++) {
+                                                    document.write("<option>" + (i + 1) + "</option>");
+                                                }
+                                                document.getElementById("dfmhp").selectedIndex = 59;
+                                            </script>
+                                        </select>
+                                        攻撃<select id="dfatc" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(100, "dfatc", 20);
+                                            </script>
+                                        </select>
+                                        防御<select id="dfdef" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(51, "dfdef", 10);
+                                            </script>
+                                        </select>
+                                        <br />命中<select id="dfhit" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(101, "dfhit", 40);
+                                            </script>
+                                        </select>
+                                        必殺<select id="dfcrt" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(101, "dfcrt", 2);
+                                            </script>
+                                        </select>
+                                        必殺係数<select id="dfcrtkei" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(6, "dfcrtkei", 1);
+                                            </script>
+                                        </select>
+                                        <br />Lv<select id="dflvl" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                var i;
+                                                for (i = 0; i < 20; i++) {
+                                                    document.write("<option>" + (i + 1) + "</option>");
+                                                }
+                                                document.getElementById("dflvl").selectedIndex = 9;
+                                            </script>
+                                        </select>
+                                        技<select id="dfskl" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(41, "dfskl", 5);
+                                            </script>
+                                        </select>
+                                        攻速<select id="dfspd" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(41, "dfspd", 5);
+                                            </script>
+                                        </select>
+                                        運<select id="dfluck" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(31, "dfluck", 5);
+                                            </script>
+                                        </select>
+                                        <br />スキル<br />
+                                        <script type="text/javascript">
+                                            generateEnemySkillList();
+                                        </script>
+                                        <br /><span class="cbx"
+                                            ><input
+                                                type="checkbox"
+                                                id="hangeki"
+                                                value="1"
+                                                checked
+                                                onclick="battle_ss(1);"
+                                            /><label for="hangeki">反撃</label></span
+                                        >
+                                        <span class="cbx"
+                                            ><input type="checkbox" id="dftsuigeki" value="1" onclick="battle_ss(2);" /><label
+                                                for="dftsuigeki"
+                                                >追撃</label
+                                            ></span
+                                        >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">
+                                        HP<select id="athpmin" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(81, "athpmin", 1);
+                                            </script></select
+                                        >以上<select id="athpmax" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(81, "athpmax", 80);
+                                            </script></select
+                                        >以下 <input type="checkbox" id="athitf" value="1" onclick="battle_s();" /><label
+                                            for="athitf"
+                                            >スリープ</label
+                                        >
+                                    </td>
+                                    <td class="bt">
+                                        HP<select id="dfhpmin" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(81, "dfhpmin", 0);
+                                            </script></select
+                                        >以上<select id="dfhpmax" onchange="battle_s();">
+                                            <script type="text/javascript">
+                                                generateOption(81, "dfhpmax", 0);
+                                            </script></select
+                                        >以下 <input type="checkbox" id="dfhitf" value="1" onclick="battle_s();" /><label
+                                            for="dfhitf"
+                                            >スリープ</label
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table border="1" cellpadding="2" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>攻撃側</td>
+                                    <td id="at0" class="bts">-</td>
+                                    <td id="at1" class="bts">-</td>
+                                    <td id="at2" class="bts">-</td>
+                                    <td id="at3" class="bts">-</td>
+                                    <td id="at4" class="bts">-</td>
+                                </tr>
+                                <tr>
+                                    <td>防御側</td>
+                                    <td id="df0" class="bts">-</td>
+                                    <td id="df1" class="bts">-</td>
+                                    <td id="df2" class="bts">-</td>
+                                    <td id="df3" class="bts">-</td>
+                                    <td id="df4" class="bts">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table border="1" cellpadding="2" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td rowspan="2">
+                                        <input type="checkbox" id="sakiyomi" value="1" checked onclick="battle_s();" /><label
+                                            for="sakiyomi"
+                                            >予測消費</label
+                                        ><br /><input type="checkbox" id="plkae" value="1" checked onclick="battle_s();" /><label
+                                            for="plkae"
+                                            >自動変更</label
+                                        >
+                                    </td>
+                                    <td id="usrd" rowspan="2"><br /></td>
+                                    <td>攻撃側</td>
+                                    <td id="att">-</td>
+                                    <td id="atahp">-</td>
+                                </tr>
+                                <tr>
+                                    <td>防御側</td>
+                                    <td id="dft">-</td>
+                                    <td id="dfahp">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <input type="button" onclick="createTable(1);" value="乱数値の表示" /> |
+        <input type="button" onclick="createTable(2);" value="乱数表" /> |
+        <input type="button" onclick="createTable(0);" value="非表示" />
+        <div id="randnum">(乱数の値)</div>
     </body>
 </html>
