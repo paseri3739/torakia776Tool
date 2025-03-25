@@ -1208,6 +1208,11 @@ function search_mx_onchange() {
     }
     search_m_onchange();
 }
+
+/**
+ * 現在位置検索のイベントハンドラ。核となるロジックと思われる。
+ * @returns
+ */
 function search_m_onchange() {
     //現在位置検索
     let i, j, k;
