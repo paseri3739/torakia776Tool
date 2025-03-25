@@ -390,6 +390,15 @@ function generateOption(counter, elementId, selectedIndex) {
     }
     document.getElementById(elementId).selectedIndex = selectedIndex;
 }
+function generateSkillList() {
+    let i;
+    for (i = 0; i < global.skilln; i++) {
+        document.write('<span class="cbx">');
+        document.write('<input type="checkbox" id="atskill' + i + '" value="1" onclick="battle_s();">');
+        document.write('<label for="atskill' + i + '">' + global.skilllist[i] + "</label>");
+        document.write("</span> ");
+    }
+}
 function rand_calc(data) {
     //乱数計算
     var i;
