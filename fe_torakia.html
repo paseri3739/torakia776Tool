@@ -629,7 +629,7 @@
                             <select id="growmin" onchange="calc_lvlup();">
                                 <script type="text/javascript">
                                     var i;
-                                    for (i = 0; i < global.prct + 1; i++) {
+                                    for (i = 0; i < global.prvn.length + 1; i++) {
                                         document.write("<option>" + i + "</option>");
                                     }
                                     document.getElementById("growmin").selectedIndex = 8;
@@ -638,10 +638,10 @@
                             <select id="growmax" onchange="calc_lvlup();">
                                 <script type="text/javascript">
                                     var i;
-                                    for (i = 0; i < global.prct + 1; i++) {
+                                    for (i = 0; i < global.prvn.length + 1; i++) {
                                         document.write("<option>" + i + "</option>");
                                     }
-                                    document.getElementById("growmax").selectedIndex = global.prct;
+                                    document.getElementById("growmax").selectedIndex = global.prvn.length;
                                 </script></select
                             >個以下の能力が上昇<br />
                             ・上記条件を満たす場所

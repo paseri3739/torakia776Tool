@@ -13,7 +13,6 @@ global.battle_vv2 = []; //戦闘乱数使用個数
 global.search_vv = []; //現在位置検索にヒットした乱数
 global.para = ["HP", "力", "魔力", "技", "速さ", "守備", "体格", "幸運", "移動"]; //能力名 表示用
 global.prvn = ["mhp", "str", "mag", "skl", "spd", "def", "bld", "luc", "mov"]; //能力名 計算用
-global.prct = global.prvn.length; //能力の数
 global.ringselect = [0, 0, 0, 0, 0, 0, 0]; //書選択状況
 global.rict = global.ringselect.length; //書個数
 global.lvupmax = 20; //目標位置検索表示数
@@ -385,7 +384,7 @@ global.skilllist = [
 global.skilln = global.skilllist.length;
 function generateLevelUpSpecifyOption() {
     var i;
-    for (i = 0; i < global.prct; i++) {
+    for (i = 0; i < global.prvn.length; i++) {
         document.write('<td class="view">' + global.para[i] + "：</td>");
         document.write('<td><input type="text" id="' + global.prvn[i] + '" size="4" onchange="calc_lvlup();" class="view"></td>');
         document.write('<td><select id="ch' + global.prvn[i] + '" onchange="calc_lvlup();">');
@@ -802,7 +801,7 @@ function lvup(flag, v) {
         index = parseInt(document.getElementById("view_val").value) - global.prim * 55;
     }
     index += parseInt(v);
-    for (i = 0; i < global.prct; i++) {
+    for (i = 0; i < global.prvn.length; i++) {
         gr = parseInt(document.getElementById(global.prvn[i]).value);
         if (isNaN(gr) || gr < 0) {
             gr = 0;
@@ -842,7 +841,7 @@ function lvup(flag, v) {
         gr = 0;
     }
     up = 0;
-    if (global.vv[index + global.prct] <= gr) {
+    if (global.vv[index + global.prvn.length] <= gr) {
         up++;
     }
     if (flag) {
@@ -853,7 +852,7 @@ function lvup(flag, v) {
             document.getElementById("reactpm").title = "---";
         } else {
             up = 0;
-            if (global.vv[index + plsp + global.prct] <= gr) {
+            if (global.vv[index + plsp + global.prvn.length] <= gr) {
                 up++;
             }
             document.getElementById("reactpp").innerHTML = up ? "○" : "×";
@@ -868,10 +867,10 @@ function ch_OnChange(flag) {
     //ユニット選択変更
     var i;
     var j = document.getElementById("unitname").selectedIndex;
-    for (i = 0; i < global.prct; i++) {
+    for (i = 0; i < global.prvn.length; i++) {
         document.getElementById(global.prvn[i]).value = global.ud[j][i + 1];
     }
-    document.getElementById("react").value = global.ud[j][global.prct + 1];
+    document.getElementById("react").value = global.ud[j][global.prvn.length + 1];
     for (i = 0; i < global.rict; i++) {
         global.ringselect[i] = 0;
     }
@@ -888,18 +887,18 @@ function afua_change() {
     var i, j;
     var o, n;
     var pr = [];
-    for (j = 0; j < global.prct; j++) {
+    for (j = 0; j < global.prvn.length; j++) {
         pr[j] = parseInt(document.getElementById(global.prvn[j]).value);
     }
     for (i = 0; i < global.rict; i++) {
         o = global.ringselect[i];
         n = document.getElementById("afua" + i).selectedIndex;
-        for (j = 0; j < global.prct; j++) {
+        for (j = 0; j < global.prvn.length; j++) {
             pr[j] -= global.ring[o][j + 1] - global.ring[n][j + 1];
         }
         global.ringselect[i] = n;
     }
-    for (j = 0; j < global.prct; j++) {
+    for (j = 0; j < global.prvn.length; j++) {
         document.getElementById(global.prvn[j]).value = pr[j];
     }
     calc_lvlup();
@@ -1000,7 +999,7 @@ function createTable(f) {
 function ch_all() {
     //一括変更
     if (document.getElementById("chall").selectedIndex) {
-        for (var i = 0; i < global.prct; i++) {
+        for (var i = 0; i < global.prvn.length; i++) {
             document.getElementById("ch" + global.prvn[i]).selectedIndex = document.getElementById("chall").selectedIndex - 1;
         }
         document.getElementById("chall").selectedIndex = 0;
@@ -1050,7 +1049,7 @@ function calc_lvlup_lv(all) {
     var gh = [];
     j = 0;
     k = 0;
-    for (i = 0; i < global.prct; i++) {
+    for (i = 0; i < global.prvn.length; i++) {
         gr[i] = parseInt(document.getElementById(global.prvn[i]).value);
         if (isNaN(gr[i]) || gr[i] < 0) {
             gr[i] = 0;
@@ -1061,16 +1060,16 @@ function calc_lvlup_lv(all) {
         gh[i] = Math.floor(Math.max(gr[i] - 1, 0) / 100);
         gr[i] = gr[i] ? ((gr[i] + 99) % 100) + 1 : 0;
     }
-    diff[global.prct] = document.getElementById("chreact").selectedIndex;
-    gr[global.prct] = parseInt(document.getElementById("react").value);
-    if (isNaN(gr[global.prct])) {
-        gr[global.prct] = 0;
+    diff[global.prvn.length] = document.getElementById("chreact").selectedIndex;
+    gr[global.prvn.length] = parseInt(document.getElementById("react").value);
+    if (isNaN(gr[global.prvn.length])) {
+        gr[global.prvn.length] = 0;
     }
     if (j > maxup) {
         maxup = document.getElementById("growmax").selectedIndex = j;
     }
-    if (k > global.prct - minup) {
-        minup = document.getElementById("growmin").selectedIndex = global.prct - k;
+    if (k > global.prvn.length - minup) {
+        minup = document.getElementById("growmin").selectedIndex = global.prvn.length - k;
     }
     if (minup > maxup) {
         document.getElementById("kouho").innerHTML = "条件が矛盾しています";
@@ -1081,7 +1080,7 @@ function calc_lvlup_lv(all) {
         i = all ? k : global.battle_vv[k] - global.prim * 55 + global.battle_vv2[k];
         f = 0;
         sumc = 0;
-        for (j = 0; j < global.prct; j++) {
+        for (j = 0; j < global.prvn.length; j++) {
             if (global.vv[i + j] <= gr[j]) {
                 f += diff[j] == 3 ? 1 : 0;
                 if (diff[j] != 4) {
@@ -1102,16 +1101,16 @@ function calc_lvlup_lv(all) {
             }
         }
         if (!f && sumc >= minup && sumc <= maxup) {
-            global.kouho_vv2[i] = (global.prct << 1) + 1;
+            global.kouho_vv2[i] = (global.prvn.length << 1) + 1;
         } else {
-            global.kouho_vv2[i] = global.prct << 1;
+            global.kouho_vv2[i] = global.prvn.length << 1;
         }
-        if (global.vv[i + global.prct] <= gr[global.prct]) {
-            if (diff[global.prct] == 2) {
+        if (global.vv[i + global.prvn.length] <= gr[global.prvn.length]) {
+            if (diff[global.prvn.length] == 2) {
                 f++;
             }
         } else {
-            if (diff[global.prct] == 0) {
+            if (diff[global.prvn.length] == 0) {
                 f++;
             }
         }
