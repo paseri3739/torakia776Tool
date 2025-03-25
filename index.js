@@ -1066,9 +1066,9 @@ function randtable(sp, indexs, indexl) {
     }
     return ret.join("");
 }
-function createTable(f) {
+function createTable(flag) {
     //乱数表表示
-    if (f == 1) {
+    if (flag == 1) {
         let ranvalue = [];
         let map = mapselected(0);
         let i;
@@ -1076,7 +1076,7 @@ function createTable(f) {
             ranvalue.push(String(global.vv[i] + 99).slice(1));
         }
         document.getElementById("randnum").innerHTML = "map:" + map + "<br>" + ranvalue.join(" ");
-    } else if (f == 2) {
+    } else if (flag == 2) {
         let i;
         let ret = [];
         let indexs = parseInt(document.getElementById("view_val").value) - global.prim * 55;
