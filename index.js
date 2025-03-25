@@ -409,6 +409,35 @@ function generateOption(counter, elementId, selectedIndex) {
     }
     document.getElementById(elementId).selectedIndex = selectedIndex;
 }
+
+function growminRender() {
+    var i;
+    for (i = 0; i < global.prvn.length + 1; i++) {
+        document.write("<option>" + i + "</option>");
+    }
+    document.getElementById("growmin").selectedIndex = 8;
+}
+
+function growmaxRender() {
+    var i;
+    for (i = 0; i < global.prvn.length + 1; i++) {
+        document.write("<option>" + i + "</option>");
+    }
+    document.getElementById("growmax").selectedIndex = global.prvn.length;
+}
+
+function seisenshiShoRender() {
+    var i, j;
+    for (i = 0; i < global.ringselect.length; i++) {
+        document.write('<select id="afua' + i + '" onchange="afua_change();">');
+        for (j in global.ring) {
+            document.write("<option>" + global.ring[j][0] + "</option>");
+        }
+        document.write("</select><br>");
+        document.getElementById("afua" + i).selectedIndex = 0;
+    }
+}
+
 function generateSkillList() {
     let i;
     for (i = 0; i < global.skilln; i++) {

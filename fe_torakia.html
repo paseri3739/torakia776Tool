@@ -177,20 +177,12 @@
                         かつ
                         <select id="growmin" onchange="calc_lvlup();">
                             <script type="text/javascript">
-                                var i;
-                                for (i = 0; i < global.prvn.length + 1; i++) {
-                                    document.write("<option>" + i + "</option>");
-                                }
-                                document.getElementById("growmin").selectedIndex = 8;
+                                growminRender();
                             </script></select
                         >個以上
                         <select id="growmax" onchange="calc_lvlup();">
                             <script type="text/javascript">
-                                var i;
-                                for (i = 0; i < global.prvn.length + 1; i++) {
-                                    document.write("<option>" + i + "</option>");
-                                }
-                                document.getElementById("growmax").selectedIndex = global.prvn.length;
+                                growmaxRender();
                             </script></select
                         >個以下の能力が上昇<br />
                         ・上記条件を満たす場所
@@ -198,15 +190,7 @@
                     <td>
                         聖戦士の書<br />
                         <script type="text/javascript">
-                            var i, j;
-                            for (i = 0; i < global.ringselect.length; i++) {
-                                document.write('<select id="afua' + i + '" onchange="afua_change();">');
-                                for (j in global.ring) {
-                                    document.write("<option>" + global.ring[j][0] + "</option>");
-                                }
-                                document.write("</select><br>");
-                                document.getElementById("afua" + i).selectedIndex = 0;
-                            }
+                            seisenshiShoRender();
                         </script>
                     </td>
                     <td>
