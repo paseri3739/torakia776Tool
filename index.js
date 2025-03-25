@@ -1308,39 +1308,40 @@ function _showVVResults(ret) {
 }
 
 /**
- * global.msp を対象にマップ検索を行う
+ * global.msp を対象にマップ検索を行う（関数型スタイル）
  * @param {number[]} lox2 - 入力パターン配列
  * @param {number} pl - inpl チェックボックスの値（0 or 1）
  * @param {number} seed - 現在選択中のマップインデックス
  */
 function _searchByMap(lox2, pl, seed) {
-    const ret = Array.from({ length: global.randmap }, () => []);
-    let cnt = 0;
+    const len = lox2.length;
+    let totalCount = 0;
 
-    for (let k = 0; k < global.randmap; k++) {
-        for (let i = 1; i < 2; i++) {
-            const matched = lox2.every((val, j) => {
-                const idx = i + j;
-                if (idx >= 55) return false;
-                const v = global.msp[k][idx];
-                return (val === 0 && !ox(v)) || (val === 1 && ox(v));
-            });
-            if (matched) {
-                cnt++;
-                ret[k].push(i + pl * lox2.length);
-            }
-        }
+    const ret = Array.from({ length: global.randmap }, (_, k) => {
+        const results = [1] // 現状 `i = 1` のみ固定されている
+            .map((i) => {
+                const matched = lox2.every((val, j) => {
+                    const idx = i + j;
+                    if (idx >= 55) return false;
+                    const v = global.msp[k][idx];
+                    return (val === 0 && !ox(v)) || (val === 1 && ox(v));
+                });
+                return matched ? i + pl * len : null;
+            })
+            .filter((x) => x !== null);
+
+        totalCount += results.length;
+
+        const capped = results.length > global.scalmax ? [...results.slice(0, global.scalmax), "..."] : results;
 
         if (k === seed) {
-            global.search_vv = ret[k];
+            global.search_vv = results;
         }
 
-        if (ret[k].length > global.scalmax) {
-            ret[k] = [...ret[k].slice(0, global.scalmax), "..."];
-        }
-    }
+        return capped;
+    });
 
-    _showMapResults(ret, cnt, seed);
+    _showMapResults(ret, totalCount, seed);
 }
 
 /**
