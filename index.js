@@ -1210,117 +1210,161 @@ function search_mx_onchange() {
 }
 
 /**
- * 現在位置検索のイベントハンドラ。核となるロジックと思われる。
- * @returns
+ * 検索入力の変更時に呼び出されるメイン関数
  */
 function search_m_onchange() {
-    //現在位置検索
-    let i, j, k;
-    let cnt;
-    let len;
-    let pl = document.getElementById("inpl").checked ? 1 : 0;
-    let seed = mapselected(0);
+    const pl = document.getElementById("inpl").checked ? 1 : 0;
+    const seed = mapselected(0);
     let type = document.getElementById("search_dtb").checked;
-    let lox = document.getElementById("search_ma").value;
-    if (!lox) {
-        document.getElementById("search_m_ret").innerHTML = "";
-        document.getElementById("search_len").innerHTML = 0;
-        return false;
-    }
-    let lox2 = [];
-    len = lox.length;
-    for (i = 0; i < lox.length; i++) {
-        if (lox.charAt(i) == "o") {
-            lox2.push(0);
-        } else if (lox.charAt(i) == "c") {
-            lox2.push(0);
-        } else if (lox.charAt(i) == "○") {
-            lox2.push(0);
-        } else if (lox.charAt(i) == "x") {
-            lox2.push(1);
-        } else if (lox.charAt(i) == "×") {
-            lox2.push(1);
-        }
-    }
-    len = lox2.length;
+    const lox = document.getElementById("search_ma").value;
+
+    if (!lox) return _clearResult();
+
+    const lox2 = _parseInput(lox);
+    const len = lox2.length;
     document.getElementById("search_len").innerHTML = len;
-    if (!len) {
-        document.getElementById("search_m_ret").innerHTML = "oかxを入力してください";
-        return false;
-    }
+
+    if (!len) return _showInputError();
+
     if (type) {
-        let ret = [];
-        global.search_vv = [];
-        cnt = 0;
-        for (i = 1; i < global.maxlen * 55; i++) {
-            for (j = 0; j < len; j++) {
-                if (lox2[j] == 0) {
-                    if (ox(global.vv[i + j])) continue;
-                } else {
-                    if (!ox(global.vv[i + j])) continue;
-                }
-                break;
-            }
-            if (j == len) {
-                ret.push(i + global.prim * 55 + pl * len);
-                cnt++;
-            }
-        }
-        global.search_vv = ret;
-        if (cnt == 0) {
+        const found = _searchByVV(lox2, pl);
+        if (found.length === 0) {
             type = 0;
         } else {
-            if (cnt > global.srchmax) {
-                ret = ret.slice(0, global.srchmax);
-                ret.push("...");
-            }
-            document.getElementById("search_m_ret").innerHTML = "候補数：" + cnt + "<br>" + ret.join(" ");
+            _showVVResults(found);
+            return;
         }
     }
-    if (!type) {
-        let ret = [];
-        global.search_vv = [];
-        cnt = 0;
-        for (k = 0; k < global.randmap; k++) {
-            ret[k] = [];
-            for (i = 1; i < 2; i++) {
-                for (j = 0; j < len; j++) {
-                    if (i + j >= 55) {
-                        break;
-                    }
-                    if (lox2[j] == 0) {
-                        if (ox(global.msp[k][i + j])) continue;
-                    } else {
-                        if (!ox(global.msp[k][i + j])) continue;
-                    }
-                    break;
-                }
-                if (j == len) {
-                    cnt++;
-                    ret[k].push(i + pl * len);
-                }
-            }
-            if (k == seed) {
-                global.search_vv = ret[k];
-            }
-            if (ret[k].length > global.scalmax) {
-                ret[k] = ret[k].slice(0, global.scalmax);
-                ret[k].push("...");
-            }
-        }
-        if (cnt == 0) {
-            document.getElementById("search_m_ret").innerHTML = "ありません";
-        } else {
-            document.getElementById("search_m_ret").innerHTML = "候補数：" + cnt + " map" + seed + "：" + global.search_vv.length;
-            for (i = 0; i < global.randmap; i++) {
-                if (ret[i].length) {
-                    document.getElementById("search_m_ret").innerHTML +=
-                        '<br><span onclick="change_map(1,' + i + ')" class="chmap">' + i + ":" + ret[i].join(" ") + "</span>";
-                }
-            }
-        }
-    }
+
+    _searchByMap(lox2, pl, seed);
 }
+
+/**
+ * 入力フィールドを空にし、検索結果をリセットする
+ * @returns {false}
+ */
+function _clearResult() {
+    document.getElementById("search_m_ret").innerHTML = "";
+    document.getElementById("search_len").innerHTML = 0;
+    return false;
+}
+
+/**
+ * 不正な入力時にエラーメッセージを表示する
+ * @returns {false}
+ */
+function _showInputError() {
+    document.getElementById("search_m_ret").innerHTML = "oかxを入力してください";
+    return false;
+}
+
+/**
+ * 入力文字列を 0 / 1 の配列に変換する
+ * @param {string} lox - 入力文字列
+ * @returns {number[]} 変換後の 0/1 配列
+ */
+function _parseInput(lox) {
+    return [...lox].reduce((acc, ch) => {
+        if (["o", "c", "○"].includes(ch)) acc.push(0);
+        else if (["x", "×"].includes(ch)) acc.push(1);
+        return acc;
+    }, []);
+}
+
+/**
+ * global.vv を対象にパターン検索を行う
+ * @param {number[]} lox2 - 入力パターン配列
+ * @param {number} pl - inpl チェックボックスの値（0 or 1）
+ * @returns {(number|string)[]} 該当インデックスリスト（最大件数超過時 "..." 付き）
+ */
+function _searchByVV(lox2, pl) {
+    const ret = [];
+    const len = lox2.length;
+    let cnt = 0;
+
+    for (let i = 1; i < global.maxlen * 55; i++) {
+        const matched = lox2.every((val, j) => {
+            const v = global.vv[i + j];
+            return (val === 0 && !ox(v)) || (val === 1 && ox(v));
+        });
+        if (matched) {
+            ret.push(i + global.prim * 55 + pl * len);
+            cnt++;
+        }
+    }
+
+    global.search_vv = ret;
+
+    return cnt > global.srchmax ? [...ret.slice(0, global.srchmax), "..."] : ret;
+}
+
+/**
+ * VV検索結果を DOM に表示する
+ * @param {(number|string)[]} ret - 検索結果リスト
+ */
+function _showVVResults(ret) {
+    const countText = ret.includes("...") ? ret.length - 1 + "+" : ret.length;
+    document.getElementById("search_m_ret").innerHTML = "候補数：" + countText + "<br>" + ret.join(" ");
+}
+
+/**
+ * global.msp を対象にマップ検索を行う
+ * @param {number[]} lox2 - 入力パターン配列
+ * @param {number} pl - inpl チェックボックスの値（0 or 1）
+ * @param {number} seed - 現在選択中のマップインデックス
+ */
+function _searchByMap(lox2, pl, seed) {
+    const ret = Array.from({ length: global.randmap }, () => []);
+    let cnt = 0;
+
+    for (let k = 0; k < global.randmap; k++) {
+        for (let i = 1; i < 2; i++) {
+            const matched = lox2.every((val, j) => {
+                const idx = i + j;
+                if (idx >= 55) return false;
+                const v = global.msp[k][idx];
+                return (val === 0 && !ox(v)) || (val === 1 && ox(v));
+            });
+            if (matched) {
+                cnt++;
+                ret[k].push(i + pl * lox2.length);
+            }
+        }
+
+        if (k === seed) {
+            global.search_vv = ret[k];
+        }
+
+        if (ret[k].length > global.scalmax) {
+            ret[k] = [...ret[k].slice(0, global.scalmax), "..."];
+        }
+    }
+
+    _showMapResults(ret, cnt, seed);
+}
+
+/**
+ * マップ検索結果を DOM に表示する
+ * @param {(number|string)[][]} ret - 各マップの検索結果
+ * @param {number} cnt - 全体のマッチ数
+ * @param {number} seed - 現在のマップインデックス
+ */
+function _showMapResults(ret, cnt, seed) {
+    const resElem = document.getElementById("search_m_ret");
+
+    if (cnt === 0) {
+        resElem.innerHTML = "ありません";
+        return;
+    }
+
+    resElem.innerHTML = `候補数：${cnt} map${seed}：${global.search_vv.length}`;
+    ret.forEach((val, i) => {
+        if (val.length) {
+            resElem.innerHTML += `<br><span onclick="change_map(1,${i})" class="chmap">${i}:${val.join(" ")}</span>`;
+        }
+    });
+}
+
 function ox(r) {
     return global.svv_tora[(r %= 25)];
 }
