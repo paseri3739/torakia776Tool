@@ -1199,7 +1199,7 @@ function all_show(flag) {
 }
 function search_mx_onchange() {
     //現在位置検索ボタン
-    let lox = document.getElementById("search_ma").value;
+    const lox = document.getElementById("search_ma").value;
     global.search_vv = [];
     if (lox.length < 4) {
         document.getElementById("search_m_ret").innerHTML = "４文字以上入力してください";
