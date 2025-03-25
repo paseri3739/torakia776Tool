@@ -805,84 +805,103 @@ function addw(i, v) {
     );
 }
 function lvup(flag, v) {
-    //上昇量表示
-    let i;
-    let u;
-    let up;
-    let gr;
-    let plsp;
+    // indexはローカルで扱うようにする
+    let index;
     if (flag) {
         index = lv_val_glance();
-        plsp = parseInt(document.getElementById("pls").value); // 関数スコープを使っているようなのでletにすると動かない
-        if (isNaN(plsp)) {
-            document.getElementById("pls").value = plsp = 0;
-        }
     } else {
         index = parseInt(document.getElementById("view_val").value) - global.prim * 55;
     }
     index += parseInt(v);
-    for (i = 0; i < global.prvn.length; i++) {
-        gr = parseInt(document.getElementById(global.prvn[i]).value);
-        if (isNaN(gr) || gr < 0) {
-            gr = 0;
-        }
-        u = Math.floor(gr / 100);
-        up = u;
-        gr %= 100;
-        if (global.vv[index + i] <= gr) {
+
+    const plsp = flag
+        ? (() => {
+              let pls = parseInt(document.getElementById("pls").value);
+              if (isNaN(pls)) {
+                  document.getElementById("pls").value = pls = 0;
+              }
+              return pls;
+          })()
+        : 0;
+
+    global.prvn.forEach((id, i) => {
+        const input = document.getElementById(id).value;
+        let gr = parseInt(input);
+        if (isNaN(gr) || gr < 0) gr = 0;
+
+        const u = Math.floor(gr / 100);
+        const rem = gr % 100;
+
+        let up = u;
+        if (global.vv[index + i] <= rem) {
             up++;
         }
+
         if (flag) {
-            if (index + i < 0 || index + i > global.maxlen * 55 + 55) {
-                document.getElementById(global.prvn[i] + "pm").innerHTML = "---";
-                document.getElementById(global.prvn[i] + "pm").title = "---";
+            const base = index + i;
+            const plus = index + plsp + i;
+            const pmElem = document.getElementById(id + "pm");
+            const ppElem = document.getElementById(id + "pp");
+
+            if (base < 0 || base > global.maxlen * 55 + 55) {
+                pmElem.innerHTML = "---";
+                pmElem.title = "---";
             } else {
-                document.getElementById(global.prvn[i] + "pm").innerHTML = up ? "+" + up : "";
-                document.getElementById(global.prvn[i] + "pm").title = addw(index + i, global.para[i] + "+" + up);
+                pmElem.innerHTML = up ? "+" + up : "";
+                pmElem.title = addw(base, global.para[i] + "+" + up);
             }
-            if (index + plsp + i < 0 || index + plsp + i > global.maxlen * 55 + 55) {
-                document.getElementById(global.prvn[i] + "pp").innerHTML = "---";
-                document.getElementById(global.prvn[i] + "pp").title = "---";
+
+            if (plus < 0 || plus > global.maxlen * 55 + 55) {
+                ppElem.innerHTML = "---";
+                ppElem.title = "---";
             } else {
-                up = u;
-                if (global.vv[index + plsp + i] <= gr) {
-                    up++;
+                let up2 = u;
+                if (global.vv[plus] <= rem) {
+                    up2++;
                 }
-                document.getElementById(global.prvn[i] + "pp").innerHTML = up ? "+" + up : "";
-                document.getElementById(global.prvn[i] + "pp").title = addw(index + plsp + i, global.para[i] + "+" + up);
+                ppElem.innerHTML = up2 ? "+" + up2 : "";
+                ppElem.title = addw(plus, global.para[i] + "+" + up2);
             }
         } else {
-            document.getElementById(global.prvn[i] + "pl").innerHTML = up ? "+" + up : "";
-            document.getElementById(global.prvn[i] + "pl").title = addw(index + i, global.para[i] + "+" + up);
+            const elem = document.getElementById(id + "pl");
+            elem.innerHTML = up ? "+" + up : "";
+            elem.title = addw(index + i, global.para[i] + "+" + up);
         }
-    }
-    gr = parseInt(document.getElementById("react").value);
-    if (isNaN(gr)) {
-        gr = 0;
-    }
-    up = 0;
-    if (global.vv[index + global.prvn.length] <= gr) {
-        up++;
-    }
+    });
+
+    const grReact = (() => {
+        const r = parseInt(document.getElementById("react").value);
+        return isNaN(r) ? 0 : r;
+    })();
+
+    const reactBase = index + global.prvn.length;
+    let upReact = 0;
+    if (global.vv[reactBase] <= grReact) upReact++;
+
     if (flag) {
-        document.getElementById("reactpm").innerHTML = up ? "○" : "×";
-        document.getElementById("reactpm").title = addw(index + i, "♪:" + (up ? "○" : "×"));
-        if (index + plsp + i < 0 || index + plsp + i > global.maxlen * 55 + 55) {
-            document.getElementById("reactpp").innerHTML = "---";
-            document.getElementById("reactpm").title = "---";
+        const reactpm = document.getElementById("reactpm");
+        reactpm.innerHTML = upReact ? "○" : "×";
+        reactpm.title = addw(index + global.prvn.length, "♪:" + (upReact ? "○" : "×"));
+
+        const reactPlus = index + plsp + global.prvn.length;
+        const reactpp = document.getElementById("reactpp");
+
+        if (reactPlus < 0 || reactPlus > global.maxlen * 55 + 55) {
+            reactpp.innerHTML = "---";
+            reactpm.title = "---"; // ← reactpm.title を上書きしてる？
         } else {
-            up = 0;
-            if (global.vv[index + plsp + global.prvn.length] <= gr) {
-                up++;
-            }
-            document.getElementById("reactpp").innerHTML = up ? "○" : "×";
-            document.getElementById("reactpp").title = addw(index + plsp + i, "♪:" + (up ? "○" : "×"));
+            let up2 = 0;
+            if (global.vv[reactPlus] <= grReact) up2++;
+            reactpp.innerHTML = up2 ? "○" : "×";
+            reactpp.title = addw(reactPlus, "♪:" + (up2 ? "○" : "×"));
         }
     } else {
-        document.getElementById("reactpl").innerHTML = up ? "○" : "×";
-        document.getElementById("reactpl").title = addw(index + i, "♪:" + (up ? "○" : "×"));
+        const reactpl = document.getElementById("reactpl");
+        reactpl.innerHTML = upReact ? "○" : "×";
+        reactpl.title = addw(index + global.prvn.length, "♪:" + (upReact ? "○" : "×"));
     }
 }
+
 function ch_OnChange(flag) {
     //ユニット選択変更
     let i;
