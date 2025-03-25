@@ -847,47 +847,27 @@
                                             </select>
                                             攻撃<select id="dfatc" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 100; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfatc").selectedIndex = 20;
+                                                    generateOption(100, "dfatc", 20);
                                                 </script>
                                             </select>
                                             防御<select id="dfdef" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 51; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfdef").selectedIndex = 10;
+                                                    generateOption(51, "dfdef", 10);
                                                 </script>
                                             </select>
                                             <br />命中<select id="dfhit" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 101; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfhit").selectedIndex = 40;
+                                                    generateOption(101, "dfhit", 40);
                                                 </script>
                                             </select>
                                             必殺<select id="dfcrt" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 101; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfcrt").selectedIndex = 2;
+                                                    generateOption(101, "dfcrt", 2);
                                                 </script>
                                             </select>
                                             必殺係数<select id="dfcrtkei" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 6; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfcrtkei").selectedIndex = 1;
+                                                    generateOption(6, "dfcrtkei", 1);
                                                 </script>
                                             </select>
                                             <br />Lv<select id="dflvl" onchange="battle_s();">
@@ -901,46 +881,22 @@
                                             </select>
                                             技<select id="dfskl" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 41; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfskl").selectedIndex = 5;
+                                                    generateOption(41, "dfskl", 5);
                                                 </script>
                                             </select>
                                             攻速<select id="dfspd" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 41; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfspd").selectedIndex = 5;
+                                                    generateOption(41, "dfspd", 5);
                                                 </script>
                                             </select>
                                             運<select id="dfluck" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 31; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfluck").selectedIndex = 5;
+                                                    generateOption(31, "dfluck", 5);
                                                 </script>
                                             </select>
                                             <br />スキル<br />
                                             <script type="text/javascript">
-                                                var i;
-                                                for (i = 0; i < global.skilln; i++) {
-                                                    document.write('<span class="cbx">');
-                                                    document.write(
-                                                        '<input type="checkbox" id="dfskill' +
-                                                            i +
-                                                            '" value="1" onclick="battle_s();">'
-                                                    );
-                                                    document.write(
-                                                        '<label for="dfskill' + i + '">' + global.skilllist[i] + "</label>"
-                                                    );
-                                                    document.write("</span> ");
-                                                }
+                                                generateEnemySkillList();
                                             </script>
                                             <br /><span class="cbx"
                                                 ><input
@@ -963,19 +919,11 @@
                                         <td class="bt">
                                             HP<select id="athpmin" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("athpmin").selectedIndex = 1;
+                                                    generateOption(81, "athpmin", 1);
                                                 </script></select
                                             >以上<select id="athpmax" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("athpmax").selectedIndex = 80;
+                                                    generateOption(81, "athpmax", 80);
                                                 </script></select
                                             >以下 <input type="checkbox" id="athitf" value="1" onclick="battle_s();" /><label
                                                 for="athitf"
@@ -985,19 +933,11 @@
                                         <td class="bt">
                                             HP<select id="dfhpmin" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfhpmin").selectedIndex = 0;
+                                                    generateOption(81, "dfhpmin", 0);
                                                 </script></select
                                             >以上<select id="dfhpmax" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfhpmax").selectedIndex = 0;
+                                                    generateOption(81, "dfhpmax", 0);
                                                 </script></select
                                             >以下 <input type="checkbox" id="dfhitf" value="1" onclick="battle_s();" /><label
                                                 for="dfhitf"

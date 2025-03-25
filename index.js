@@ -399,6 +399,15 @@ function generateSkillList() {
         document.write("</span> ");
     }
 }
+function generateEnemySkillList() {
+    var i;
+    for (i = 0; i < global.skilln; i++) {
+        document.write('<span class="cbx">');
+        document.write('<input type="checkbox" id="dfskill' + i + '" value="1" onclick="battle_s();">');
+        document.write('<label for="dfskill' + i + '">' + global.skilllist[i] + "</label>");
+        document.write("</span> ");
+    }
+}
 function rand_calc(data) {
     //乱数計算
     var i;
