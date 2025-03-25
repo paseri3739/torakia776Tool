@@ -2327,6 +2327,120 @@ function displaystyle(hlay, blay) {
 }
 
 window.addEventListener("load", () => {
-    init(); // init()をここで呼び出す
+    init();
+    // 次の乱数表
     document.querySelector("#rand_next")?.addEventListener("click", next);
+
+    // 変更ボタン
+    document.querySelector("#btn_change_max")?.addEventListener("click", change_max);
+
+    // view_val_updown用ボタン
+    document.querySelector("#btn_view_val_updown_-55")?.addEventListener("click", () => view_val_updown(-55));
+    document.querySelector("#btn_view_val_updown_-10")?.addEventListener("click", () => view_val_updown(-10));
+    document.querySelector("#btn_view_val_updown_-1")?.addEventListener("click", () => view_val_updown(-1));
+    document.querySelector("#btn_view_val_updown_1")?.addEventListener("click", () => view_val_updown(1));
+    document.querySelector("#btn_view_val_updown_10")?.addEventListener("click", () => view_val_updown(10));
+    document.querySelector("#btn_view_val_updown_55")?.addEventListener("click", () => view_val_updown(55));
+
+    // 現在位置←目標位置
+    document.querySelector("#btn_set_view_from_lv")?.addEventListener("click", () => {
+        const viewVal = document.getElementById("view_val");
+        const lvVal = document.getElementById("lv_val");
+        if (viewVal && lvVal) {
+            viewVal.value = lvVal.value;
+            view_val_f();
+        }
+    });
+
+    // lv_val_updown用ボタン
+    document.querySelector("#btn_lv_val_updown_-55")?.addEventListener("click", () => lv_val_updown(-55));
+    document.querySelector("#btn_lv_val_updown_-10")?.addEventListener("click", () => lv_val_updown(-10));
+    document.querySelector("#btn_lv_val_updown_-1")?.addEventListener("click", () => lv_val_updown(-1));
+    document.querySelector("#btn_lv_val_updown_1")?.addEventListener("click", () => lv_val_updown(1));
+    document.querySelector("#btn_lv_val_updown_10")?.addEventListener("click", () => lv_val_updown(10));
+    document.querySelector("#btn_lv_val_updown_55")?.addEventListener("click", () => lv_val_updown(55));
+
+    // 目標位置←現在位置
+    document.querySelector("#btn_set_lv_from_view")?.addEventListener("click", () => {
+        const lvVal = document.getElementById("lv_val");
+        const viewVal = document.getElementById("view_val");
+        if (lvVal && viewVal) {
+            lvVal.value = viewVal.value;
+            lv_val_f();
+        }
+    });
+
+    // glance反映ボタン
+    document.querySelector("#btn_glance")?.addEventListener("click", glance_a);
+
+    // 現在位置検索関連
+    document.querySelector("#btn_search_o")?.addEventListener("click", () => {
+        const searchMa = document.getElementById("search_ma");
+        if (searchMa) {
+            searchMa.value += "o";
+            search_mx_onchange();
+        }
+    });
+    document.querySelector("#btn_search_x")?.addEventListener("click", () => {
+        const searchMa = document.getElementById("search_ma");
+        if (searchMa) {
+            searchMa.value += "x";
+            search_mx_onchange();
+        }
+    });
+    document.querySelector("#btn_search_clear")?.addEventListener("click", () => {
+        const searchMa = document.getElementById("search_ma");
+        if (searchMa) {
+            searchMa.value = "";
+            search_m_onchange();
+        }
+    });
+    document.querySelector("#btn_search_up")?.addEventListener("click", () => search_updown(-1));
+    document.querySelector("#btn_search_down")?.addEventListener("click", () => search_updown(1));
+    document.querySelector("#btn_all_show_0")?.addEventListener("click", () => all_show(0));
+
+    // ○×ソート
+    document.querySelector("#pikacheck")?.addEventListener("click", () => pikasort(1));
+
+    // mapswボタン
+    document.querySelector("#mapsw")?.addEventListener("click", map_swap);
+
+    // 表示/非表示ボタン
+    document.querySelector("#btn_display_toggle")?.addEventListener("click", () => {
+        // 第1引数: 対象のID、第2引数: 状態（例: 0）
+        displaystyle("tlvup", 0);
+    });
+
+    // unitnameの変更（onchange, onkeyup）
+    const unitname = document.querySelector("#unitname");
+    if (unitname) {
+        unitname.addEventListener("change", () => ch_OnChange(1));
+        unitname.addEventListener("keyup", () => ch_OnChange(1));
+    }
+    // セットボタン
+    document.querySelector("#btn_set_unitname")?.addEventListener("click", () => ch_OnChange(1));
+
+    // 候補表示関連
+    document.querySelector("#btn_kouho_up")?.addEventListener("click", () => kouho_updown(-1));
+    document.querySelector("#btn_kouho_down")?.addEventListener("click", () => kouho_updown(1));
+    document.querySelector("#btn_kouho_next")?.addEventListener("click", () => kouho_next(1));
+    document.querySelector("#btn_all_show_1")?.addEventListener("click", () => all_show(1));
+
+    // 拡張検索関連
+    document.querySelector("#btn_search_thread")?.addEventListener("click", search_thread);
+    document.querySelector("#btn_thread_lvup")?.addEventListener("click", thread_lvup);
+
+    // 戦闘関連
+    document.querySelector("#btn_yosoku")?.addEventListener("click", yosoku);
+    document.querySelector("#btn_battle_search")?.addEventListener("click", battle_search);
+
+    // 戦闘のチェックボックス
+    document.querySelector("#attsuigeki")?.addEventListener("click", () => battle_ss(0));
+    document.querySelector("#hangeki")?.addEventListener("click", () => battle_ss(1));
+    document.querySelector("#dftsuigeki")?.addEventListener("click", () => battle_ss(2));
+
+    // 乱数表関連ボタン
+    document.querySelector("#btn_createTable_1")?.addEventListener("click", () => createTable(1));
+    document.querySelector("#btn_createTable_2")?.addEventListener("click", () => createTable(2));
+    document.querySelector("#btn_createTable_0")?.addEventListener("click", () => createTable(0));
 });
