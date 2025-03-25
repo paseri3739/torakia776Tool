@@ -810,9 +810,10 @@ function lvup(flag, v) {
     let u;
     let up;
     let gr;
+    let plsp;
     if (flag) {
         index = lv_val_glance();
-        var plsp = parseInt(document.getElementById("pls").value); // 関数スコープを使っているようなのでletにすると動かない
+        plsp = parseInt(document.getElementById("pls").value); // 関数スコープを使っているようなのでletにすると動かない
         if (isNaN(plsp)) {
             document.getElementById("pls").value = plsp = 0;
         }
