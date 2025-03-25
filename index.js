@@ -383,6 +383,13 @@ global.skilllist = [
     "毒",
 ]; //スキル
 global.skilln = global.skilllist.length;
+function generateOption(counter, elementId, selectedIndex) {
+    let i;
+    for (i = 0; i < counter; i++) {
+        document.write("<option>" + i + "</option>");
+    }
+    document.getElementById(elementId).selectedIndex = selectedIndex;
+}
 function rand_calc(data) {
     //乱数計算
     var i;

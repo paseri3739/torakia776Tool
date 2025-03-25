@@ -765,47 +765,27 @@
                                             </select>
                                             攻撃<select id="atatc" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 100; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atatc").selectedIndex = 20;
+                                                    generateOption(100, "atatc", 20);
                                                 </script>
                                             </select>
                                             防御<select id="atdef" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 51; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atdef").selectedIndex = 10;
+                                                    generateOption(51, "atdef", 10);
                                                 </script>
                                             </select>
                                             <br />命中<select id="athit" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 101; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("athit").selectedIndex = 90;
+                                                    generateOption(101, "athit", 90);
                                                 </script>
                                             </select>
                                             必殺<select id="atcrt" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 101; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atcrt").selectedIndex = 10;
+                                                    generateOption(101, "atcrt", 10);
                                                 </script>
                                             </select>
                                             必殺係数<select id="atcrtkei" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 6; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atcrtkei").selectedIndex = 1;
+                                                    generateOption(6, "atcrtkei", 1);
                                                 </script>
                                             </select>
                                             <br />Lv<select id="atlvl" onchange="battle_s();">
@@ -819,29 +799,17 @@
                                             </select>
                                             技<select id="atskl" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 41; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atskl").selectedIndex = 10;
+                                                    generateOption(41, "atskl", 10);
                                                 </script>
                                             </select>
                                             攻速<select id="atspd" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 41; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atspd").selectedIndex = 10;
+                                                    generateOption(41, "atspd", 10);
                                                 </script>
                                             </select>
                                             運<select id="atluck" onchange="battle_s();">
                                                 <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 31; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atluck").selectedIndex = 10;
+                                                    generateOption(31, "atluck", 10);
                                                 </script>
                                             </select>
                                             <br />スキル<br />
