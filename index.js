@@ -14,7 +14,6 @@ global.search_vv = []; //現在位置検索にヒットした乱数
 global.para = ["HP", "力", "魔力", "技", "速さ", "守備", "体格", "幸運", "移動"]; //能力名 表示用
 global.prvn = ["mhp", "str", "mag", "skl", "spd", "def", "bld", "luc", "mov"]; //能力名 計算用
 global.ringselect = [0, 0, 0, 0, 0, 0, 0]; //書選択状況
-global.ringselect.length = global.ringselect.length; //書個数
 global.lvupmax = 20; //目標位置検索表示数
 global.srchmax = 20; //現在位置検索表示数
 global.scalmax = 1; //現在位置検索表示数
