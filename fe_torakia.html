@@ -6,8 +6,9 @@
         <link rel="stylesheet" href="./index.css" />
         <script src="./index.js"></script>
     </head>
-    <body onload="init();" id="mainwindow">
-        <input type="button" value="次の乱数表" onclick="next();" />
+    <body id="mainwindow">
+        <!--jsでイベントハンドラ設定したい-->
+        <input type="button" value="次の乱数表" id="rand_next" />
         <input type="text" size="10" id="rand_start" accesskey="s" />個目からの<input
             type="text"
             size="10"

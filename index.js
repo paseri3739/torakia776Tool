@@ -2325,3 +2325,8 @@ function displaystyle(hlay, blay) {
         }
     }
 }
+
+window.addEventListener("load", () => {
+    init(); // init()をここで呼び出す
+    document.querySelector("#rand_next")?.addEventListener("click", next);
+});
