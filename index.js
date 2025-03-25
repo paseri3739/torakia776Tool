@@ -383,6 +383,20 @@ global.skilllist = [
     "毒",
 ]; //スキル
 global.skilln = global.skilllist.length;
+function generateLevelUpSpecifyOption() {
+    var i;
+    for (i = 0; i < global.prct; i++) {
+        document.write('<td class="view">' + global.para[i] + "：</td>");
+        document.write('<td><input type="text" id="' + global.prvn[i] + '" size="4" onchange="calc_lvlup();" class="view"></td>');
+        document.write('<td><select id="ch' + global.prvn[i] + '" onchange="calc_lvlup();">');
+        document.write("<option>上昇しないとダメ</option><option>+1以上上昇</option>");
+        document.write("<option selected>どちらでもよい</option><option>上昇しちゃダメ</option>");
+        document.write("<option>--MAX--</option></select></td>");
+        document.write('<td id="' + global.prvn[i] + 'pl" class="view"></td>');
+        document.write('<td id="' + global.prvn[i] + 'pm" class="view"></td>');
+        document.write('<td id="' + global.prvn[i] + 'pp" class="view"></td></tr>');
+    }
+}
 function generateUnitDataOption() {
     var i; // varじゃないと動かなくなった。副作用があるはず
     for (i in global.ud) {
