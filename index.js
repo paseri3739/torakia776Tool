@@ -804,8 +804,12 @@ function addw(i, v) {
         ")"
     );
 }
+/**
+ * ステータスの上昇量表示処理
+ * @param {boolean} flag - true の場合、グラフモード
+ * @param {string|number} v - 加算インデックス値
+ */
 function lvup(flag, v) {
-    // indexはローカルで扱うようにする
     let index;
     if (flag) {
         index = lv_val_glance();
@@ -825,47 +829,33 @@ function lvup(flag, v) {
         : 0;
 
     global.prvn.forEach((id, i) => {
-        const input = document.getElementById(id).value;
-        let gr = parseInt(input);
-        if (isNaN(gr) || gr < 0) gr = 0;
-
+        const input = parseInt(document.getElementById(id).value);
+        const gr = isNaN(input) || input < 0 ? 0 : input;
         const u = Math.floor(gr / 100);
         const rem = gr % 100;
 
         let up = u;
-        if (global.vv[index + i] <= rem) {
-            up++;
-        }
+        if (global.vv[index + i] <= rem) up++;
 
         if (flag) {
             const base = index + i;
             const plus = index + plsp + i;
-            const pmElem = document.getElementById(id + "pm");
-            const ppElem = document.getElementById(id + "pp");
 
             if (base < 0 || base > global.maxlen * 55 + 55) {
-                pmElem.innerHTML = "---";
-                pmElem.title = "---";
+                _setPlaceholder(id + "pm");
             } else {
-                pmElem.innerHTML = up ? "+" + up : "";
-                pmElem.title = addw(base, global.para[i] + "+" + up);
+                _setHtmlAndTitle(id + "pm", up ? "+" + up : "", addw(base, global.para[i] + "+" + up));
             }
 
             if (plus < 0 || plus > global.maxlen * 55 + 55) {
-                ppElem.innerHTML = "---";
-                ppElem.title = "---";
+                _setPlaceholder(id + "pp");
             } else {
                 let up2 = u;
-                if (global.vv[plus] <= rem) {
-                    up2++;
-                }
-                ppElem.innerHTML = up2 ? "+" + up2 : "";
-                ppElem.title = addw(plus, global.para[i] + "+" + up2);
+                if (global.vv[plus] <= rem) up2++;
+                _setHtmlAndTitle(id + "pp", up2 ? "+" + up2 : "", addw(plus, global.para[i] + "+" + up2));
             }
         } else {
-            const elem = document.getElementById(id + "pl");
-            elem.innerHTML = up ? "+" + up : "";
-            elem.title = addw(index + i, global.para[i] + "+" + up);
+            _setHtmlAndTitle(id + "pl", up ? "+" + up : "", addw(index + i, global.para[i] + "+" + up));
         }
     });
 
@@ -874,32 +864,45 @@ function lvup(flag, v) {
         return isNaN(r) ? 0 : r;
     })();
 
-    const reactBase = index + global.prvn.length;
+    const reactIndex = index + global.prvn.length;
     let upReact = 0;
-    if (global.vv[reactBase] <= grReact) upReact++;
+    if (global.vv[reactIndex] <= grReact) upReact++;
 
     if (flag) {
-        const reactpm = document.getElementById("reactpm");
-        reactpm.innerHTML = upReact ? "○" : "×";
-        reactpm.title = addw(index + global.prvn.length, "♪:" + (upReact ? "○" : "×"));
+        _setHtmlAndTitle("reactpm", upReact ? "○" : "×", addw(reactIndex, "♪:" + (upReact ? "○" : "×")));
 
-        const reactPlus = index + plsp + global.prvn.length;
-        const reactpp = document.getElementById("reactpp");
-
-        if (reactPlus < 0 || reactPlus > global.maxlen * 55 + 55) {
-            reactpp.innerHTML = "---";
-            reactpm.title = "---"; // ← reactpm.title を上書きしてる？
+        const plusReact = index + plsp + global.prvn.length;
+        if (plusReact < 0 || plusReact > global.maxlen * 55 + 55) {
+            _setPlaceholder("reactpp");
         } else {
             let up2 = 0;
-            if (global.vv[reactPlus] <= grReact) up2++;
-            reactpp.innerHTML = up2 ? "○" : "×";
-            reactpp.title = addw(reactPlus, "♪:" + (up2 ? "○" : "×"));
+            if (global.vv[plusReact] <= grReact) up2++;
+            _setHtmlAndTitle("reactpp", up2 ? "○" : "×", addw(plusReact, "♪:" + (up2 ? "○" : "×")));
         }
     } else {
-        const reactpl = document.getElementById("reactpl");
-        reactpl.innerHTML = upReact ? "○" : "×";
-        reactpl.title = addw(index + global.prvn.length, "♪:" + (upReact ? "○" : "×"));
+        _setHtmlAndTitle("reactpl", upReact ? "○" : "×", addw(reactIndex, "♪:" + (upReact ? "○" : "×")));
     }
+}
+
+/**
+ * 指定要素に innerHTML と title を同時に設定する
+ * @param {string} id - DOM要素のID
+ * @param {string} html - innerHTMLとして設定する内容
+ * @param {string} title - title属性として設定する内容
+ */
+function _setHtmlAndTitle(id, html, title) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = html;
+    el.title = title;
+}
+
+/**
+ * 指定要素に "無効" 表示（---）を設定する
+ * @param {string} id - DOM要素のID
+ */
+function _setPlaceholder(id) {
+    _setHtmlAndTitle(id, "---", "---");
 }
 
 function ch_OnChange(flag) {
