@@ -804,12 +804,19 @@ function addw(i, v) {
         ")"
     );
 }
-/**
- * ステータスの上昇量表示処理
- * @param {boolean} flag - true の場合、グラフモード
- * @param {string|number} v - 加算インデックス値
- */
 function lvup(flag, v) {
+    const { index, plsp } = _computeIndexAndPlsp(flag, v);
+    const displayModel = _buildLvupDisplay(index, plsp, flag);
+    _renderLvupView(displayModel);
+}
+
+/**
+ * indexとplspを計算
+ * @param {boolean} flag
+ * @param {string|number} v
+ * @returns {{index: number, plsp: number}}
+ */
+function _computeIndexAndPlsp(flag, v) {
     let index;
     if (flag) {
         index = lv_val_glance();
@@ -828,6 +835,30 @@ function lvup(flag, v) {
           })()
         : 0;
 
+    return { index, plsp };
+}
+
+/**
+ * 上昇量（up）を計算する
+ * @param {number} vvValue - 比較対象の現在値
+ * @param {number} baseUp - gr / 100 の商
+ * @param {number} remainder - gr % 100 の余り
+ * @returns {number} 上昇量（+1される可能性あり）
+ */
+function _computeUp(vvValue, baseUp, remainder) {
+    return vvValue <= remainder ? baseUp + 1 : baseUp;
+}
+
+/**
+ * 表示用モデルを構築
+ * @param {number} index
+ * @param {number} plsp
+ * @param {boolean} flag
+ * @returns {Object} - DOM更新情報
+ */
+function _buildLvupDisplay(index, plsp, flag) {
+    const updates = [];
+
     global.prvn.forEach((id, i) => {
         const input = parseInt(document.getElementById(id).value);
         const gr = isNaN(input) || input < 0 ? 0 : input;
@@ -841,47 +872,61 @@ function lvup(flag, v) {
             const base = index + i;
             const plus = index + plsp + i;
 
-            if (base < 0 || base > global.maxlen * 55 + 55) {
-                _setPlaceholder(id + "pm");
-            } else {
-                _setHtmlAndTitle(id + "pm", up ? "+" + up : "", addw(base, global.para[i] + "+" + up));
-            }
-
-            if (plus < 0 || plus > global.maxlen * 55 + 55) {
-                _setPlaceholder(id + "pp");
-            } else {
-                let up2 = u;
-                if (global.vv[plus] <= rem) up2++;
-                _setHtmlAndTitle(id + "pp", up2 ? "+" + up2 : "", addw(plus, global.para[i] + "+" + up2));
-            }
+            updates.push(_makeDisplay(id + "pm", base, global.para[i], up));
+            updates.push(_makeDisplay(id + "pp", plus, global.para[i], _computeUp(global.vv[plus], u, rem)));
         } else {
-            _setHtmlAndTitle(id + "pl", up ? "+" + up : "", addw(index + i, global.para[i] + "+" + up));
+            updates.push(_makeDisplay(id + "pl", index + i, global.para[i], up));
         }
     });
 
+    // react
     const grReact = (() => {
         const r = parseInt(document.getElementById("react").value);
         return isNaN(r) ? 0 : r;
     })();
 
     const reactIndex = index + global.prvn.length;
-    let upReact = 0;
-    if (global.vv[reactIndex] <= grReact) upReact++;
+    let upReact = global.vv[reactIndex] <= grReact ? 1 : 0;
 
     if (flag) {
-        _setHtmlAndTitle("reactpm", upReact ? "○" : "×", addw(reactIndex, "♪:" + (upReact ? "○" : "×")));
+        updates.push(_makeDisplay("reactpm", reactIndex, "♪:", upReact, true));
 
         const plusReact = index + plsp + global.prvn.length;
-        if (plusReact < 0 || plusReact > global.maxlen * 55 + 55) {
-            _setPlaceholder("reactpp");
-        } else {
-            let up2 = 0;
-            if (global.vv[plusReact] <= grReact) up2++;
-            _setHtmlAndTitle("reactpp", up2 ? "○" : "×", addw(plusReact, "♪:" + (up2 ? "○" : "×")));
-        }
+        const up2 = global.vv[plusReact] <= grReact ? 1 : 0;
+        updates.push(_makeDisplay("reactpp", plusReact, "♪:", up2, true));
     } else {
-        _setHtmlAndTitle("reactpl", upReact ? "○" : "×", addw(reactIndex, "♪:" + (upReact ? "○" : "×")));
+        updates.push(_makeDisplay("reactpl", reactIndex, "♪:", upReact, true));
     }
+
+    return updates;
+}
+
+/**
+ * 表示用データを1つ生成
+ * @param {string} id
+ * @param {number} idx
+ * @param {string} label
+ * @param {number} up
+ * @param {boolean} isCircle
+ * @returns {{id: string, html: string, title: string}}
+ */
+function _makeDisplay(id, idx, label, up, isCircle = false) {
+    if (idx < 0 || idx > global.maxlen * 55 + 55) {
+        return { id, html: "---", title: "---" };
+    }
+    const mark = isCircle ? (up ? "○" : "×") : up ? "+" + up : "";
+    const title = addw(idx, `${label}${isCircle ? ":" : "+"}${mark}`);
+    return { id, html: mark, title };
+}
+
+/**
+ * innerHTML/title をまとめてDOMに反映
+ * @param {Array<{id: string, html: string, title: string}>} updates
+ */
+function _renderLvupView(updates) {
+    updates.forEach(({ id, html, title }) => {
+        _setHtmlAndTitle(id, html, title);
+    });
 }
 
 /**
