@@ -383,6 +383,13 @@ global.skilllist = [
     "毒",
 ]; //スキル
 global.skilln = global.skilllist.length;
+function generateUnitDataOption() {
+    var i; // varじゃないと動かなくなった。副作用があるはず
+    for (i in global.ud) {
+        document.write("<option>" + global.ud[i][0] + "</option>");
+    }
+    document.getElementById("unitname").selectedIndex = global.unitindex;
+}
 function generateOption(counter, elementId, selectedIndex) {
     let i;
     for (i = 0; i < counter; i++) {

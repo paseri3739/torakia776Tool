@@ -575,11 +575,7 @@
                         <td>
                             <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
                                 <script type="text/javascript">
-                                    var i;
-                                    for (i in global.ud) {
-                                        document.write("<option>" + global.ud[i][0] + "</option>");
-                                    }
-                                    document.getElementById("unitname").selectedIndex = global.unitindex;
+                                    generateUnitDataOption();
                                 </script>
                             </select>
                             <input type="button" value="セット" onclick="ch_OnChange(1);" />
