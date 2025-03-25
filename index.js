@@ -275,7 +275,6 @@ global.msp = [
         79, 21, 63, 42, 95, 18, 90, 86, 88, 10, 34, 91, 50, 94, 90, 93, 13, 97, 36, 81, 46, 96, 66, 98,
     ],
 ];
-global.randmap = global.msp.length; //乱数マップの数
 
 global.rasu = [
     39, 38, 33, 29, 24, 21, 20, 16, 13, 9, 8, 4, 1, 61, 58, 57, 53, 50, 46, 45, 41, 36, 31, 27, 26, 23, 19, 15, 12, 11, 7, 3, 0,
@@ -559,11 +558,11 @@ function pikasort(f) {
     let map = f ? mapselected(1) : 30;
     let i;
     if (document.getElementById("pikacheck").checked) {
-        for (i = 0; i < global.randmap; i++) {
+        for (i = 0; i < global.msp.length; i++) {
             ret.push("<option>" + global.pika[i] + "</option>");
         }
     } else {
-        for (i = 0; i < global.randmap; i++) {
+        for (i = 0; i < global.msp.length; i++) {
             ret.push("<option>" + i + "</option>");
         }
     }
@@ -1392,7 +1391,7 @@ function _searchByMap(lox2, pl, seed) {
     const len = lox2.length;
     let totalCount = 0;
 
-    const ret = Array.from({ length: global.randmap }, (_, k) => {
+    const ret = Array.from({ length: global.msp.length }, (_, k) => {
         const results = [1] // 現状 `i = 1` のみ固定されている
             .map((i) => {
                 const matched = lox2.every((val, j) => {
