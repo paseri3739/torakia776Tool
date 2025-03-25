@@ -14,7 +14,7 @@ global.search_vv = []; //現在位置検索にヒットした乱数
 global.para = ["HP", "力", "魔力", "技", "速さ", "守備", "体格", "幸運", "移動"]; //能力名 表示用
 global.prvn = ["mhp", "str", "mag", "skl", "spd", "def", "bld", "luc", "mov"]; //能力名 計算用
 global.ringselect = [0, 0, 0, 0, 0, 0, 0]; //書選択状況
-global.rict = global.ringselect.length; //書個数
+global.ringselect.length = global.ringselect.length; //書個数
 global.lvupmax = 20; //目標位置検索表示数
 global.srchmax = 20; //現在位置検索表示数
 global.scalmax = 1; //現在位置検索表示数
@@ -871,7 +871,7 @@ function ch_OnChange(flag) {
         document.getElementById(global.prvn[i]).value = global.ud[j][i + 1];
     }
     document.getElementById("react").value = global.ud[j][global.prvn.length + 1];
-    for (i = 0; i < global.rict; i++) {
+    for (i = 0; i < global.ringselect.length; i++) {
         global.ringselect[i] = 0;
     }
     afua_change();
@@ -890,7 +890,7 @@ function afua_change() {
     for (j = 0; j < global.prvn.length; j++) {
         pr[j] = parseInt(document.getElementById(global.prvn[j]).value);
     }
-    for (i = 0; i < global.rict; i++) {
+    for (i = 0; i < global.ringselect.length; i++) {
         o = global.ringselect[i];
         n = document.getElementById("afua" + i).selectedIndex;
         for (j = 0; j < global.prvn.length; j++) {
