@@ -804,6 +804,12 @@ function addw(i, v) {
         ")"
     );
 }
+
+/**
+ * レベルアップの計算処理とDOM操作している公開関数
+ * @param {*} flag
+ * @param {*} v
+ */
 function lvup(flag, v) {
     const { index, plsp } = _computeIndexAndPlsp(flag, v);
     const displayModel = _buildLvupDisplay(index, plsp, flag);
