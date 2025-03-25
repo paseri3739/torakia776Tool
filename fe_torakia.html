@@ -576,10 +576,10 @@
                             <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
                                 <script type="text/javascript">
                                     var i;
-                                    for (i in ud) {
-                                        document.write("<option>" + ud[i][0] + "</option>");
+                                    for (i in global.ud) {
+                                        document.write("<option>" + global.ud[i][0] + "</option>");
                                     }
-                                    document.getElementById("unitname").selectedIndex = unitindex;
+                                    document.getElementById("unitname").selectedIndex = global.unitindex;
                                 </script>
                             </select>
                             <input type="button" value="セット" onclick="ch_OnChange(1);" />
@@ -612,22 +612,22 @@
                                     </tr>
                                     <script type="text/javascript">
                                         var i;
-                                        for (i = 0; i < prct; i++) {
-                                            document.write('<td class="view">' + para[i] + "：</td>");
+                                        for (i = 0; i < global.prct; i++) {
+                                            document.write('<td class="view">' + global.para[i] + "：</td>");
                                             document.write(
                                                 '<td><input type="text" id="' +
-                                                    prvn[i] +
+                                                    global.prvn[i] +
                                                     '" size="4" onchange="calc_lvlup();" class="view"></td>'
                                             );
-                                            document.write('<td><select id="ch' + prvn[i] + '" onchange="calc_lvlup();">');
+                                            document.write('<td><select id="ch' + global.prvn[i] + '" onchange="calc_lvlup();">');
                                             document.write("<option>上昇しないとダメ</option><option>+1以上上昇</option>");
                                             document.write(
                                                 "<option selected>どちらでもよい</option><option>上昇しちゃダメ</option>"
                                             );
                                             document.write("<option>--MAX--</option></select></td>");
-                                            document.write('<td id="' + prvn[i] + 'pl" class="view"></td>');
-                                            document.write('<td id="' + prvn[i] + 'pm" class="view"></td>');
-                                            document.write('<td id="' + prvn[i] + 'pp" class="view"></td></tr>');
+                                            document.write('<td id="' + global.prvn[i] + 'pl" class="view"></td>');
+                                            document.write('<td id="' + global.prvn[i] + 'pm" class="view"></td>');
+                                            document.write('<td id="' + global.prvn[i] + 'pp" class="view"></td></tr>');
                                         }
                                     </script>
                                     <tr>
@@ -650,7 +650,7 @@
                             <select id="growmin" onchange="calc_lvlup();">
                                 <script type="text/javascript">
                                     var i;
-                                    for (i = 0; i < prct + 1; i++) {
+                                    for (i = 0; i < global.prct + 1; i++) {
                                         document.write("<option>" + i + "</option>");
                                     }
                                     document.getElementById("growmin").selectedIndex = 8;
@@ -659,10 +659,10 @@
                             <select id="growmax" onchange="calc_lvlup();">
                                 <script type="text/javascript">
                                     var i;
-                                    for (i = 0; i < prct + 1; i++) {
+                                    for (i = 0; i < global.prct + 1; i++) {
                                         document.write("<option>" + i + "</option>");
                                     }
-                                    document.getElementById("growmax").selectedIndex = prct;
+                                    document.getElementById("growmax").selectedIndex = global.prct;
                                 </script></select
                             >個以下の能力が上昇<br />
                             ・上記条件を満たす場所
@@ -671,10 +671,10 @@
                             聖戦士の書<br />
                             <script type="text/javascript">
                                 var i, j;
-                                for (i = 0; i < rict; i++) {
+                                for (i = 0; i < global.rict; i++) {
                                     document.write('<select id="afua' + i + '" onchange="afua_change();">');
-                                    for (j in ring) {
-                                        document.write("<option>" + ring[j][0] + "</option>");
+                                    for (j in global.ring) {
+                                        document.write("<option>" + global.ring[j][0] + "</option>");
                                     }
                                     document.write("</select><br>");
                                     document.getElementById("afua" + i).selectedIndex = 0;
@@ -847,14 +847,16 @@
                                             <br />スキル<br />
                                             <script type="text/javascript">
                                                 var i;
-                                                for (i = 0; i < skilln; i++) {
+                                                for (i = 0; i < global.skilln; i++) {
                                                     document.write('<span class="cbx">');
                                                     document.write(
                                                         '<input type="checkbox" id="atskill' +
                                                             i +
                                                             '" value="1" onclick="battle_s();">'
                                                     );
-                                                    document.write('<label for="atskill' + i + '">' + skilllist[i] + "</label>");
+                                                    document.write(
+                                                        '<label for="atskill' + i + '">' + global.skilllist[i] + "</label>"
+                                                    );
                                                     document.write("</span> ");
                                                 }
                                             </script>
@@ -971,14 +973,16 @@
                                             <br />スキル<br />
                                             <script type="text/javascript">
                                                 var i;
-                                                for (i = 0; i < skilln; i++) {
+                                                for (i = 0; i < global.skilln; i++) {
                                                     document.write('<span class="cbx">');
                                                     document.write(
                                                         '<input type="checkbox" id="dfskill' +
                                                             i +
                                                             '" value="1" onclick="battle_s();">'
                                                     );
-                                                    document.write('<label for="dfskill' + i + '">' + skilllist[i] + "</label>");
+                                                    document.write(
+                                                        '<label for="dfskill' + i + '">' + global.skilllist[i] + "</label>"
+                                                    );
                                                     document.write("</span> ");
                                                 }
                                             </script>
