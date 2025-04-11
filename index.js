@@ -751,7 +751,7 @@ function sub_val_f() {
     }
     fc = 0;
     ft = 0;
-    lvv = 0;
+    let lvv = 0;
     for (i = 0; i < len; i++) {
         if (ox(global.vv[start + i]) && fc < mv) {
             fc++;
@@ -1614,31 +1614,6 @@ function thread_lvup() {
         document.getElementById("search_mc").value += "\n";
     }
     document.getElementById("search_mc").value += "lvup()";
-    /*
-let ret=[];
-let diff=[];
-let gr=[];
-for(let i=0;i<prct;i++){
-gr[i]=parseInt(document.getElementById(prvn[i]).value);
-if(isNaN(gr[i])||gr[i]<0){ gr[i]=0; }
-diff[i]=document.getElementById("ch"+prvn[i]).selectedIndex;
-if(gr[i]%100==0){
-ret.push("0-99"+" //"+para[i]);
-}else if(diff[i]==0){
-ret.push("0-"+(gr[i]%100-1)+" //"+para[i]);
-}else if(diff[i]==1){
-ret.push("0-"+Math.min(gr[i]-1,99)+" //"+para[i]);
-}else if(diff[i]==2||diff[i]==4){
-ret.push("0-99"+" //"+para[i]);
-}
-else if(diff[i]==3){
-ret.push((gr[i]%100)+"-99"+" //"+para[i]);
-}
-}
-let str=document.getElementById("search_mc").value;
-if(str.length&&str.slice(str.length-1)!="\n"){ document.getElementById("search_mc").value+="\n" }
-document.getElementById("search_mc").value+=ret.join("\n");
-*/
 }
 function addt(i, v) {
     return "<span title='" + addw(i - 1, v) + "' class=ttl>" + v + "</span>";
@@ -1651,8 +1626,6 @@ function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp,
     let meichu = 0;
     let noroi = 0;
     let kodt = [2, 1, 1, 4, 3, 3][type];
-    // ["怒り","祈り","大盾","待伏","月光","太陽","流星","連続","勇者","突撃","無敵","吸収","呪い","眠り"]
-    // ["   2","   3","   4","   5","   6","   7","   8","   9","  10","  11","  12","  13","  14","  15"]
     if (sklsws[ater][kodt] != "") {
         sklsws[ater][kodt] += " ";
     }
