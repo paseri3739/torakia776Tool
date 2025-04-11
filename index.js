@@ -2254,7 +2254,7 @@ function yosoku() {
     let skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
-    for (i = 0; i < global.skilln; i++) {
+    for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
