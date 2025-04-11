@@ -2417,3 +2417,58 @@ window.addEventListener("load", () => {
     document.querySelector("#btn_createTable_2")?.addEventListener("click", () => createTable(2));
     document.querySelector("#btn_createTable_0")?.addEventListener("click", () => createTable(0));
 });
+
+window.addEventListener("DOMContentLoaded", () => {
+    const $ = (id) => document.getElementById(id);
+
+    // 基本イベント
+    $("view_val")?.addEventListener("change", view_val_f);
+    $("lv_val")?.addEventListener("change", lv_val_f);
+    $("glance")?.addEventListener("keyup", lv_val_f);
+    $("search_ma")?.addEventListener("keyup", search_m_onchange);
+    $("unitname")?.addEventListener("change", () => ch_OnChange(1));
+    $("unitname")?.addEventListener("keyup", () => ch_OnChange(1));
+    $("chall")?.addEventListener("change", ch_all);
+    $("pls")?.addEventListener("change", () => {
+        $("plkae").checked = false;
+        lvup(1, 0);
+    });
+    $("react")?.addEventListener("change", calc_lvlup);
+    $("chreact")?.addEventListener("change", calc_lvlup);
+    $("growmin")?.addEventListener("change", calc_lvlup);
+    $("growmax")?.addEventListener("change", calc_lvlup);
+    $("search_type")?.addEventListener("change", Change_type);
+    $("mv")?.addEventListener("change", Change_type);
+
+    // 戦闘入力イベント
+    [
+        "athp",
+        "atmhp",
+        "atatc",
+        "atdef",
+        "athit",
+        "atcrt",
+        "atcrtkei",
+        "atlvl",
+        "atskl",
+        "atspd",
+        "atluck",
+        "dfhp",
+        "dfmhp",
+        "dfatc",
+        "dfdef",
+        "dfhit",
+        "dfcrt",
+        "dfcrtkei",
+        "dflvl",
+        "dfskl",
+        "dfspd",
+        "dfluck",
+        "athpmin",
+        "athpmax",
+        "dfhpmin",
+        "dfhpmax",
+    ].forEach((id) => {
+        $(id)?.addEventListener("change", battle_s);
+    });
+});

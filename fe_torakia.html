@@ -16,7 +16,7 @@
         <hr />
         <label for="view_val">乱数の現在位置</label>
         <!-- onchangeはそのまま -->
-        <input type="text" size="10" id="view_val" onchange="view_val_f();" accesskey="n" />
+        <input type="text" size="10" id="view_val" accesskey="n" />
         <!-- 各ボタンにIDを追加 -->
         <input type="button" value="-1p" id="btn_view_val_updown_-55" />
         <input type="button" value="-10" id="btn_view_val_updown_-10" />
@@ -31,7 +31,7 @@
         <hr />
         <label for="lv_val">乱数の目標位置</label>
         <!-- onchangeはそのまま -->
-        <input type="text" size="10" id="lv_val" onchange="lv_val_f();" accesskey="m" />
+        <input type="text" size="10" id="lv_val" accesskey="m" />
         <!-- 各ボタンにIDを追加 -->
         <input type="button" value="-1p" id="btn_lv_val_updown_-55" />
         <input type="button" value="-10" id="btn_lv_val_updown_-10" />
@@ -44,7 +44,7 @@
         +
         <!-- onClick削除（チェックボックス） -->
         <input type="checkbox" id="glance_ck" />
-        <select id="glance" onchange="lv_val_f();" onkeyup="lv_val_f();" class="right">
+        <select id="glance" class="right">
             <script type="text/javascript">
                 for (let i = -1000; i <= 1000; i++) {
                     document.write("<option>" + i + "</option>");
@@ -62,13 +62,7 @@
         <!-- onClick削除 -->
         <input type="checkbox" id="search_dtb" />
         <label for="search_dtb">指定マップのみ</label>
-        <input
-            type="text"
-            id="search_ma"
-            size="20"
-            onkeyup="search_m_onchange();"
-            title="cx検索 全角や大文字には反応しないので注意"
-        />
+        <input type="text" id="search_ma" size="20" title="cx検索 全角や大文字には反応しないので注意" />
         <!-- ボタンにID追加 -->
         <input type="button" value="○" id="btn_search_o" accesskey="c" />
         <input type="button" value="×" id="btn_search_x" accesskey="x" />
@@ -90,7 +84,7 @@
         <!-- mapswボタンはID既に設定 -->
         <input type="button" id="mapsw" value="--" />
         (<span id="rasucmpt">(らす)</span>) 検索タイプ
-        <select id="search_type" onchange="Change_type();">
+        <select id="search_type">
             <option>レベルアップ</option>
             <option>戦闘</option>
             <option>戦闘＋レベルアップ</option>
@@ -102,7 +96,7 @@
             <tbody>
                 <tr id="tlvup">
                     <td>
-                        <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
+                        <select id="unitname">
                             <script type="text/javascript">
                                 generateUnitDataOption();
                             </script>
@@ -114,7 +108,7 @@
                                     <td><br /></td>
                                     <td><br /></td>
                                     <td>
-                                        <select id="chall" onchange="ch_all();">
+                                        <select id="chall">
                                             <option>--一括変更--</option>
                                             <option>上昇しないとダメ</option>
                                             <option>+1以上上昇</option>
@@ -126,13 +120,7 @@
                                     <td class="ryo">現在</td>
                                     <td class="ryo">目標</td>
                                     <td>
-                                        <input
-                                            type="text"
-                                            id="pls"
-                                            size="4"
-                                            onchange="document.getElementById('plkae').checked=0;lvup(1,0);"
-                                            class="right"
-                                        />
+                                        <input type="text" id="pls" size="4" class="right" />
                                     </td>
                                 </tr>
                                 <script type="text/javascript">
@@ -140,9 +128,9 @@
                                 </script>
                                 <tr>
                                     <td class="view">♪：</td>
-                                    <td><input type="text" id="react" size="4" onchange="calc_lvlup();" class="view" /></td>
+                                    <td><input type="text" id="react" size="4" class="view" /></td>
                                     <td>
-                                        <select id="chreact" onchange="calc_lvlup();">
+                                        <select id="chreact">
                                             <option>でないとダメ</option>
                                             <option selected>どちらでもよい</option>
                                             <option>でちゃダメ</option>
@@ -155,13 +143,13 @@
                             </tbody>
                         </table>
                         かつ
-                        <select id="growmin" onchange="calc_lvlup();">
+                        <select id="growmin">
                             <script type="text/javascript">
                                 growminRender();
                             </script>
                         </select>
                         個以上
-                        <select id="growmax" onchange="calc_lvlup();">
+                        <select id="growmax">
                             <script type="text/javascript">
                                 growmaxRender();
                             </script>
@@ -183,7 +171,7 @@
                                 >(差)</span
                             >
                             移動力
-                            <select id="mv" onchange="Change_type();">
+                            <select id="mv">
                                 <option>2</option>
                                 <option>3</option>
                                 <option>4</option>
@@ -238,7 +226,7 @@
                                 <tr>
                                     <td class="bt">
                                         HP
-                                        <select id="athp" onchange="battle_s();">
+                                        <select id="athp">
                                             <script type="text/javascript">
                                                 var i;
                                                 for (i = 0; i < 80; i++) {
@@ -248,7 +236,7 @@
                                             </script>
                                         </select>
                                         最大HP
-                                        <select id="atmhp" onchange="battle_s();">
+                                        <select id="atmhp">
                                             <script type="text/javascript">
                                                 var i;
                                                 for (i = 0; i < 80; i++) {
@@ -258,37 +246,37 @@
                                             </script>
                                         </select>
                                         攻撃
-                                        <select id="atatc" onchange="battle_s();">
+                                        <select id="atatc">
                                             <script type="text/javascript">
                                                 generateOption(100, "atatc", 20);
                                             </script>
                                         </select>
                                         防御
-                                        <select id="atdef" onchange="battle_s();">
+                                        <select id="atdef">
                                             <script type="text/javascript">
                                                 generateOption(51, "atdef", 10);
                                             </script>
                                         </select>
                                         <br />命中
-                                        <select id="athit" onchange="battle_s();">
+                                        <select id="athit">
                                             <script type="text/javascript">
                                                 generateOption(101, "athit", 90);
                                             </script>
                                         </select>
                                         必殺
-                                        <select id="atcrt" onchange="battle_s();">
+                                        <select id="atcrt">
                                             <script type="text/javascript">
                                                 generateOption(101, "atcrt", 10);
                                             </script>
                                         </select>
                                         必殺係数
-                                        <select id="atcrtkei" onchange="battle_s();">
+                                        <select id="atcrtkei">
                                             <script type="text/javascript">
                                                 generateOption(6, "atcrtkei", 1);
                                             </script>
                                         </select>
                                         <br />Lv
-                                        <select id="atlvl" onchange="battle_s();">
+                                        <select id="atlvl">
                                             <script type="text/javascript">
                                                 var i;
                                                 for (i = 0; i < 20; i++) {
@@ -298,19 +286,19 @@
                                             </script>
                                         </select>
                                         技
-                                        <select id="atskl" onchange="battle_s();">
+                                        <select id="atskl">
                                             <script type="text/javascript">
                                                 generateOption(41, "atskl", 10);
                                             </script>
                                         </select>
                                         攻速
-                                        <select id="atspd" onchange="battle_s();">
+                                        <select id="atspd">
                                             <script type="text/javascript">
                                                 generateOption(41, "atspd", 10);
                                             </script>
                                         </select>
                                         運
-                                        <select id="atluck" onchange="battle_s();">
+                                        <select id="atluck">
                                             <script type="text/javascript">
                                                 generateOption(31, "atluck", 10);
                                             </script>
@@ -327,7 +315,7 @@
                                     </td>
                                     <td class="bt">
                                         HP
-                                        <select id="dfhp" onchange="battle_s();">
+                                        <select id="dfhp">
                                             <script type="text/javascript">
                                                 var i;
                                                 for (i = 0; i < 80; i++) {
@@ -337,7 +325,7 @@
                                             </script>
                                         </select>
                                         最大HP
-                                        <select id="dfmhp" onchange="battle_s();">
+                                        <select id="dfmhp">
                                             <script type="text/javascript">
                                                 var i;
                                                 for (i = 0; i < 80; i++) {
@@ -347,37 +335,37 @@
                                             </script>
                                         </select>
                                         攻撃
-                                        <select id="dfatc" onchange="battle_s();">
+                                        <select id="dfatc">
                                             <script type="text/javascript">
                                                 generateOption(100, "dfatc", 20);
                                             </script>
                                         </select>
                                         防御
-                                        <select id="dfdef" onchange="battle_s();">
+                                        <select id="dfdef">
                                             <script type="text/javascript">
                                                 generateOption(51, "dfdef", 10);
                                             </script>
                                         </select>
                                         <br />命中
-                                        <select id="dfhit" onchange="battle_s();">
+                                        <select id="dfhit">
                                             <script type="text/javascript">
                                                 generateOption(101, "dfhit", 40);
                                             </script>
                                         </select>
                                         必殺
-                                        <select id="dfcrt" onchange="battle_s();">
+                                        <select id="dfcrt">
                                             <script type="text/javascript">
                                                 generateOption(101, "dfcrt", 2);
                                             </script>
                                         </select>
                                         必殺係数
-                                        <select id="dfcrtkei" onchange="battle_s();">
+                                        <select id="dfcrtkei">
                                             <script type="text/javascript">
                                                 generateOption(6, "dfcrtkei", 1);
                                             </script>
                                         </select>
                                         <br />Lv
-                                        <select id="dflvl" onchange="battle_s();">
+                                        <select id="dflvl">
                                             <script type="text/javascript">
                                                 var i;
                                                 for (i = 0; i < 20; i++) {
@@ -387,19 +375,19 @@
                                             </script>
                                         </select>
                                         技
-                                        <select id="dfskl" onchange="battle_s();">
+                                        <select id="dfskl">
                                             <script type="text/javascript">
                                                 generateOption(41, "dfskl", 5);
                                             </script>
                                         </select>
                                         攻速
-                                        <select id="dfspd" onchange="battle_s();">
+                                        <select id="dfspd">
                                             <script type="text/javascript">
                                                 generateOption(41, "dfspd", 5);
                                             </script>
                                         </select>
                                         運
-                                        <select id="dfluck" onchange="battle_s();">
+                                        <select id="dfluck">
                                             <script type="text/javascript">
                                                 generateOption(31, "dfluck", 5);
                                             </script>
@@ -422,13 +410,13 @@
                                 <tr>
                                     <td class="bt">
                                         HP
-                                        <select id="athpmin" onchange="battle_s();">
+                                        <select id="athpmin">
                                             <script type="text/javascript">
                                                 generateOption(81, "athpmin", 1);
                                             </script>
                                         </select>
                                         以上
-                                        <select id="athpmax" onchange="battle_s();">
+                                        <select id="athpmax">
                                             <script type="text/javascript">
                                                 generateOption(81, "athpmax", 80);
                                             </script>
@@ -439,13 +427,13 @@
                                     </td>
                                     <td class="bt">
                                         HP
-                                        <select id="dfhpmin" onchange="battle_s();">
+                                        <select id="dfhpmin">
                                             <script type="text/javascript">
                                                 generateOption(81, "dfhpmin", 0);
                                             </script>
                                         </select>
                                         以上
-                                        <select id="dfhpmax" onchange="battle_s();">
+                                        <select id="dfhpmax">
                                             <script type="text/javascript">
                                                 generateOption(81, "dfhpmax", 0);
                                             </script>
