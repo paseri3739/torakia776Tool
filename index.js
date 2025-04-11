@@ -2165,8 +2165,8 @@ function battle_search1() {
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
     let m = [skill[0][12], skill[1][12]];
-    for (i = 1; i < global.maxlen * 55; i++) {
-        index = i;
+    for (let i = 1; i < global.maxlen * 55; i++) {
+        let index = i;
         hp[0] = hp[4];
         hp[1] = hp[5];
         hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
