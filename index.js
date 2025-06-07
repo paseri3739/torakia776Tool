@@ -2115,3 +2115,16 @@ function writeOptionFromTo(start, end, parent) {
         element.appendChild(option);
     }
 }
+
+function writeOptionFromToDesc(start, end, parent) {
+    const element = document.getElementById(parent);
+    if (!element) {
+        return;
+    }
+    for (let i = start; i >= end; i--) {
+        const option = document.createElement("option");
+        option.value = i - 1;
+        option.textContent = i;
+        element.appendChild(option);
+    }
+}
