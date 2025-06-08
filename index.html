@@ -1280,7 +1280,7 @@
                     document.getElementById("search_m_ret").innerHTML = "候補数：" + ret.length + "<br>" + ret.join(" ");
                 }
             }
-            function searchMxOnChangeEffect() {
+            function searchWithOXButtonOnChangeEffect() {
                 //現在位置検索ボタン
                 var lox = document.getElementById("search_ma").value;
                 global.search_vv = [];
@@ -4378,12 +4378,12 @@
             /><input
                 type="button"
                 value="○"
-                onclick="document.getElementById('search_ma').value+='o';searchMxOnChangeEffect();"
+                onclick="document.getElementById('search_ma').value+='o';searchWithOXButtonOnChangeEffect();"
                 accesskey="c"
             /><input
                 type="button"
                 value="×"
-                onclick="document.getElementById('search_ma').value+='x';searchMxOnChangeEffect();"
+                onclick="document.getElementById('search_ma').value+='x';searchWithOXButtonOnChangeEffect();"
                 accesskey="x"
             />
             <input
