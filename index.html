@@ -516,7 +516,7 @@
             global.randmap = global.msp.length; //乱数マップの数
             global.skilln = global.skilllist.length;
 
-            function rand_calc(data) {
+            function calcRandEffect(data) {
                 //乱数計算
                 var i;
                 for (i = 54; i >= 0; i--) {
@@ -531,7 +531,7 @@
                 global.vv = [];
                 global.vv = global.vv.concat(data);
                 for (var i = 0; i <= global.maxlen; i++) {
-                    rand_calc(data);
+                    calcRandEffect(data);
                     global.vv = global.vv.concat(data);
                 }
             }
@@ -671,7 +671,7 @@
                     var data = [];
                     data = data.concat(global.msp[map]);
                     for (var i = 0; i < global.prim; i++) {
-                        rand_calc(data);
+                        calcRandEffect(data);
                     }
                     randInsEffect(data);
                     global.vv_n = map;
