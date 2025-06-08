@@ -540,7 +540,7 @@
                 pikaSortEffect(0);
                 createTableEffect(0);
                 chOnChangeEffect(0);
-                searchM_OnChangeEffect();
+                searchMap_OnChangeEffect();
                 resetEffect();
                 document.getElementById("mainwindow").style.visibility = "visible";
             }
@@ -687,7 +687,7 @@
                     document.getElementById("mapsw").value = String(global.vv_bn + 100).slice(1);
                 }
                 changeTypeEffect();
-                searchM_OnChangeEffect();
+                searchMap_OnChangeEffect();
                 if (f) {
                     searchUpDownEffect(1);
                     kouhoNextEffect(1);
@@ -1289,9 +1289,9 @@
                     document.getElementById("search_len").innerHTML = "-";
                     return false;
                 }
-                searchM_OnChangeEffect();
+                searchMap_OnChangeEffect();
             }
-            function searchM_OnChangeEffect() {
+            function searchMap_OnChangeEffect() {
                 //現在位置検索
                 var i, j, k;
                 var cnt;
@@ -4366,14 +4366,14 @@
             >
             <hr />
             現在位置検索<br />
-            <input type="checkbox" id="search_dtb" onclick="searchM_OnChangeEffect();" /><label for="search_dtb"
+            <input type="checkbox" id="search_dtb" onclick="searchMap_OnChangeEffect();" /><label for="search_dtb"
                 >指定マップのみ</label
             >
             <input
                 type="text"
                 id="search_ma"
                 size="20"
-                onkeyup="searchM_OnChangeEffect();"
+                onkeyup="searchMap_OnChangeEffect();"
                 title="cx検索 全角や大文字には反応しないので注意"
             /><input
                 type="button"
@@ -4389,7 +4389,7 @@
             <input
                 type="button"
                 value="消去"
-                onclick="document.getElementById('search_ma').value='';searchM_OnChangeEffect();"
+                onclick="document.getElementById('search_ma').value='';searchMap_OnChangeEffect();"
             /><br />
             <input type="button" value="前" onclick="searchUpDownEffect(-1);" /><input
                 type="button"
@@ -4397,7 +4397,7 @@
                 onclick="searchUpDownEffect(1);"
             />
             <input type="button" value="全て表示" onclick="allShowEffect(0);" />↑入力文字数：<span id="search_len">0</span>
-            <input type="checkbox" id="inpl" checked="checked" onclick="searchM_OnChangeEffect();" value="1" /><label for="inpl"
+            <input type="checkbox" id="inpl" checked="checked" onclick="searchMap_OnChangeEffect();" value="1" /><label for="inpl"
                 >入力分を加算</label
             ><br />
             <span id="search_m_ret"></span>
