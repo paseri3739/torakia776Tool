@@ -1,0 +1,26 @@
+乱数表の変更部分
+<input type="button" value="次の乱数表" onclick="next();">
+<input type="button" value="変更" onclick="change_max();">
+
+乱数の現在位置移動の部分
+1ページがおそらく-55を表している
+<input type="button" value="-1p" onclick="view_val_updown(-55);">
+
+現在位置<ー目標位置
+<input type="button" value="-1p" onclick="view_val_updown(-55);">
+
+目標位置<ー現在位置
+<input type="button" value="目標位置←現在位置" onclick="document.getElementById('lv_val').value=document.getElementById('view_val').value;lv_val_f();">
+
+反映ボタン。何をしているか不明
+<input type="button" value="反映" onclick="glance_a()">
+
+指定マップのみ検索のチェックボックス
+<input type="checkbox" id="search_dtb" onclick="search_m_onchange();">
+
+テキストボックス
+<input type="text" id="search_ma" size="20" onkeyup="search_m_onchange();" title="cx検索 全角や大文字には反応しないので注意">
+
+重要そうなロジック
+<input type="button" value="予測消費回数" onclick="yosoku();">
+<span id="yosokukai">18→139：13回+4 (約1.80秒)</span>

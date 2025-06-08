@@ -604,7 +604,7 @@ function view_val_updown(v) {
 function lv_val_glance() {
     //目標位置先読み
     var index;
-    index = parseInt(document.getElementById("lv_val").value) - prim * 55;
+    index = parseInt(document.getElementById("lv_val").value) - prim * 55; // 乱数の目標位置テキストボックスの値 -
     if (document.getElementById("glance_ck").checked) {
         index += document.getElementById("glance").selectedIndex - 999;
     }
@@ -1420,6 +1420,31 @@ function thread_lvup() {
         document.getElementById("search_mc").value += "\n";
     }
     document.getElementById("search_mc").value += "lvup()";
+    /*
+  var ret=[];
+  var diff=[];
+  var gr=[];
+  for(var i=0;i<prct;i++){
+    gr[i]=parseInt(document.getElementById(prvn[i]).value);
+    if(isNaN(gr[i])||gr[i]<0){ gr[i]=0; }
+    diff[i]=document.getElementById("ch"+prvn[i]).selectedIndex;
+    if(gr[i]%100==0){
+      ret.push("0-99"+" //"+para[i]);
+    }else if(diff[i]==0){
+      ret.push("0-"+(gr[i]%100-1)+" //"+para[i]);
+    }else if(diff[i]==1){
+      ret.push("0-"+Math.min(gr[i]-1,99)+" //"+para[i]);
+    }else if(diff[i]==2||diff[i]==4){
+      ret.push("0-99"+" //"+para[i]);
+    }
+    else if(diff[i]==3){
+      ret.push((gr[i]%100)+"-99"+" //"+para[i]);
+    }
+  }
+  var str=document.getElementById("search_mc").value;
+  if(str.length&&str.slice(str.length-1)!="\n"){ document.getElementById("search_mc").value+="\n" }
+  document.getElementById("search_mc").value+=ret.join("\n");
+*/
 }
 function addt(i, v) {
     return "<span title='" + addw(i - 1, v) + "' class=ttl>" + v + "</span>";
@@ -1432,6 +1457,8 @@ function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp,
     var meichu = 0;
     var noroi = 0;
     var kodt = [2, 1, 1, 4, 3, 3][type];
+    // ["怒り","祈り","大盾","待伏","月光","太陽","流星","連続","勇者","突撃","無敵","吸収","呪い","眠り"]
+    // ["   2","   3","   4","   5","   6","   7","   8","   9","  10","  11","  12","  13","  14","  15"]
     if (sklsws[ater][kodt] != "") {
         sklsws[ater][kodt] += " ";
     }
@@ -1678,6 +1705,7 @@ function battle() {
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (i = 0; i < skilln; i++) {
+        // スキルの個数でループ
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
@@ -1748,6 +1776,8 @@ function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju
     var meichu = 0;
     var noroi = 0;
     var kodt = [2, 1, 1, 4, 3, 3][type];
+    // ["怒り","祈り","大盾","待伏","月光","太陽","流星","連続","勇者","突撃","無敵","吸収","呪い","眠り"]
+    // ["   2","   3","   4","   5","   6","   7","   8","   9","  10","  11","  12","  13","  14","  15"]
     if (skill[ater][6] && para[ater][6]) {
         //月光剣
         if (para[ater][6] >= vv[index++]) {
@@ -2010,20 +2040,21 @@ function battle_search() {
     window.setTimeout("battle_search1()", 1);
 }
 function yosoku() {
-    var start = parseInt(document.getElementById("view_val").value) - prim * 55;
+    // 予測消費の回数を算出するのに使われている
+    var start = parseInt(document.getElementById("view_val").value) - prim * 55; // 現在の乱数位置のテキストボックス入力値 - 何個目の乱数から始めるか(rand_start?) * 1ページあたりの乱数個55
     var last = lv_val_glance();
     if (start > last) {
         document.getElementById("yosokukai").innerHTML = "----";
         return 0;
     }
     var hp = [
-        document.getElementById("athp").selectedIndex + 1,
+        document.getElementById("athp").selectedIndex + 1, // 最大HPと現在HPを取得している
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
         document.getElementById("dfmhp").selectedIndex + 1,
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
-        document.getElementById("athpmin").selectedIndex,
+        document.getElementById("athpmin").selectedIndex, // 戦闘後のHPを取得している
         document.getElementById("dfhpmin").selectedIndex,
         document.getElementById("athpmax").selectedIndex,
         document.getElementById("dfhpmax").selectedIndex,
@@ -2032,6 +2063,7 @@ function yosoku() {
     ];
     var para = [];
     para[0] = [
+        // 攻撃側ステータス
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
         document.getElementById("athit").selectedIndex,
@@ -2043,6 +2075,7 @@ function yosoku() {
         document.getElementById("atluck").selectedIndex,
     ];
     para[1] = [
+        // 防御側ステータス
         document.getElementById("dfatc").selectedIndex,
         document.getElementById("dfdef").selectedIndex,
         document.getElementById("dfhit").selectedIndex,
@@ -2056,9 +2089,11 @@ function yosoku() {
     var hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
     var sklsws = [];
     var skill = [];
-    skill[0] = [1, document.getElementById("attsuigeki").checked];
+    skill[0] = [1, document.getElementById("attsuigeki").checked]; // 追撃の有無
+    // 反撃の有無
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (i = 0; i < skilln; i++) {
+        // 攻撃側と防御側のスキルを取得している。ごちゃまぜにされている。
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
@@ -2077,12 +2112,12 @@ function yosoku() {
         index = battle_search2(hp, hitcnt, sklsws, para, skill, index);
     }
     document.getElementById("yosokukai").innerHTML =
-        start +
-        prim * 55 +
+        start + // 現在の乱数位置のテキストボックス入力値
+        prim * 55 + //何個目の乱数から始めるか(rand_startの値？) * ページあたりの乱数個
         "→" +
-        (last + prim * 55) +
+        (last + prim * 55) + // last: ローカル変数
         "：" +
-        cnt +
+        cnt + // ローカル変数
         "回+" +
         (last - index2) +
         (cnt
@@ -2100,31 +2135,5 @@ function displaystyle(hlay, blay) {
         if (blay) {
             document.getElementById(blay).value = "表示";
         }
-    }
-}
-
-function writeOptionFromTo(start, end, parent) {
-    const element = document.getElementById(parent);
-    if (!element) {
-        return;
-    }
-    for (let i = start; i <= end; i++) {
-        const option = document.createElement("option");
-        option.value = i - 1;
-        option.textContent = i;
-        element.appendChild(option);
-    }
-}
-
-function writeOptionFromToDesc(start, end, parent) {
-    const element = document.getElementById(parent);
-    if (!element) {
-        return;
-    }
-    for (let i = start; i >= end; i--) {
-        const option = document.createElement("option");
-        option.value = i - 1;
-        option.textContent = i;
-        element.appendChild(option);
     }
 }
