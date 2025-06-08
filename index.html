@@ -970,7 +970,7 @@
                 var i;
                 var j = document.getElementById("unitname").selectedIndex;
                 for (i = 0; i < global.prct; i++) {
-                    document.getElementById(global.prvn[i]).value = global.ud[j][i + 1];
+                    document.getElementById(global.prvn[i]).value = global.ud[j][i + 1]; // FIXME: スコープエラー
                 }
                 document.getElementById("react").value = global.ud[j][global.prct + 1];
                 for (i = 0; i < global.rict; i++) {
