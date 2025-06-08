@@ -546,8 +546,7 @@
             }
             function nextEffect() {
                 //次の乱数
-                var nn = global.maxlen;
-                nn = parseInt(document.getElementById("rand_max").value);
+                const nn = parseInt(document.getElementById("rand_max").value);
                 if (isNaN(nn)) {
                     nn = global.maxlen;
                 }
@@ -580,10 +579,8 @@
             }
             function changeMaxEffect() {
                 //乱数の個数変更
-                var np = global.prim;
-                var nn = global.maxlen;
-                np = parseInt(document.getElementById("rand_start").value);
-                nn = parseInt(document.getElementById("rand_max").value);
+                const np = parseInt(document.getElementById("rand_start").value);
+                const nn = parseInt(document.getElementById("rand_max").value);
                 if (isNaN(np)) {
                     np = global.prim;
                 }
@@ -621,23 +618,31 @@
                     document.getElementById("seed").selectedIndex = m;
                 }
             }
+
             function pikaSortEffect(f) {
-                var ret = [];
-                var map = f ? mapSelectedEffect(1) : 30;
-                var i;
-                if (document.getElementById("pikacheck").checked) {
-                    for (i = 0; i < global.randmap; i++) {
-                        ret.push("<option>" + global.pika[i] + "</option>");
+                const isPikaCheck = document.getElementById("pikacheck").checked;
+
+                // ① option 要素生成を担当する関数に一本化
+                const makeOptions = (isPika) => {
+                    const ret = [];
+                    for (let i = 0; i < global.randmap; i++) {
+                        const label = isPika ? global.pika[i] : i;
+                        ret.push(`<option>${label}</option>`);
                     }
-                } else {
-                    for (i = 0; i < global.randmap; i++) {
-                        ret.push("<option>" + i + "</option>");
-                    }
-                }
-                document.getElementById("map").innerHTML =
-                    '<select id="seed" onchange="change_map(0,0);">' + ret.join("") + "</select>";
+                    return ret.join(""); // 呼び出し側でそのまま innerHTML に埋め込む
+                };
+
+                // ② map の選択値は従来どおり取得
+                const map = f ? mapSelectedEffect(1) : 30;
+
+                // ③ 生成した option を <select> に反映
+                document.getElementById("map").innerHTML = `<select id="seed" onchange="change_map(0,0);">${makeOptions(
+                    isPikaCheck
+                )}</select>`;
+
                 mapselect(map);
             }
+
             function mapSwapEffect() {
                 if (global.vv_bn < 0) {
                     1;
