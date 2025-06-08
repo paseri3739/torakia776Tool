@@ -611,7 +611,7 @@
                     return document.getElementById("seed").selectedIndex;
                 }
             }
-            function mapselect(m) {
+            function mapselectEffect(m) {
                 if (document.getElementById("pikacheck").checked) {
                     document.getElementById("seed").selectedIndex = global.pika2[m];
                 } else {
@@ -640,21 +640,21 @@
                     isPikaCheck
                 )}</select>`;
 
-                mapselect(map);
+                mapselectEffect(map);
             }
 
             function mapSwapEffect() {
                 if (global.vv_bn < 0) {
                     1;
                 } else {
-                    mapselect(global.vv_bn);
+                    mapselectEffect(global.vv_bn);
                     changeMapEffect(0, 0);
                 }
             }
             function changeMapEffect(f, m) {
                 if (f) {
                     document.getElementById("search_dtb").checked = 1;
-                    mapselect(m);
+                    mapselectEffect(m);
                     document.getElementById("view_val").value = 0;
                     document.getElementById("lv_val").value = 0;
                 }
