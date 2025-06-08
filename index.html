@@ -526,7 +526,7 @@
                     data[i + 48] = ((data[i + 48] + data[i] - 1) % 100) + 1;
                 }
             }
-            function rand_ins(data) {
+            function randInsEffect(data) {
                 //乱数を配列に入れる
                 global.vv = [];
                 global.vv = global.vv.concat(data);
@@ -535,16 +535,16 @@
                     global.vv = global.vv.concat(data);
                 }
             }
-            function init() {
+            function initEffect() {
                 //初期化
-                pikasort(0);
-                createTable(0);
-                ch_OnChange(0);
-                search_m_onchange();
-                reset();
+                pikaSortEffect(0);
+                createTableEffect(0);
+                chOnChangeEffect(0);
+                searchM_OnChangeEffect();
+                resetEffect();
                 document.getElementById("mainwindow").style.visibility = "visible";
             }
-            function next() {
+            function nextEffect() {
                 //次の乱数
                 var nn = global.maxlen;
                 nn = parseInt(document.getElementById("rand_max").value);
@@ -564,21 +564,21 @@
                     global.vv_bn = -1;
                     global.prim += global.maxlen;
                     global.maxlen = nn;
-                    reset();
+                    resetEffect();
                 } else {
                     document.getElementById("rand_max").value = global.maxlen;
                     document.getElementById("rand_start").value = global.prim;
                 }
             }
-            function reset() {
+            function resetEffect() {
                 //再設定
                 document.getElementById("rand_start").value = global.prim;
                 document.getElementById("rand_max").value = global.maxlen;
                 document.getElementById("view_val").value = 0;
-                change_map(0, 0);
-                kouho_next(1);
+                changeMapEffect(0, 0);
+                kouhoNextEffect(1);
             }
-            function change_max() {
+            function changeMaxEffect() {
                 //乱数の個数変更
                 var np = global.prim;
                 var nn = global.maxlen;
@@ -601,13 +601,13 @@
                     global.vv_bn = -1;
                     global.prim = np;
                     global.maxlen = nn;
-                    reset();
+                    resetEffect();
                 } else {
                     document.getElementById("rand_max").value = global.maxlen;
                     document.getElementById("rand_start").value = global.prim;
                 }
             }
-            function mapselected(f) {
+            function mapSelectedEffect(f) {
                 if (f ^ document.getElementById("pikacheck").checked) {
                     return global.pika[document.getElementById("seed").selectedIndex];
                 } else {
@@ -621,9 +621,9 @@
                     document.getElementById("seed").selectedIndex = m;
                 }
             }
-            function pikasort(f) {
+            function pikaSortEffect(f) {
                 var ret = [];
-                var map = f ? mapselected(1) : 30;
+                var map = f ? mapSelectedEffect(1) : 30;
                 var i;
                 if (document.getElementById("pikacheck").checked) {
                     for (i = 0; i < global.randmap; i++) {
@@ -638,22 +638,22 @@
                     '<select id="seed" onchange="change_map(0,0);">' + ret.join("") + "</select>";
                 mapselect(map);
             }
-            function map_swap() {
+            function mapSwapEffect() {
                 if (global.vv_bn < 0) {
                     1;
                 } else {
                     mapselect(global.vv_bn);
-                    change_map(0, 0);
+                    changeMapEffect(0, 0);
                 }
             }
-            function change_map(f, m) {
+            function changeMapEffect(f, m) {
                 if (f) {
                     document.getElementById("search_dtb").checked = 1;
                     mapselect(m);
                     document.getElementById("view_val").value = 0;
                     document.getElementById("lv_val").value = 0;
                 }
-                var map = mapselected(0);
+                var map = mapSelectedEffect(0);
                 if (global.vv_n == map) {
                     1;
                 } else if (global.vv_bn == map) {
@@ -673,7 +673,7 @@
                     for (var i = 0; i < global.prim; i++) {
                         rand_calc(data);
                     }
-                    rand_ins(data);
+                    randInsEffect(data);
                     global.vv_n = map;
                 }
                 if (global.vv_bn < 0) {
@@ -681,30 +681,30 @@
                 } else {
                     document.getElementById("mapsw").value = String(global.vv_bn + 100).slice(1);
                 }
-                Change_type();
-                search_m_onchange();
+                changeTypeEffect();
+                searchM_OnChangeEffect();
                 if (f) {
-                    search_updown(1);
-                    kouho_next(1);
+                    searchUpDownEffect(1);
+                    kouhoNextEffect(1);
                 }
                 document.getElementById("bt_kouho").innerHTML = "未検索";
             }
-            function Change_type() {
+            function changeTypeEffect() {
                 if (document.getElementById("search_type").selectedIndex == 0) {
-                    calc_lvlup_lv(1);
+                    calcLevelUp_LvEffect(1);
                 } else if (document.getElementById("search_type").selectedIndex == 1) {
                     global.kouho_vv = global.battle_vv;
-                    kouho_show(global.kouho_vv);
+                    kouhoShowEffect(global.kouho_vv);
                 } else if (document.getElementById("search_type").selectedIndex == 2) {
-                    calc_lvlup_lv(0);
+                    calcLevelUp_LvEffect(0);
                 } else if (document.getElementById("search_type").selectedIndex == 3) {
-                    search_thread();
+                    searchThreadEffect();
                 }
-                document.getElementById("rasucmpt").innerHTML = global.rasu[mapselected(0)];
-                view_val_f();
-                lv_val_f();
+                document.getElementById("rasucmpt").innerHTML = global.rasu[mapSelectedEffect(0)];
+                viewValF_Effect();
+                lvValF_Effect();
             }
-            function view_val_f() {
+            function viewValF_Effect() {
                 //現在位置
                 var i;
                 var sp;
@@ -720,7 +720,7 @@
                 document.getElementById("view_val").value = index + global.prim * 55;
                 for (i = 0; i < 30; i++) {
                     st = String(global.vv[index + i] + 99).slice(1);
-                    if (ox(global.vv[index + i])) {
+                    if (oxEffect(global.vv[index + i])) {
                         st = "<span class=maru>" + st + "</span>";
                     } else {
                         st = "<span class=batsu>" + st + "</span>";
@@ -731,18 +731,18 @@
                 ret = [];
                 sp = Math.floor(index / 55);
                 for (i = 0; i < 1; i++) {
-                    ret.push(randtable(sp + i, index, -1));
+                    ret.push(randTableEffect(sp + i, index, -1));
                 }
                 document.getElementById("map_val_n").innerHTML = ret.join("<br>");
-                sub_val_f();
-                lvup(0, 0);
-                yosoku();
+                subValF_Effect();
+                levelUpEffect(0, 0);
+                yosokuEffect();
             }
-            function view_val_updown(v) {
+            function viewValUpdownEffect(v) {
                 document.getElementById("view_val").value -= -v;
-                view_val_f();
+                viewValF_Effect();
             }
-            function lv_val_glance() {
+            function lvValGlanceEffect() {
                 //目標位置先読み
                 var index;
                 index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
@@ -758,9 +758,9 @@
                 index += document.getElementById("glance").selectedIndex - 999;
                 document.getElementById("lv_val").value = index;
                 document.getElementById("glance_ck").checked = 0;
-                lv_val_f();
+                lvValF_Effect();
             }
-            function lv_val_f() {
+            function lvValF_Effect() {
                 //目標位置
                 var i;
                 var sp;
@@ -777,13 +777,13 @@
                     index = global.maxlen * 55;
                 }
                 document.getElementById("lv_val").value = index + global.prim * 55;
-                index = lv_val_glance();
+                index = lvValGlanceEffect();
                 for (i = 0; i < 30; i++) {
                     if (index + i < 0 || index + i > global.maxlen * 55 + 55) {
                         ret.push("--");
                     } else {
                         st = String(global.vv[index + i] + 99).slice(1);
-                        if (ox(global.vv[index + i])) {
+                        if (oxEffect(global.vv[index + i])) {
                             st = "<span class=maru>" + st + "</span>";
                         } else {
                             st = "<span class=batsu>" + st + "</span>";
@@ -795,24 +795,24 @@
                 ret = [];
                 sp = Math.floor(index / 55);
                 for (i = 0; i < 2; i++) {
-                    ret.push(randtable(sp + i, index, -1));
+                    ret.push(randTableEffect(sp + i, index, -1));
                 }
                 document.getElementById("map_val_t").innerHTML = ret.join("<br>");
-                sub_val_f();
+                subValF_Effect();
                 battle();
             }
-            function lv_val_updown(v) {
+            function lvValUpdownEffect(v) {
                 document.getElementById("lv_val").value -= -v;
-                lv_val_f();
+                lvValF_Effect();
             }
-            function sub_val_f() {
+            function subValF_Effect() {
                 //差
                 var i;
                 var val, hfal, vfal;
                 var fc, ft;
                 var mv = document.getElementById("mv").selectedIndex;
                 var start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-                var last = lv_val_glance();
+                var last = lvValGlanceEffect();
                 var len = last - start;
                 document.getElementById("sub_val").innerHTML = len;
                 if (len < 0 || last > global.maxlen * 55 + 55) {
@@ -824,7 +824,7 @@
                 ft = 0;
                 lvv = 0;
                 for (i = 0; i < len; i++) {
-                    if (ox(global.vv[start + i]) && fc < mv) {
+                    if (oxEffect(global.vv[start + i]) && fc < mv) {
                         fc++;
                     } else {
                         ft++;
@@ -842,7 +842,7 @@
                 ft = 0;
                 lvv = 0;
                 for (i = 0; i < len; i++) {
-                    if (ox(global.vv[start + i]) || fc >= mv) {
+                    if (oxEffect(global.vv[start + i]) || fc >= mv) {
                         ft++;
                         fc = 0;
                         lvv = i + 1;
@@ -857,7 +857,7 @@
                     document.getElementById("sub_vfal").innerHTML += "　 　";
                 }
             }
-            function addw(i, v) {
+            function addW_Effect(i, v) {
                 if (i < 0 || i > global.maxlen * 55 + 55) {
                     return undefined;
                 }
@@ -876,14 +876,14 @@
                     ")"
                 );
             }
-            function lvup(flag, v) {
+            function levelUpEffect(flag, v) {
                 //上昇量表示
                 var i;
                 var u;
                 var up;
                 var gr;
                 if (flag) {
-                    index = lv_val_glance();
+                    index = lvValGlanceEffect();
                     var plsp = parseInt(document.getElementById("pls").value);
                     if (isNaN(plsp)) {
                         document.getElementById("pls").value = plsp = 0;
@@ -909,7 +909,10 @@
                             document.getElementById(global.prvn[i] + "pm").title = "---";
                         } else {
                             document.getElementById(global.prvn[i] + "pm").innerHTML = up ? "+" + up : "";
-                            document.getElementById(global.prvn[i] + "pm").title = addw(index + i, global.para[i] + "+" + up);
+                            document.getElementById(global.prvn[i] + "pm").title = addW_Effect(
+                                index + i,
+                                global.para[i] + "+" + up
+                            );
                         }
                         if (index + plsp + i < 0 || index + plsp + i > global.maxlen * 55 + 55) {
                             document.getElementById(global.prvn[i] + "pp").innerHTML = "---";
@@ -920,14 +923,14 @@
                                 up++;
                             }
                             document.getElementById(global.prvn[i] + "pp").innerHTML = up ? "+" + up : "";
-                            document.getElementById(global.prvn[i] + "pp").title = addw(
+                            document.getElementById(global.prvn[i] + "pp").title = addW_Effect(
                                 index + plsp + i,
                                 global.para[i] + "+" + up
                             );
                         }
                     } else {
                         document.getElementById(global.prvn[i] + "pl").innerHTML = up ? "+" + up : "";
-                        document.getElementById(global.prvn[i] + "pl").title = addw(index + i, global.para[i] + "+" + up);
+                        document.getElementById(global.prvn[i] + "pl").title = addW_Effect(index + i, global.para[i] + "+" + up);
                     }
                 }
                 gr = parseInt(document.getElementById("react").value);
@@ -940,7 +943,7 @@
                 }
                 if (flag) {
                     document.getElementById("reactpm").innerHTML = up ? "○" : "×";
-                    document.getElementById("reactpm").title = addw(index + i, "♪:" + (up ? "○" : "×"));
+                    document.getElementById("reactpm").title = addW_Effect(index + i, "♪:" + (up ? "○" : "×"));
                     if (index + plsp + i < 0 || index + plsp + i > global.maxlen * 55 + 55) {
                         document.getElementById("reactpp").innerHTML = "---";
                         document.getElementById("reactpm").title = "---";
@@ -950,14 +953,14 @@
                             up++;
                         }
                         document.getElementById("reactpp").innerHTML = up ? "○" : "×";
-                        document.getElementById("reactpp").title = addw(index + plsp + i, "♪:" + (up ? "○" : "×"));
+                        document.getElementById("reactpp").title = addW_Effect(index + plsp + i, "♪:" + (up ? "○" : "×"));
                     }
                 } else {
                     document.getElementById("reactpl").innerHTML = up ? "○" : "×";
-                    document.getElementById("reactpl").title = addw(index + i, "♪:" + (up ? "○" : "×"));
+                    document.getElementById("reactpl").title = addW_Effect(index + i, "♪:" + (up ? "○" : "×"));
                 }
             }
-            function ch_OnChange(flag) {
+            function chOnChangeEffect(flag) {
                 //ユニット選択変更
                 var i;
                 var j = document.getElementById("unitname").selectedIndex;
@@ -968,15 +971,15 @@
                 for (i = 0; i < global.rict; i++) {
                     global.ringselect[i] = 0;
                 }
-                afua_change();
+                afuaChangeEffect();
                 if (flag) {
                     if (document.getElementById("search_type").selectedIndex != 2) {
                         document.getElementById("search_type").selectedIndex = 0;
                     }
-                    calc_lvlup();
+                    calcLevelUpEffect();
                 }
             }
-            function afua_change() {
+            function afuaChangeEffect() {
                 //聖戦士の書
                 var i, j;
                 var o, n;
@@ -995,9 +998,9 @@
                 for (j = 0; j < global.prct; j++) {
                     document.getElementById(global.prvn[j]).value = pr[j];
                 }
-                calc_lvlup();
+                calcLevelUpEffect();
             }
-            function randtable(sp, indexs, indexl) {
+            function randTableEffect(sp, indexs, indexl) {
                 var i;
                 var st;
                 var ret = [];
@@ -1024,7 +1027,7 @@
                     } else if (sp == indexl) {
                         st = "<span class=trg>" + st + "</span>";
                     }
-                    if (ox(global.vv[sp])) {
+                    if (oxEffect(global.vv[sp])) {
                         st = " <span class=maru>" + st + "</span>";
                     } else {
                         st = " <span class=batsu>" + st + "</span>";
@@ -1040,7 +1043,7 @@
                     } else if (sp == indexl) {
                         st = "<span class=trg>" + st + "</span>";
                     }
-                    if (ox(global.vv[sp])) {
+                    if (oxEffect(global.vv[sp])) {
                         st = " <span class=maru>" + st + "</span>";
                     } else {
                         st = " <span class=batsu>" + st + "</span>";
@@ -1056,7 +1059,7 @@
                     } else if (sp == indexl) {
                         st = "<span class=trg>" + st + "</span>";
                     }
-                    if (ox(global.vv[sp])) {
+                    if (oxEffect(global.vv[sp])) {
                         st = " <span class=maru>" + st + "</span>";
                     } else {
                         st = " <span class=batsu>" + st + "</span>";
@@ -1066,11 +1069,11 @@
                 }
                 return ret.join("");
             }
-            function createTable(f) {
+            function createTableEffect(f) {
                 //乱数表表示
                 if (f == 1) {
                     var ranvalue = [];
-                    var map = mapselected(0);
+                    var map = mapSelectedEffect(0);
                     var i;
                     for (i = 0; i < global.maxlen * 55; i++) {
                         ranvalue.push(String(global.vv[i] + 99).slice(1));
@@ -1080,17 +1083,17 @@
                     var i;
                     var ret = [];
                     var indexs = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-                    var indexl = lv_val_glance();
-                    var map = mapselected(0);
+                    var indexl = lvValGlanceEffect();
+                    var map = mapSelectedEffect(0);
                     for (i = 0; i <= global.maxlen; i++) {
-                        ret.push(randtable(i, indexs, indexl));
+                        ret.push(randTableEffect(i, indexs, indexl));
                     }
                     document.getElementById("randnum").innerHTML = "map:" + map + "<br>" + ret.join("<br>");
                 } else {
                     document.getElementById("randnum").innerHTML = "";
                 }
             }
-            function ch_all() {
+            function chAllEffect() {
                 //一括変更
                 if (document.getElementById("chall").selectedIndex) {
                     for (var i = 0; i < global.prct; i++) {
@@ -1098,25 +1101,25 @@
                             document.getElementById("chall").selectedIndex - 1;
                     }
                     document.getElementById("chall").selectedIndex = 0;
-                    calc_lvlup();
+                    calcLevelUpEffect();
                 }
             }
-            function calc_lvlup() {
+            function calcLevelUpEffect() {
                 //レベルアップ
                 if (document.getElementById("search_type").selectedIndex == 1) {
                     document.getElementById("search_type").selectedIndex = 0;
                 }
                 if (document.getElementById("search_type").selectedIndex == 2) {
-                    calc_lvlup_lv(0);
+                    calcLevelUp_LvEffect(0);
                 } else if (document.getElementById("search_type").selectedIndex == 3) {
-                    search_thread();
+                    searchThreadEffect();
                 } else {
-                    calc_lvlup_lv(1);
+                    calcLevelUp_LvEffect(1);
                 }
-                lvup(0, 0);
-                lvup(1, 0);
+                levelUpEffect(0, 0);
+                levelUpEffect(1, 0);
             }
-            function kouho_show(ret) {
+            function kouhoShowEffect(ret) {
                 //候補表示
                 var cnt = ret.length;
                 if (cnt == 0) {
@@ -1129,7 +1132,7 @@
                     document.getElementById("kouho").innerHTML = "候補数：" + cnt + "<br>" + ret.join(" ");
                 }
             }
-            function calc_lvlup_lv(all) {
+            function calcLevelUp_LvEffect(all) {
                 //レベルアップ候補
                 var i, j, k, l;
                 var sumc;
@@ -1214,9 +1217,9 @@
                     }
                 }
                 global.kouho_vv = ret;
-                kouho_show(ret);
+                kouhoShowEffect(ret);
             }
-            function kouho_updown(v) {
+            function kouhoUpDownEffect(v) {
                 //前後の候補
                 v -= 0;
                 var i;
@@ -1239,9 +1242,9 @@
                 } else {
                     document.getElementById("lv_val").value = global.kouho_vv[i];
                 }
-                lv_val_f();
+                lvValF_Effect();
             }
-            function kouho_next(f) {
+            function kouhoNextEffect(f) {
                 //現在の次の候補
                 var i;
                 var nowval = parseInt(document.getElementById("view_val").value);
@@ -1260,10 +1263,10 @@
                     document.getElementById("lv_val").value = global.kouho_vv[i];
                 }
                 if (f) {
-                    lv_val_f();
+                    lvValF_Effect();
                 }
             }
-            function all_show(flag) {
+            function allShowEffect(flag) {
                 //全て表示
                 var ret = flag ? global.kouho_vv : global.search_vv;
                 if (flag) {
@@ -1272,7 +1275,7 @@
                     document.getElementById("search_m_ret").innerHTML = "候補数：" + ret.length + "<br>" + ret.join(" ");
                 }
             }
-            function search_mx_onchange() {
+            function searchMxOnChangeEffect() {
                 //現在位置検索ボタン
                 var lox = document.getElementById("search_ma").value;
                 global.search_vv = [];
@@ -1281,15 +1284,15 @@
                     document.getElementById("search_len").innerHTML = "-";
                     return false;
                 }
-                search_m_onchange();
+                searchM_OnChangeEffect();
             }
-            function search_m_onchange() {
+            function searchM_OnChangeEffect() {
                 //現在位置検索
                 var i, j, k;
                 var cnt;
                 var len;
                 var pl = document.getElementById("inpl").checked ? 1 : 0;
-                var seed = mapselected(0);
+                var seed = mapSelectedEffect(0);
                 var type = document.getElementById("search_dtb").checked;
                 var lox = document.getElementById("search_ma").value;
                 if (!lox) {
@@ -1325,9 +1328,9 @@
                     for (i = 1; i < global.maxlen * 55; i++) {
                         for (j = 0; j < len; j++) {
                             if (lox2[j] == 0) {
-                                if (ox(global.vv[i + j])) continue;
+                                if (oxEffect(global.vv[i + j])) continue;
                             } else {
-                                if (!ox(global.vv[i + j])) continue;
+                                if (!oxEffect(global.vv[i + j])) continue;
                             }
                             break;
                         }
@@ -1359,9 +1362,9 @@
                                     break;
                                 }
                                 if (lox2[j] == 0) {
-                                    if (ox(global.msp[k][i + j])) continue;
+                                    if (oxEffect(global.msp[k][i + j])) continue;
                                 } else {
-                                    if (!ox(global.msp[k][i + j])) continue;
+                                    if (!oxEffect(global.msp[k][i + j])) continue;
                                 }
                                 break;
                             }
@@ -1398,10 +1401,10 @@
                     }
                 }
             }
-            function ox(r) {
+            function oxEffect(r) {
                 return global.svv_tora[(r %= 25)];
             }
-            function search_updown(v) {
+            function searchUpDownEffect(v) {
                 //次の位置
                 v = parseInt(v);
                 var i;
@@ -1424,9 +1427,9 @@
                 } else {
                     document.getElementById("view_val").value = global.search_vv[i];
                 }
-                view_val_f();
+                viewValF_Effect();
             }
-            function search_thread() {
+            function searchThreadEffect() {
                 var i, j;
                 var min, max;
                 var l_type;
@@ -1512,15 +1515,15 @@
                         }
                     }
                 }
-                do_search_thread(sv);
+                doSearchThreadEffect(sv);
                 document.getElementById("search_type").selectedIndex = 3;
-                kouho_show(global.kouho_vv);
+                kouhoShowEffect(global.kouho_vv);
             }
-            function do_search_thread(sv) {
+            function doSearchThreadEffect(sv) {
                 var i, j, k;
                 var p;
                 var matchflag;
-                calc_lvlup_lv(1);
+                calcLevelUp_LvEffect(1);
                 global.kouho_vv = [];
                 for (i = 0; i < global.maxlen * 55; i++) {
                     p = 0;
@@ -1529,7 +1532,7 @@
                         for (k = 0; k * 3 < sv[j].length; k++) {
                             if (sv[j][k * 3] == 3) {
                                 //ox
-                                if (ox(global.vv[i + j + p]) ^ sv[j][k * 3 + 1]) {
+                                if (oxEffect(global.vv[i + j + p]) ^ sv[j][k * 3 + 1]) {
                                     matchflag = 1;
                                 }
                             } else if (sv[j][k * 3] == 2) {
@@ -1568,40 +1571,15 @@
                     }
                 }
             }
-            function thread_lvup() {
+            function threadLvUpEffect() {
                 var str = document.getElementById("search_mc").value;
                 if (str.length && str.slice(str.length - 1) != "\n") {
                     document.getElementById("search_mc").value += "\n";
                 }
                 document.getElementById("search_mc").value += "lvup()";
-                /*
-  var ret=[];
-  var diff=[];
-  var gr=[];
-  for(var i=0;i<prct;i++){
-    gr[i]=parseInt(document.getElementById(prvn[i]).value);
-    if(isNaN(gr[i])||gr[i]<0){ gr[i]=0; }
-    diff[i]=document.getElementById("ch"+prvn[i]).selectedIndex;
-    if(gr[i]%100==0){
-      ret.push("0-99"+" //"+para[i]);
-    }else if(diff[i]==0){
-      ret.push("0-"+(gr[i]%100-1)+" //"+para[i]);
-    }else if(diff[i]==1){
-      ret.push("0-"+Math.min(gr[i]-1,99)+" //"+para[i]);
-    }else if(diff[i]==2||diff[i]==4){
-      ret.push("0-99"+" //"+para[i]);
-    }
-    else if(diff[i]==3){
-      ret.push((gr[i]%100)+"-99"+" //"+para[i]);
-    }
-  }
-  var str=document.getElementById("search_mc").value;
-  if(str.length&&str.slice(str.length-1)!="\n"){ document.getElementById("search_mc").value+="\n" }
-  document.getElementById("search_mc").value+=ret.join("\n");
-*/
             }
             function addt(i, v) {
-                return "<span title='" + addw(i - 1, v) + "' class=ttl>" + v + "</span>";
+                return "<span title='" + addW_Effect(i - 1, v) + "' class=ttl>" + v + "</span>";
             }
             function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
                 var gekko = 0;
@@ -1868,7 +1846,7 @@
                     ["", "", "", "", ""],
                     ["", "", "", "", ""],
                 ];
-                var index = lv_val_glance();
+                var index = lvValGlanceEffect();
                 var index_p = index;
                 if (document.getElementById("sakiyomi").checked) {
                     index = battle2(hp, hitcnt, sklsws, para, skill, index);
@@ -1903,8 +1881,8 @@
                 if (document.getElementById("plkae").checked) {
                     document.getElementById("pls").value = index - index_p;
                 }
-                yosoku();
-                lvup(1, 0);
+                yosokuEffect();
+                levelUpEffect(1, 0);
             }
             function battle_s() {
                 document.getElementById("bt_kouho").innerHTML = "未検索";
@@ -2018,7 +1996,7 @@
                 }
                 return index;
             }
-            function battle_search_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
+            function battleSearchActEffect(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
                 var ct = 1;
                 if (skill[ater][8] && para[ater][6]) {
                     //流星剣
@@ -2043,7 +2021,7 @@
                 }
                 return index;
             }
-            function battle_search2(hp, hitcnt, sklsws, para, skill, index) {
+            function battleSearch2Effect(hp, hitcnt, sklsws, para, skill, index) {
                 var i;
                 var atju = [];
                 var attp = [];
@@ -2059,36 +2037,36 @@
                 }
                 if (skill[1][0] && skill[1][5]) {
                     //待ち伏せ
-                    index = battle_search_koudou(1, 1, hp, hitcnt, sklsws, para, skill, atju, attp, index);
-                    index = battle_search_koudou(0, 2, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                    index = battleSearchActEffect(1, 1, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                    index = battleSearchActEffect(0, 2, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                 } else {
-                    index = battle_search_koudou(0, 1, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                    index = battleSearchActEffect(0, 1, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                     if (skill[1][0]) {
-                        index = battle_search_koudou(1, 2, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                        index = battleSearchActEffect(1, 2, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                     }
                 }
                 if (skill[0][1]) {
-                    index = battle_search_koudou(0, 0, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                    index = battleSearchActEffect(0, 0, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                 }
                 if (skill[1][1]) {
-                    index = battle_search_koudou(1, 0, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                    index = battleSearchActEffect(1, 0, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                 }
                 if (skill[0][11] || skill[1][11]) {
                     //突撃
                     if (skill[1][0] && skill[1][5]) {
-                        index = battle_search_koudou(1, 4, hp, hitcnt, sklsws, para, skill, atju, attp, index);
-                        index = battle_search_koudou(0, 5, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                        index = battleSearchActEffect(1, 4, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                        index = battleSearchActEffect(0, 5, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                     } else {
-                        index = battle_search_koudou(0, 4, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                        index = battleSearchActEffect(0, 4, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                         if (skill[1][0]) {
-                            index = battle_search_koudou(1, 5, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                            index = battleSearchActEffect(1, 5, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                         }
                     }
                     if (skill[0][1]) {
-                        index = battle_search_koudou(0, 3, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                        index = battleSearchActEffect(0, 3, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                     }
                     if (skill[1][1]) {
-                        index = battle_search_koudou(1, 3, hp, hitcnt, sklsws, para, skill, atju, attp, index);
+                        index = battleSearchActEffect(1, 3, hp, hitcnt, sklsws, para, skill, atju, attp, index);
                     }
                 }
                 while (atju.length) {
@@ -2101,7 +2079,7 @@
                 }
                 return index;
             }
-            function battle_search1() {
+            function battleSearch1Effect() {
                 var i;
                 global.battle_vv = [];
                 global.battle_vv2 = [];
@@ -2160,14 +2138,14 @@
                     skill[0][12] = m[0];
                     skill[1][12] = m[1];
                     if (document.getElementById("sakiyomi").checked) {
-                        index = battle_search2(hp, hitcnt, sklsws, para, skill, index);
+                        index = battleSearch2Effect(hp, hitcnt, sklsws, para, skill, index);
                     }
                     hp[0] = hp[4];
                     hp[1] = hp[5];
                     hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
                     skill[0][12] = m[0];
                     skill[1][12] = m[1];
-                    index = battle_search2(hp, hitcnt, sklsws, para, skill, index);
+                    index = battleSearch2Effect(hp, hitcnt, sklsws, para, skill, index);
 
                     if (
                         hp[0] >= hp[6] &&
@@ -2186,15 +2164,15 @@
                     document.getElementById("search_type").selectedIndex = 1;
                 }
                 document.getElementById("plkae").checked = 1;
-                Change_type();
+                changeTypeEffect();
             }
-            function battle_search() {
+            function battleSearchEffect() {
                 document.getElementById("bt_kouho").innerHTML = "検索中です…";
                 window.setTimeout("battle_search1()", 1);
             }
-            function yosoku() {
+            function yosokuEffect() {
                 var start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-                var last = lv_val_glance();
+                var last = lvValGlanceEffect();
                 if (start > last) {
                     document.getElementById("yosokukai").innerHTML = "----";
                     return 0;
@@ -2257,7 +2235,7 @@
                     hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
                     skill[0][12] = m[0];
                     skill[1][12] = m[1];
-                    index = battle_search2(hp, hitcnt, sklsws, para, skill, index);
+                    index = battleSearch2Effect(hp, hitcnt, sklsws, para, skill, index);
                 }
                 document.getElementById("yosokukai").innerHTML =
                     start +
@@ -2275,7 +2253,7 @@
                           ((Math.floor((cnt - 1) * 15) % 100) + 100 + "秒)").slice(1)
                         : "");
             }
-            function displaystyle(hlay, blay) {
+            function displayStyleEffect(hlay, blay) {
                 if (document.getElementById(hlay).style.display) {
                     document.getElementById(hlay).style.display = "";
                     if (blay) {
@@ -2290,7 +2268,7 @@
             }
         </script>
     </head>
-    <body onload="init();" id="mainwindow" class="vsc-initialized" style="visibility: visible">
+    <body onload="initEffect();" id="mainwindow" class="vsc-initialized" style="visibility: visible">
         <!-- BEGIN WAYBACK TOOLBAR INSERT -->
         <script>
             __wm.rw(0);
@@ -2324,34 +2302,34 @@
         <!-- END WAYBACK TOOLBAR INSERT -->
 
         <form name="form1">
-            <input type="button" value="次の乱数表" onclick="next();" />
+            <input type="button" value="次の乱数表" onclick="nextEffect();" />
             <input type="text" size="10" id="rand_start" accesskey="s" value="0" />個目からの<input
                 type="text"
                 size="10"
                 id="rand_max"
                 value="50"
-            />個の乱数に<input type="button" value="変更" onclick="change_max();" />
+            />個の乱数に<input type="button" value="変更" onclick="changeMaxEffect();" />
             <hr />
             <label for="view_val">乱数の現在位置</label
-            ><input type="text" size="10" id="view_val" onchange="view_val_f();" accesskey="n" value="18" />
-            <input type="button" value="-1p" onclick="view_val_updown(-55);" /><input
+            ><input type="text" size="10" id="view_val" onchange="viewValF_Effect();" accesskey="n" value="18" />
+            <input type="button" value="-1p" onclick="viewValUpdownEffect(-55);" /><input
                 type="button"
                 value="-10"
-                onclick="view_val_updown(-10);"
-            /><input type="button" value="-" onclick="view_val_updown(-1);" accesskey="&lt;" /><input
+                onclick="viewValUpdownEffect(-10);"
+            /><input type="button" value="-" onclick="viewValUpdownEffect(-1);" accesskey="&lt;" /><input
                 type="button"
                 value="+"
-                onclick="view_val_updown(1);"
+                onclick="viewValUpdownEffect(1);"
                 accesskey="&gt;"
-            /><input type="button" value="+10" onclick="view_val_updown(10);" /><input
+            /><input type="button" value="+10" onclick="viewValUpdownEffect(10);" /><input
                 type="button"
                 value="+1p"
-                onclick="view_val_updown(55);"
+                onclick="viewValUpdownEffect(55);"
             />
             <input
                 type="button"
                 value="現在位置←目標位置"
-                onclick="document.getElementById('view_val').value=document.getElementById('lv_val').value;view_val_f();"
+                onclick="document.getElementById('view_val').value=document.getElementById('lv_val').value;viewValF_Effect();"
             /><br />
             乱数値：<span id="view_val_v"
                 ><span class="batsu">01</span> <span class="batsu">76</span> <span class="batsu">93</span>
@@ -2367,30 +2345,30 @@
             >
             <hr />
             <label for="lv_val">乱数の目標位置</label
-            ><input type="text" size="10" id="lv_val" onchange="lv_val_f();" accesskey="m" value="139" />
-            <input type="button" value="-1p" onclick="lv_val_updown(-55);" /><input
+            ><input type="text" size="10" id="lv_val" onchange="lvValF_Effect();" accesskey="m" value="139" />
+            <input type="button" value="-1p" onclick="lvValUpdownEffect(-55);" /><input
                 type="button"
                 value="-10"
-                onclick="lv_val_updown(-10);"
-            /><input type="button" value="-" onclick="lv_val_updown(-1);" accesskey="," /><input
+                onclick="lvValUpdownEffect(-10);"
+            /><input type="button" value="-" onclick="lvValUpdownEffect(-1);" accesskey="," /><input
                 type="button"
                 value="+"
-                onclick="lv_val_updown(1);"
+                onclick="lvValUpdownEffect(1);"
                 accesskey="."
-            /><input type="button" value="+10" onclick="lv_val_updown(10);" /><input
+            /><input type="button" value="+10" onclick="lvValUpdownEffect(10);" /><input
                 type="button"
                 value="+1p"
-                onclick="lv_val_updown(55);"
+                onclick="lvValUpdownEffect(55);"
             />
             <input
                 type="button"
                 value="目標位置←現在位置"
-                onclick="document.getElementById('lv_val').value=document.getElementById('view_val').value;lv_val_f();"
+                onclick="document.getElementById('lv_val').value=document.getElementById('view_val').value;lvValF_Effect();"
             />
-            +<input type="checkbox" id="glance_ck" onclick="lv_val_f();" /><select
+            +<input type="checkbox" id="glance_ck" onclick="lvValF_Effect();" /><select
                 id="glance"
-                onchange="lv_val_f();"
-                onkeyup="lv_val_f();"
+                onchange="lvValF_Effect();"
+                onkeyup="lvValF_Effect();"
                 class="right"
             >
                 <script type="text/javascript">
@@ -4415,47 +4393,49 @@
             >
             <hr />
             現在位置検索<br />
-            <input type="checkbox" id="search_dtb" onclick="search_m_onchange();" /><label for="search_dtb">指定マップのみ</label>
+            <input type="checkbox" id="search_dtb" onclick="searchM_OnChangeEffect();" /><label for="search_dtb"
+                >指定マップのみ</label
+            >
             <input
                 type="text"
                 id="search_ma"
                 size="20"
-                onkeyup="search_m_onchange();"
+                onkeyup="searchM_OnChangeEffect();"
                 title="cx検索 全角や大文字には反応しないので注意"
             /><input
                 type="button"
                 value="○"
-                onclick="document.getElementById('search_ma').value+='o';search_mx_onchange();"
+                onclick="document.getElementById('search_ma').value+='o';searchMxOnChangeEffect();"
                 accesskey="c"
             /><input
                 type="button"
                 value="×"
-                onclick="document.getElementById('search_ma').value+='x';search_mx_onchange();"
+                onclick="document.getElementById('search_ma').value+='x';searchMxOnChangeEffect();"
                 accesskey="x"
             />
             <input
                 type="button"
                 value="消去"
-                onclick="document.getElementById('search_ma').value='';search_m_onchange();"
+                onclick="document.getElementById('search_ma').value='';searchM_OnChangeEffect();"
             /><br />
-            <input type="button" value="前" onclick="search_updown(-1);" /><input
+            <input type="button" value="前" onclick="searchUpDownEffect(-1);" /><input
                 type="button"
                 value="次"
-                onclick="search_updown(1);"
+                onclick="searchUpDownEffect(1);"
             />
-            <input type="button" value="全て表示" onclick="all_show(0);" />↑入力文字数：<span id="search_len">0</span>
-            <input type="checkbox" id="inpl" checked="checked" onclick="search_m_onchange();" value="1" /><label for="inpl"
+            <input type="button" value="全て表示" onclick="allShowEffect(0);" />↑入力文字数：<span id="search_len">0</span>
+            <input type="checkbox" id="inpl" checked="checked" onclick="searchM_OnChangeEffect();" value="1" /><label for="inpl"
                 >入力分を加算</label
             ><br />
             <span id="search_m_ret"></span>
             <hr />
-            <input type="checkbox" id="pikacheck" onclick="pikasort(1);" title="cxの並びが同じものを集めます" /><label
+            <input type="checkbox" id="pikacheck" onclick="pikaSortEffect(1);" title="cxの並びが同じものを集めます" /><label
                 for="pikacheck"
                 title="cxの並びが同じものを集めます"
                 >○×ソート</label
             >
             <span id="map"
-                ><select id="seed" onchange="change_map(0,0);">
+                ><select id="seed" onchange="changeMapEffect(0,0);">
                     <option>0</option>
                     <option>1</option>
                     <option>2</option>
@@ -4521,19 +4501,19 @@
                     <option>62</option>
                     <option>63</option>
                 </select></span
-            ><input type="button" id="mapsw" value="--" onclick="map_swap()" />(<span id="rasucmpt">7</span>) 検索タイプ
-            <select id="search_type" onchange="Change_type();">
+            ><input type="button" id="mapsw" value="--" onclick="mapSwapEffect()" />(<span id="rasucmpt">7</span>) 検索タイプ
+            <select id="search_type" onchange="changeTypeEffect();">
                 <option selected="selected">レベルアップ</option>
                 <option>戦闘</option>
                 <option>戦闘＋レベルアップ</option>
                 <option>拡張</option>
             </select>
-            <input type="button" onclick="displaystyle('tlvup',0);" value="表示/非表示" />
+            <input type="button" onclick="displayStyleEffect('tlvup',0);" value="表示/非表示" />
             <table border="0" cellpadding="2" cellspacing="0">
                 <tbody>
                     <tr id="tlvup">
                         <td>
-                            <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
+                            <select id="unitname" onchange="chOnChangeEffect(1);" onkeyup="chOnChangeEffect(1);">
                                 <script type="text/javascript">
                                     var i;
                                     for (i in global.ud) {
@@ -4595,14 +4575,14 @@
                                 <option>セティ</option>
                                 <option>ガルザス</option>
                             </select>
-                            <input type="button" value="セット" onclick="ch_OnChange(1);" />
+                            <input type="button" value="セット" onclick="chOnChangeEffect(1);" />
                             <table border="0" cellpadding="0" cellspacing="0">
                                 <tbody>
                                     <tr>
                                         <td><br /></td>
                                         <td><br /></td>
                                         <td>
-                                            <select id="chall" onchange="ch_all();">
+                                            <select id="chall" onchange="chAllEffect();">
                                                 <option selected="selected">--一括変更--</option>
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
@@ -4618,7 +4598,7 @@
                                                 type="text"
                                                 id="pls"
                                                 size="4"
-                                                onchange="document.getElementById('plkae').checked=0;lvup(1,0);"
+                                                onchange="document.getElementById('plkae').checked=0;levelUpEffect(1,0);"
                                                 class="right"
                                                 value="18"
                                             />
@@ -4651,13 +4631,13 @@
                                                 type="text"
                                                 id="mhp"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="70"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chmhp" onchange="calc_lvlup();">
+                                            <select id="chmhp" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4676,13 +4656,13 @@
                                                 type="text"
                                                 id="str"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="35"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chstr" onchange="calc_lvlup();">
+                                            <select id="chstr" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4701,13 +4681,13 @@
                                                 type="text"
                                                 id="mag"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="10"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chmag" onchange="calc_lvlup();">
+                                            <select id="chmag" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4726,13 +4706,13 @@
                                                 type="text"
                                                 id="skl"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="35"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chskl" onchange="calc_lvlup();">
+                                            <select id="chskl" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4751,13 +4731,13 @@
                                                 type="text"
                                                 id="spd"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="40"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chspd" onchange="calc_lvlup();">
+                                            <select id="chspd" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4776,13 +4756,13 @@
                                                 type="text"
                                                 id="def"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="25"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chdef" onchange="calc_lvlup();">
+                                            <select id="chdef" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4801,13 +4781,13 @@
                                                 type="text"
                                                 id="bld"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="15"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chbld" onchange="calc_lvlup();">
+                                            <select id="chbld" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4826,13 +4806,13 @@
                                                 type="text"
                                                 id="luc"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="40"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chluc" onchange="calc_lvlup();">
+                                            <select id="chluc" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4851,13 +4831,13 @@
                                                 type="text"
                                                 id="mov"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="3"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chmov" onchange="calc_lvlup();">
+                                            <select id="chmov" onchange="calcLevelUpEffect();">
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
                                                 <option selected="selected">どちらでもよい</option>
@@ -4876,13 +4856,13 @@
                                                 type="text"
                                                 id="react"
                                                 size="4"
-                                                onchange="calc_lvlup();"
+                                                onchange="calcLevelUpEffect();"
                                                 class="view"
                                                 value="5"
                                             />
                                         </td>
                                         <td>
-                                            <select id="chreact" onchange="calc_lvlup();">
+                                            <select id="chreact" onchange="calcLevelUpEffect();">
                                                 <option>でないとダメ</option>
                                                 <option selected="selected">どちらでもよい</option>
                                                 <option>でちゃダメ</option>
@@ -4895,7 +4875,7 @@
                                 </tbody>
                             </table>
                             かつ
-                            <select id="growmin" onchange="calc_lvlup();">
+                            <select id="growmin" onchange="calcLevelUpEffect();">
                                 <script type="text/javascript">
                                     var i;
                                     for (i = 0; i < global.prct + 1; i++) {
@@ -4914,7 +4894,7 @@
                                 <option selected="selected">8</option>
                                 <option>9</option></select
                             >個以上
-                            <select id="growmax" onchange="calc_lvlup();">
+                            <select id="growmax" onchange="calcLevelUpEffect();">
                                 <script type="text/javascript">
                                     var i;
                                     for (i = 0; i < global.prct + 1; i++) {
@@ -4948,7 +4928,7 @@
                                     document.getElementById("afua" + i).selectedIndex = 0;
                                 }
                             </script>
-                            <select id="afua0" onchange="afua_change();">
+                            <select id="afua0" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -4962,7 +4942,7 @@
                                 <option>ブラギの書</option>
                                 <option>ノヴァの書</option>
                                 <option>トードの書</option></select
-                            ><br /><select id="afua1" onchange="afua_change();">
+                            ><br /><select id="afua1" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -4976,7 +4956,7 @@
                                 <option>ブラギの書</option>
                                 <option>ノヴァの書</option>
                                 <option>トードの書</option></select
-                            ><br /><select id="afua2" onchange="afua_change();">
+                            ><br /><select id="afua2" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -4990,7 +4970,7 @@
                                 <option>ブラギの書</option>
                                 <option>ノヴァの書</option>
                                 <option>トードの書</option></select
-                            ><br /><select id="afua3" onchange="afua_change();">
+                            ><br /><select id="afua3" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -5004,7 +4984,7 @@
                                 <option>ブラギの書</option>
                                 <option>ノヴァの書</option>
                                 <option>トードの書</option></select
-                            ><br /><select id="afua4" onchange="afua_change();">
+                            ><br /><select id="afua4" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -5018,7 +4998,7 @@
                                 <option>ブラギの書</option>
                                 <option>ノヴァの書</option>
                                 <option>トードの書</option></select
-                            ><br /><select id="afua5" onchange="afua_change();">
+                            ><br /><select id="afua5" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -5032,7 +5012,7 @@
                                 <option>ブラギの書</option>
                                 <option>ノヴァの書</option>
                                 <option>トードの書</option></select
-                            ><br /><select id="afua6" onchange="afua_change();">
+                            ><br /><select id="afua6" onchange="afuaChangeEffect();">
                                 <option selected="selected">なし</option>
                                 <option>ヘズルの書</option>
                                 <option>バルドの書</option>
@@ -5078,7 +5058,7 @@
                                     >66　 　</span
                                 >
                                 移動力
-                                <select id="mv" onchange="Change_type();">
+                                <select id="mv" onchange="changeTypeEffect();">
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -5146,26 +5126,26 @@
                     </tr>
                 </tbody>
             </table>
-            <input type="button" value="前" onclick="kouho_updown(-1);" /><input
+            <input type="button" value="前" onclick="kouhoUpDownEffect(-1);" /><input
                 type="button"
                 value="次"
-                onclick="kouho_updown(1);"
+                onclick="kouhoUpDownEffect(1);"
             />
-            <input type="button" value="現在位置以降で最も近い候補" onclick="kouho_next(1);" accesskey="j" />
-            <input type="button" value="全て表示" onclick="all_show(1);" />
+            <input type="button" value="現在位置以降で最も近い候補" onclick="kouhoNextEffect(1);" accesskey="j" />
+            <input type="button" value="全て表示" onclick="allShowEffect(1);" />
             <div id="kouho">候補数：2<br />139 2501</div>
             <table border="0" cellpadding="0" cellspacing="0">
                 <tbody>
                     <tr>
                         <td>
-                            拡張検索 <input type="button" value="検索開始" onclick="search_thread();" />
-                            <input type="button" value="+LvUP" onclick="thread_lvup();" /><br />
+                            拡張検索 <input type="button" value="検索開始" onclick="searchThreadEffect();" />
+                            <input type="button" value="+LvUP" onclick="threadLvUpEffect();" /><br />
                             <textarea id="search_mc" cols="30" rows="20"></textarea>
                         </td>
                         <td>
-                            <input type="button" value="予測消費回数" onclick="yosoku();" />
+                            <input type="button" value="予測消費回数" onclick="yosokuEffect();" />
                             <span id="yosokukai">18→139：13回+4 (約1.80秒)</span><br />
-                            <input type="button" value="戦闘検索" onclick="battle_search();" />
+                            <input type="button" value="戦闘検索" onclick="battleSearchEffect();" />
                             <span id="bt_kouho">未検索</span>
                             <table border="1" cellpadding="2" cellspacing="0">
                                 <tbody>
@@ -7353,9 +7333,9 @@
                 </tbody>
             </table>
             <hr />
-            <input type="button" onclick="createTable(1);" value="乱数値の表示" /> |
-            <input type="button" onclick="createTable(2);" value="乱数表" /> |
-            <input type="button" onclick="createTable(0);" value="非表示" />
+            <input type="button" onclick="createTableEffect(1);" value="乱数値の表示" /> |
+            <input type="button" onclick="createTableEffect(2);" value="乱数表" /> |
+            <input type="button" onclick="createTableEffect(0);" value="非表示" />
             <div id="randnum"></div>
         </form>
         <div><a href="https://web.archive.org/web/20120716121633/http://hpcgi1.nifty.com/mickeyinu/fe/rand/">戻る</a></div>
