@@ -498,7 +498,22 @@ function pikasort(f) {
             ret.push("<option>" + i + "</option>");
         }
     }
-    document.getElementById("map").innerHTML = '<select id="seed" onchange="change_map(0,0);">' + ret.join("") + "</select>";
+    // Remove old select if exists
+    var mapContainer = document.getElementById("map");
+    while (mapContainer.firstChild) mapContainer.removeChild(mapContainer.firstChild);
+
+    var select = document.createElement("select");
+    select.id = "seed";
+    select.onchange = function () {
+        change_map(0, 0);
+    };
+    for (var i = 0; i < ret.length; i++) {
+        var option = document.createElement("option");
+        // Remove <option> and </option> tags from ret[i]
+        option.innerHTML = ret[i].replace(/<\/?option>/g, "");
+        select.appendChild(option);
+    }
+    mapContainer.appendChild(select);
     mapselect(map);
 }
 function map_swap() {
