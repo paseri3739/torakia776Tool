@@ -2168,6 +2168,243 @@
             }
             // Insert the selects for the defender side
             window.addEventListener("DOMContentLoaded", function () {
+                // onload
+                init();
+
+                // Button events
+                document.getElementById("btn_next").onclick = next;
+                document.getElementById("btn_change_max").onclick = change_max;
+
+                // view_val events
+                document.getElementById("view_val").onchange = view_val_f;
+                document.getElementById("btn_view_val_updown_m55").onclick = function () {
+                    view_val_updown(-55);
+                };
+                document.getElementById("btn_view_val_updown_m10").onclick = function () {
+                    view_val_updown(-10);
+                };
+                document.getElementById("btn_view_val_updown_m1").onclick = function () {
+                    view_val_updown(-1);
+                };
+                document.getElementById("btn_view_val_updown_1").onclick = function () {
+                    view_val_updown(1);
+                };
+                document.getElementById("btn_view_val_updown_10").onclick = function () {
+                    view_val_updown(10);
+                };
+                document.getElementById("btn_view_val_updown_55").onclick = function () {
+                    view_val_updown(55);
+                };
+                document.getElementById("btn_view_val_set_lv_val").onclick = function () {
+                    document.getElementById("view_val").value = document.getElementById("lv_val").value;
+                    view_val_f();
+                };
+
+                // lv_val events
+                document.getElementById("lv_val").onchange = lv_val_f;
+                document.getElementById("btn_lv_val_updown_m55").onclick = function () {
+                    lv_val_updown(-55);
+                };
+                document.getElementById("btn_lv_val_updown_m10").onclick = function () {
+                    lv_val_updown(-10);
+                };
+                document.getElementById("btn_lv_val_updown_m1").onclick = function () {
+                    lv_val_updown(-1);
+                };
+                document.getElementById("btn_lv_val_updown_1").onclick = function () {
+                    lv_val_updown(1);
+                };
+                document.getElementById("btn_lv_val_updown_10").onclick = function () {
+                    lv_val_updown(10);
+                };
+                document.getElementById("btn_lv_val_updown_55").onclick = function () {
+                    lv_val_updown(55);
+                };
+                document.getElementById("btn_lv_val_set_view_val").onclick = function () {
+                    document.getElementById("lv_val").value = document.getElementById("view_val").value;
+                    lv_val_f();
+                };
+
+                // glance
+                document.getElementById("glance_ck").onclick = lv_val_f;
+                document.getElementById("glance").onchange = lv_val_f;
+                document.getElementById("glance").onkeyup = lv_val_f;
+                document.getElementById("btn_glance_a").onclick = glance_a;
+
+                // search
+                document.getElementById("search_dtb").onclick = search_m_onchange;
+                document.getElementById("search_ma").onkeyup = search_m_onchange;
+                document.getElementById("btn_search_ma_o").onclick = function () {
+                    document.getElementById("search_ma").value += "o";
+                    search_mx_onchange();
+                };
+                document.getElementById("btn_search_ma_x").onclick = function () {
+                    document.getElementById("search_ma").value += "x";
+                    search_mx_onchange();
+                };
+                document.getElementById("btn_search_ma_clear").onclick = function () {
+                    document.getElementById("search_ma").value = "";
+                    search_m_onchange();
+                };
+                document.getElementById("btn_search_updown_m1").onclick = function () {
+                    search_updown(-1);
+                };
+                document.getElementById("btn_search_updown_1").onclick = function () {
+                    search_updown(1);
+                };
+                document.getElementById("btn_all_show_0").onclick = function () {
+                    all_show(0);
+                };
+                document.getElementById("inpl").onclick = search_m_onchange;
+
+                // pikacheck
+                document.getElementById("pikacheck").onclick = function () {
+                    pikasort(1);
+                };
+
+                // mapsw
+                document.getElementById("mapsw").onclick = map_swap;
+
+                // search_type
+                document.getElementById("search_type").onchange = Change_type;
+
+                // displaystyle
+                document.getElementById("btn_displaystyle_tlvup").onclick = function () {
+                    displaystyle("tlvup", 0);
+                };
+
+                // unitname
+                document.getElementById("unitname").onchange = function () {
+                    ch_OnChange(1);
+                };
+                document.getElementById("unitname").onkeyup = function () {
+                    ch_OnChange(1);
+                };
+                document.getElementById("btn_unitname_set").onclick = function () {
+                    ch_OnChange(1);
+                };
+
+                // chall
+                document.getElementById("chall").onchange = ch_all;
+
+                // pls
+                document.getElementById("pls").onchange = function () {
+                    document.getElementById("plkae").checked = 0;
+                    lvup(1, 0);
+                };
+
+                // growmin/growmax
+                document.getElementById("growmin").onchange = calc_lvlup;
+                document.getElementById("growmax").onchange = calc_lvlup;
+
+                // afua
+                for (var i = 0; i < global.rict; i++) {
+                    var afua = document.getElementById("afua" + i);
+                    if (afua) afua.onchange = afua_change;
+                }
+
+                // mv
+                document.getElementById("mv").onchange = Change_type;
+
+                // chreact
+                document.getElementById("chreact").onchange = calc_lvlup;
+
+                // react
+                document.getElementById("react").onchange = calc_lvlup;
+
+                // ch* for each param
+                for (var i = 0; i < global.prct; i++) {
+                    var ch = document.getElementById("ch" + global.prvn[i]);
+                    if (ch) ch.onchange = calc_lvlup;
+                    var inp = document.getElementById(global.prvn[i]);
+                    if (inp) inp.onchange = calc_lvlup;
+                }
+
+                // kouho
+                document.getElementById("btn_kouho_updown_m1").onclick = function () {
+                    kouho_updown(-1);
+                };
+                document.getElementById("btn_kouho_updown_1").onclick = function () {
+                    kouho_updown(1);
+                };
+                document.getElementById("btn_kouho_next").onclick = function () {
+                    kouho_next(1);
+                };
+                document.getElementById("btn_all_show_1").onclick = function () {
+                    all_show(1);
+                };
+
+                // search_thread
+                document.getElementById("btn_search_thread").onclick = search_thread;
+                document.getElementById("btn_thread_lvup").onclick = thread_lvup;
+
+                // yosoku
+                document.getElementById("btn_yosoku").onclick = yosoku;
+
+                // battle_search
+                document.getElementById("btn_battle_search").onclick = battle_search;
+
+                // battle_s, battle_ss
+                document.getElementById("athp").onchange = battle_s;
+                document.getElementById("atmhp").onchange = battle_s;
+                document.getElementById("atatc").onchange = battle_s;
+                document.getElementById("atdef").onchange = battle_s;
+                document.getElementById("athit").onchange = battle_s;
+                document.getElementById("atcrt").onchange = battle_s;
+                document.getElementById("atcrtkei").onchange = battle_s;
+                document.getElementById("atlvl").onchange = battle_s;
+                document.getElementById("atskl").onchange = battle_s;
+                document.getElementById("atspd").onchange = battle_s;
+                document.getElementById("atluck").onchange = battle_s;
+                for (var i = 0; i < global.skilln; i++) {
+                    var atskill = document.getElementById("atskill" + i);
+                    if (atskill) atskill.onclick = battle_s;
+                }
+                document.getElementById("attsuigeki").onclick = function () {
+                    battle_ss(0);
+                };
+
+                // Defender side (created by script)
+                document.getElementById("hangeki").onclick = function () {
+                    battle_ss(1);
+                };
+                document.getElementById("dftsuigeki").onclick = function () {
+                    battle_ss(2);
+                };
+                for (var i = 0; i < global.skilln; i++) {
+                    var dfskill = document.getElementById("dfskill" + i);
+                    if (dfskill) dfskill.onclick = battle_s;
+                }
+                ["dfhp", "dfmhp", "dfatc", "dfdef", "dfhit", "dfcrt", "dfcrtkei", "dflvl", "dfskl", "dfspd", "dfluck"].forEach(
+                    function (id) {
+                        var el = document.getElementById(id);
+                        if (el) el.onchange = battle_s;
+                    }
+                );
+
+                // HP min/max and sleep
+                document.getElementById("athpmin").onchange = battle_s;
+                document.getElementById("athpmax").onchange = battle_s;
+                document.getElementById("athitf").onclick = battle_s;
+                document.getElementById("dfhpmin").onchange = battle_s;
+                document.getElementById("dfhpmax").onchange = battle_s;
+                document.getElementById("dfhitf").onclick = battle_s;
+
+                // sakiyomi/plkae
+                document.getElementById("sakiyomi").onclick = battle_s;
+                document.getElementById("plkae").onclick = battle_s;
+
+                // createTable
+                document.getElementById("btn_create_table_1").onclick = function () {
+                    createTable(1);
+                };
+                document.getElementById("btn_create_table_2").onclick = function () {
+                    createTable(2);
+                };
+                document.getElementById("btn_create_table_0").onclick = function () {
+                    createTable(0);
+                };
+
                 var container = document.getElementById("dfhp").parentElement;
                 // Remove old selects and scripts
                 while (container.firstChild) container.removeChild(container.firstChild);
@@ -2199,65 +2436,50 @@
             });
         </script>
     </head>
-    <body onload="init();" id="mainwindow">
+    <body id="mainwindow">
         <form name="form1">
-            <input type="button" value="次の乱数表" onclick="next();" />
+            <input type="button" value="次の乱数表" id="btn_next" />
             <input type="text" size="10" id="rand_start" accesskey="s" />個目からの<input
                 type="text"
                 size="10"
                 id="rand_max"
-            />個の乱数に<input type="button" value="変更" onclick="change_max();" />
+            />個の乱数に<input type="button" value="変更" id="btn_change_max" />
             <hr />
-            <label for="view_val">乱数の現在位置</label
-            ><input type="text" size="10" id="view_val" onchange="view_val_f();" accesskey="n" />
-            <input type="button" value="-1p" onclick="view_val_updown(-55);" /><input
+            <label for="view_val">乱数の現在位置</label><input type="text" size="10" id="view_val" accesskey="n" />
+            <input type="button" value="-1p" id="btn_view_val_updown_m55" /><input
                 type="button"
                 value="-10"
-                onclick="view_val_updown(-10);"
-            /><input type="button" value="-" onclick="view_val_updown(-1);" accesskey="<" /><input
+                id="btn_view_val_updown_m10"
+            /><input type="button" value="-" id="btn_view_val_updown_m1" accesskey="<" /><input
                 type="button"
                 value="+"
-                onclick="view_val_updown(1);"
+                id="btn_view_val_updown_1"
                 accesskey=">"
-            /><input type="button" value="+10" onclick="view_val_updown(10);" /><input
+            /><input type="button" value="+10" id="btn_view_val_updown_10" /><input
                 type="button"
                 value="+1p"
-                onclick="view_val_updown(55);"
+                id="btn_view_val_updown_55"
             />
-            <input
-                type="button"
-                value="現在位置←目標位置"
-                onclick="document.getElementById('view_val').value=document.getElementById('lv_val').value;view_val_f();"
-            /><br />
+            <input type="button" value="現在位置←目標位置" id="btn_view_val_set_lv_val" /><br />
             乱数値：<span id="view_val_v">(乱数の値)</span>
             <hr />
-            <label for="lv_val">乱数の目標位置</label
-            ><input type="text" size="10" id="lv_val" onchange="lv_val_f();" accesskey="m" />
-            <input type="button" value="-1p" onclick="lv_val_updown(-55);" /><input
+            <label for="lv_val">乱数の目標位置</label><input type="text" size="10" id="lv_val" accesskey="m" />
+            <input type="button" value="-1p" id="btn_lv_val_updown_m55" /><input
                 type="button"
                 value="-10"
-                onclick="lv_val_updown(-10);"
-            /><input type="button" value="-" onclick="lv_val_updown(-1);" accesskey="," /><input
+                id="btn_lv_val_updown_m10"
+            /><input type="button" value="-" id="btn_lv_val_updown_m1" accesskey="," /><input
                 type="button"
                 value="+"
-                onclick="lv_val_updown(1);"
+                id="btn_lv_val_updown_1"
                 accesskey="."
-            /><input type="button" value="+10" onclick="lv_val_updown(10);" /><input
+            /><input type="button" value="+10" id="btn_lv_val_updown_10" /><input
                 type="button"
                 value="+1p"
-                onclick="lv_val_updown(55);"
+                id="btn_lv_val_updown_55"
             />
-            <input
-                type="button"
-                value="目標位置←現在位置"
-                onclick="document.getElementById('lv_val').value=document.getElementById('view_val').value;lv_val_f();"
-            />
-            +<input type="checkbox" id="glance_ck" onclick="lv_val_f();" /><select
-                id="glance"
-                onchange="lv_val_f();"
-                onkeyup="lv_val_f();"
-                class="right"
-            >
+            <input type="button" value="目標位置←現在位置" id="btn_lv_val_set_view_val" />
+            +<input type="checkbox" id="glance_ck" /><select id="glance" class="right">
                 <script type="text/javascript">
                     var i;
                     for (i = -999; i < 1001; i++) {
@@ -2265,64 +2487,45 @@
                     }
                     document.getElementById("glance").selectedIndex = 999;
                 </script></select
-            >個先を見る<input type="button" value="反映" onclick="glance_a()" /><br />
+            >個先を見る<input type="button" value="反映" id="btn_glance_a" /><br />
             乱数値：<span id="lv_val_v">(乱数の値)</span>
             <hr />
             現在位置検索<br />
-            <input type="checkbox" id="search_dtb" onclick="search_m_onchange();" /><label for="search_dtb">指定マップのみ</label>
-            <input
-                type="text"
-                id="search_ma"
-                size="20"
-                onkeyup="search_m_onchange();"
-                title="cx検索 全角や大文字には反応しないので注意"
-            /><input
+            <input type="checkbox" id="search_dtb" /><label for="search_dtb">指定マップのみ</label>
+            <input type="text" id="search_ma" size="20" title="cx検索 全角や大文字には反応しないので注意" /><input
                 type="button"
                 value="○"
-                onclick="document.getElementById('search_ma').value+='o';search_mx_onchange();"
+                id="btn_search_ma_o"
                 accesskey="c"
-            /><input
-                type="button"
-                value="×"
-                onclick="document.getElementById('search_ma').value+='x';search_mx_onchange();"
-                accesskey="x"
-            />
-            <input
-                type="button"
-                value="消去"
-                onclick="document.getElementById('search_ma').value='';search_m_onchange();"
-            /><br />
-            <input type="button" value="前" onclick="search_updown(-1);" /><input
+            /><input type="button" value="×" id="btn_search_ma_x" accesskey="x" />
+            <input type="button" value="消去" id="btn_search_ma_clear" /><br />
+            <input type="button" value="前" id="btn_search_updown_m1" /><input
                 type="button"
                 value="次"
-                onclick="search_updown(1);"
+                id="btn_search_updown_1"
             />
-            <input type="button" value="全て表示" onclick="all_show(0);" />↑入力文字数：<span id="search_len">(入力文字数)</span>
-            <input type="checkbox" id="inpl" checked onclick="search_m_onchange();" value="1" /><label for="inpl"
-                >入力分を加算</label
-            ><br />
+            <input type="button" value="全て表示" id="btn_all_show_0" />↑入力文字数：<span id="search_len">(入力文字数)</span>
+            <input type="checkbox" id="inpl" checked value="1" /><label for="inpl">入力分を加算</label><br />
             <span id="search_m_ret">(現在位置)</span>
             <hr />
-            <input type="checkbox" id="pikacheck" onclick="pikasort(1);" title="cxの並びが同じものを集めます" /><label
+            <input type="checkbox" id="pikacheck" title="cxの並びが同じものを集めます" /><label
                 for="pikacheck"
                 title="cxの並びが同じものを集めます"
                 >○×ソート</label
             >
-            <span id="map">(map)</span><input type="button" id="mapsw" value="--" onclick="map_swap()" />(<span id="rasucmpt"
-                >(らす)</span
-            >) 検索タイプ
-            <select id="search_type" onchange="Change_type();">
+            <span id="map">(map)</span><input type="button" id="mapsw" value="--" />(<span id="rasucmpt">(らす)</span>) 検索タイプ
+            <select id="search_type">
                 <option>レベルアップ</option>
                 <option>戦闘</option>
                 <option>戦闘＋レベルアップ</option>
                 <option>拡張</option>
             </select>
-            <input type="button" onclick="displaystyle('tlvup',0);" value="表示/非表示" />
+            <input type="button" id="btn_displaystyle_tlvup" value="表示/非表示" />
             <table border="0" cellpadding="2" cellspacing="0">
                 <tbody>
                     <tr id="tlvup">
                         <td>
-                            <select id="unitname" onchange="ch_OnChange(1);" onkeyup="ch_OnChange(1);">
+                            <select id="unitname">
                                 <script type="text/javascript">
                                     var i;
                                     for (i in global.ud) {
@@ -2331,14 +2534,14 @@
                                     document.getElementById("unitname").selectedIndex = global.unitindex;
                                 </script>
                             </select>
-                            <input type="button" value="セット" onclick="ch_OnChange(1);" />
+                            <input type="button" value="セット" id="btn_unitname_set" />
                             <table border="0" cellpadding="0" cellspacing="0">
                                 <tbody>
                                     <tr>
                                         <td><br /></td>
                                         <td><br /></td>
                                         <td>
-                                            <select id="chall" onchange="ch_all();">
+                                            <select id="chall">
                                                 <option>--一括変更--</option>
                                                 <option>上昇しないとダメ</option>
                                                 <option>+1以上上昇</option>
@@ -2350,13 +2553,7 @@
                                         <td class="ryo">現在</td>
                                         <td class="ryo">目標</td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                id="pls"
-                                                size="4"
-                                                onchange="document.getElementById('plkae').checked=0;lvup(1,0);"
-                                                class="right"
-                                            />
+                                            <input type="text" id="pls" size="4" class="right" />
                                         </td>
                                     </tr>
                                     <script type="text/javascript">
@@ -2379,7 +2576,6 @@
                                                 input.id = global.prvn[i];
                                                 input.size = 4;
                                                 input.className = "view";
-                                                input.setAttribute("onchange", "calc_lvlup();");
                                                 tdInput.appendChild(input);
                                                 tr.appendChild(tdInput);
 
@@ -2387,7 +2583,6 @@
                                                 var tdSelect = document.createElement("td");
                                                 var select = document.createElement("select");
                                                 select.id = "ch" + global.prvn[i];
-                                                select.setAttribute("onchange", "calc_lvlup();");
                                                 var opts = [
                                                     "上昇しないとダメ",
                                                     "+1以上上昇",
@@ -2426,9 +2621,9 @@
                                     </script>
                                     <tr>
                                         <td class="view">♪：</td>
-                                        <td><input type="text" id="react" size="4" onchange="calc_lvlup();" class="view" /></td>
+                                        <td><input type="text" id="react" size="4" class="view" /></td>
                                         <td>
-                                            <select id="chreact" onchange="calc_lvlup();">
+                                            <select id="chreact">
                                                 <option>でないとダメ</option>
                                                 <option selected>どちらでもよい</option>
                                                 <option>でちゃダメ</option>
@@ -2441,7 +2636,7 @@
                                 </tbody>
                             </table>
                             かつ
-                            <select id="growmin" onchange="calc_lvlup();">
+                            <select id="growmin">
                                 <script type="text/javascript">
                                     var i;
                                     for (i = 0; i < global.prct + 1; i++) {
@@ -2450,7 +2645,7 @@
                                     document.getElementById("growmin").selectedIndex = 8;
                                 </script></select
                             >個以上
-                            <select id="growmax" onchange="calc_lvlup();">
+                            <select id="growmax">
                                 <script type="text/javascript">
                                     var i;
                                     for (i = 0; i < global.prct + 1; i++) {
@@ -2469,7 +2664,6 @@
                                     for (var i = 0; i < global.rict; i++) {
                                         var select = document.createElement("select");
                                         select.id = "afua" + i;
-                                        select.setAttribute("onchange", "afua_change();");
                                         for (var j = 0; j < global.ring.length; j++) {
                                             var option = document.createElement("option");
                                             option.textContent = global.ring[j][0];
@@ -2490,7 +2684,7 @@
                                     >(差)</span
                                 >
                                 移動力
-                                <select id="mv" onchange="Change_type();">
+                                <select id="mv">
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -2517,26 +2711,21 @@
                     </tr>
                 </tbody>
             </table>
-            <input type="button" value="前" onclick="kouho_updown(-1);" /><input
-                type="button"
-                value="次"
-                onclick="kouho_updown(1);"
-            />
-            <input type="button" value="現在位置以降で最も近い候補" onclick="kouho_next(1);" accesskey="j" />
-            <input type="button" value="全て表示" onclick="all_show(1);" />
+            <input type="button" value="前" id="btn_kouho_updown_m1" /><input type="button" value="次" id="btn_kouho_updown_1" />
+            <input type="button" value="現在位置以降で最も近い候補" id="btn_kouho_next" accesskey="j" />
+            <input type="button" value="全て表示" id="btn_all_show_1" />
             <div id="kouho">(候補の乱数番号)</div>
             <table border="0" cellpadding="0" cellspacing="0">
                 <tbody>
                     <tr>
                         <td>
-                            拡張検索 <input type="button" value="検索開始" onclick="search_thread();" />
-                            <input type="button" value="+LvUP" onclick="thread_lvup();" /><br />
+                            拡張検索 <input type="button" value="検索開始" id="btn_search_thread" />
+                            <input type="button" value="+LvUP" id="btn_thread_lvup" /><br />
                             <textarea id="search_mc" cols="30" rows="20"></textarea>
                         </td>
                         <td>
-                            <input type="button" value="予測消費回数" onclick="yosoku();" /> <span id="yosokukai">未検索</span
-                            ><br />
-                            <input type="button" value="戦闘検索" onclick="battle_search();" />
+                            <input type="button" value="予測消費回数" id="btn_yosoku" /> <span id="yosokukai">未検索</span><br />
+                            <input type="button" value="戦闘検索" id="btn_battle_search" />
                             <span id="bt_kouho">未検索</span>
                             <table border="1" cellpadding="2" cellspacing="0">
                                 <tbody>
@@ -2546,7 +2735,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bt">
-                                            HP<select id="athp" onchange="battle_s();">
+                                            HP<select id="athp">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 80; i++) {
@@ -2555,7 +2744,7 @@
                                                     document.getElementById("athp").selectedIndex = 39;
                                                 </script>
                                             </select>
-                                            最大HP<select id="atmhp" onchange="battle_s();">
+                                            最大HP<select id="atmhp">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 80; i++) {
@@ -2564,7 +2753,7 @@
                                                     document.getElementById("atmhp").selectedIndex = 59;
                                                 </script>
                                             </select>
-                                            攻撃<select id="atatc" onchange="battle_s();">
+                                            攻撃<select id="atatc">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 100; i++) {
@@ -2573,7 +2762,7 @@
                                                     document.getElementById("atatc").selectedIndex = 20;
                                                 </script>
                                             </select>
-                                            防御<select id="atdef" onchange="battle_s();">
+                                            防御<select id="atdef">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 51; i++) {
@@ -2582,7 +2771,7 @@
                                                     document.getElementById("atdef").selectedIndex = 10;
                                                 </script>
                                             </select>
-                                            <br />命中<select id="athit" onchange="battle_s();">
+                                            <br />命中<select id="athit">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 101; i++) {
@@ -2591,7 +2780,7 @@
                                                     document.getElementById("athit").selectedIndex = 90;
                                                 </script>
                                             </select>
-                                            必殺<select id="atcrt" onchange="battle_s();">
+                                            必殺<select id="atcrt">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 101; i++) {
@@ -2600,7 +2789,7 @@
                                                     document.getElementById("atcrt").selectedIndex = 10;
                                                 </script>
                                             </select>
-                                            必殺係数<select id="atcrtkei" onchange="battle_s();">
+                                            必殺係数<select id="atcrtkei">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 6; i++) {
@@ -2609,7 +2798,7 @@
                                                     document.getElementById("atcrtkei").selectedIndex = 1;
                                                 </script>
                                             </select>
-                                            <br />Lv<select id="atlvl" onchange="battle_s();">
+                                            <br />Lv<select id="atlvl">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 20; i++) {
@@ -2618,7 +2807,7 @@
                                                     document.getElementById("atlvl").selectedIndex = 9;
                                                 </script>
                                             </select>
-                                            技<select id="atskl" onchange="battle_s();">
+                                            技<select id="atskl">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 41; i++) {
@@ -2627,7 +2816,7 @@
                                                     document.getElementById("atskl").selectedIndex = 10;
                                                 </script>
                                             </select>
-                                            攻速<select id="atspd" onchange="battle_s();">
+                                            攻速<select id="atspd">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 41; i++) {
@@ -2636,7 +2825,7 @@
                                                     document.getElementById("atspd").selectedIndex = 10;
                                                 </script>
                                             </select>
-                                            運<select id="atluck" onchange="battle_s();">
+                                            運<select id="atluck">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 31; i++) {
@@ -2657,7 +2846,6 @@
                                                         checkbox.type = "checkbox";
                                                         checkbox.id = "atskill" + i;
                                                         checkbox.value = "1";
-                                                        checkbox.setAttribute("onclick", "battle_s();");
 
                                                         var label = document.createElement("label");
                                                         label.htmlFor = "atskill" + i;
@@ -2671,13 +2859,10 @@
                                                 })();
                                             </script>
                                             <br /><span class="cbx"
-                                                ><input
-                                                    type="checkbox"
-                                                    id="attsuigeki"
-                                                    value="1"
-                                                    checked
-                                                    onclick="battle_ss(0);"
-                                                /><label for="attsuigeki">追撃</label></span
+                                                ><input type="checkbox" id="attsuigeki" value="1" checked /><label
+                                                    for="attsuigeki"
+                                                    >追撃</label
+                                                ></span
                                             >
                                         </td>
                                         <td class="bt">
@@ -2707,7 +2892,6 @@
                                                         checkbox.type = "checkbox";
                                                         checkbox.id = "dfskill" + i;
                                                         checkbox.value = "1";
-                                                        checkbox.setAttribute("onclick", "battle_s();");
 
                                                         var label = document.createElement("label");
                                                         label.htmlFor = "dfskill" + i;
@@ -2721,17 +2905,12 @@
                                                 })();
                                             </script>
                                             <br /><span class="cbx"
-                                                ><input
-                                                    type="checkbox"
-                                                    id="hangeki"
-                                                    value="1"
-                                                    checked
-                                                    onclick="battle_ss(1);"
-                                                /><label for="hangeki">反撃</label></span
+                                                ><input type="checkbox" id="hangeki" value="1" checked /><label for="hangeki"
+                                                    >反撃</label
+                                                ></span
                                             >
                                             <span class="cbx"
-                                                ><input type="checkbox" id="dftsuigeki" value="1" onclick="battle_ss(2);" /><label
-                                                    for="dftsuigeki"
+                                                ><input type="checkbox" id="dftsuigeki" value="1" /><label for="dftsuigeki"
                                                     >追撃</label
                                                 ></span
                                             >
@@ -2739,7 +2918,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bt">
-                                            HP<select id="athpmin" onchange="battle_s();">
+                                            HP<select id="athpmin">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 81; i++) {
@@ -2747,7 +2926,7 @@
                                                     }
                                                     document.getElementById("athpmin").selectedIndex = 1;
                                                 </script></select
-                                            >以上<select id="athpmax" onchange="battle_s();">
+                                            >以上<select id="athpmax">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 81; i++) {
@@ -2755,13 +2934,12 @@
                                                     }
                                                     document.getElementById("athpmax").selectedIndex = 80;
                                                 </script></select
-                                            >以下 <input type="checkbox" id="athitf" value="1" onclick="battle_s();" /><label
-                                                for="athitf"
+                                            >以下 <input type="checkbox" id="athitf" value="1" /><label for="athitf"
                                                 >スリープ</label
                                             >
                                         </td>
                                         <td class="bt">
-                                            HP<select id="dfhpmin" onchange="battle_s();">
+                                            HP<select id="dfhpmin">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 81; i++) {
@@ -2769,7 +2947,7 @@
                                                     }
                                                     document.getElementById("dfhpmin").selectedIndex = 0;
                                                 </script></select
-                                            >以上<select id="dfhpmax" onchange="battle_s();">
+                                            >以上<select id="dfhpmax">
                                                 <script type="text/javascript">
                                                     var i;
                                                     for (i = 0; i < 81; i++) {
@@ -2777,8 +2955,7 @@
                                                     }
                                                     document.getElementById("dfhpmax").selectedIndex = 0;
                                                 </script></select
-                                            >以下 <input type="checkbox" id="dfhitf" value="1" onclick="battle_s();" /><label
-                                                for="dfhitf"
+                                            >以下 <input type="checkbox" id="dfhitf" value="1" /><label for="dfhitf"
                                                 >スリープ</label
                                             >
                                         </td>
@@ -2809,16 +2986,11 @@
                                 <tbody>
                                     <tr>
                                         <td rowspan="2">
-                                            <input type="checkbox" id="sakiyomi" value="1" checked onclick="battle_s();" /><label
-                                                for="sakiyomi"
+                                            <input type="checkbox" id="sakiyomi" value="1" checked /><label for="sakiyomi"
                                                 >予測消費</label
-                                            ><br /><input
-                                                type="checkbox"
-                                                id="plkae"
-                                                value="1"
-                                                checked
-                                                onclick="battle_s();"
-                                            /><label for="plkae">自動変更</label>
+                                            ><br /><input type="checkbox" id="plkae" value="1" checked /><label for="plkae"
+                                                >自動変更</label
+                                            >
                                         </td>
                                         <td id="usrd" rowspan="2"><br /></td>
                                         <td>攻撃側</td>
@@ -2837,9 +3009,9 @@
                 </tbody>
             </table>
             <hr />
-            <input type="button" onclick="createTable(1);" value="乱数値の表示" /> |
-            <input type="button" onclick="createTable(2);" value="乱数表" /> |
-            <input type="button" onclick="createTable(0);" value="非表示" />
+            <input type="button" id="btn_create_table_1" value="乱数値の表示" /> |
+            <input type="button" id="btn_create_table_2" value="乱数表" /> |
+            <input type="button" id="btn_create_table_0" value="非表示" />
             <div id="randnum">(乱数の値)</div>
         </form>
         <div><a href="https://web.archive.org/web/20120716121633/http://hpcgi1.nifty.com/mickeyinu/fe/rand/">戻る</a></div>
