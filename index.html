@@ -2152,6 +2152,51 @@
                     }
                 }
             }
+
+            // Helper function to create a select element with options and default selected index
+            function createSelect(id, count, defaultIndex, onchange, startFromOne) {
+                var select = document.createElement("select");
+                select.id = id;
+                select.setAttribute("onchange", onchange);
+                for (var i = 0; i < count; i++) {
+                    var option = document.createElement("option");
+                    option.textContent = startFromOne ? i + 1 : i;
+                    select.appendChild(option);
+                }
+                select.selectedIndex = defaultIndex;
+                return select;
+            }
+            // Insert the selects for the defender side
+            window.addEventListener("DOMContentLoaded", function () {
+                var container = document.getElementById("dfhp").parentElement;
+                // Remove old selects and scripts
+                while (container.firstChild) container.removeChild(container.firstChild);
+
+                container.appendChild(document.createTextNode("HP"));
+                container.appendChild(createSelect("dfhp", 80, 39, "battle_s();", true));
+                container.appendChild(document.createTextNode(" 最大HP"));
+                container.appendChild(createSelect("dfmhp", 80, 59, "battle_s();", true));
+                container.appendChild(document.createTextNode(" 攻撃"));
+                container.appendChild(createSelect("dfatc", 100, 20, "battle_s();", false));
+                container.appendChild(document.createTextNode(" 防御"));
+                container.appendChild(createSelect("dfdef", 51, 10, "battle_s();", false));
+                container.appendChild(document.createElement("br"));
+                container.appendChild(document.createTextNode("命中"));
+                container.appendChild(createSelect("dfhit", 101, 40, "battle_s();", false));
+                container.appendChild(document.createTextNode(" 必殺"));
+                container.appendChild(createSelect("dfcrt", 101, 2, "battle_s();", false));
+                container.appendChild(document.createTextNode(" 必殺係数"));
+                container.appendChild(createSelect("dfcrtkei", 6, 1, "battle_s();", false));
+                container.appendChild(document.createElement("br"));
+                container.appendChild(document.createTextNode("Lv"));
+                container.appendChild(createSelect("dflvl", 20, 9, "battle_s();", true));
+                container.appendChild(document.createTextNode(" 技"));
+                container.appendChild(createSelect("dfskl", 41, 5, "battle_s();", false));
+                container.appendChild(document.createTextNode(" 攻速"));
+                container.appendChild(createSelect("dfspd", 41, 5, "battle_s();", false));
+                container.appendChild(document.createTextNode(" 運"));
+                container.appendChild(createSelect("dfluck", 31, 5, "battle_s();", false));
+            });
         </script>
     </head>
     <body onload="init();" id="mainwindow">
@@ -2636,53 +2681,7 @@
                                             >
                                         </td>
                                         <td class="bt">
-                                            <script type="text/javascript">
-                                                // Helper function to create a select element with options and default selected index
-                                                function createSelect(id, count, defaultIndex, onchange, startFromOne) {
-                                                    var select = document.createElement("select");
-                                                    select.id = id;
-                                                    select.setAttribute("onchange", onchange);
-                                                    for (var i = 0; i < count; i++) {
-                                                        var option = document.createElement("option");
-                                                        option.textContent = startFromOne ? i + 1 : i;
-                                                        select.appendChild(option);
-                                                    }
-                                                    select.selectedIndex = defaultIndex;
-                                                    return select;
-                                                }
-                                                // Insert the selects for the defender side
-                                                window.addEventListener("DOMContentLoaded", function () {
-                                                    var container = document.getElementById("dfhp").parentElement;
-                                                    // Remove old selects and scripts
-                                                    while (container.firstChild) container.removeChild(container.firstChild);
-
-                                                    container.appendChild(document.createTextNode("HP"));
-                                                    container.appendChild(createSelect("dfhp", 80, 39, "battle_s();", true));
-                                                    container.appendChild(document.createTextNode(" 最大HP"));
-                                                    container.appendChild(createSelect("dfmhp", 80, 59, "battle_s();", true));
-                                                    container.appendChild(document.createTextNode(" 攻撃"));
-                                                    container.appendChild(createSelect("dfatc", 100, 20, "battle_s();", false));
-                                                    container.appendChild(document.createTextNode(" 防御"));
-                                                    container.appendChild(createSelect("dfdef", 51, 10, "battle_s();", false));
-                                                    container.appendChild(document.createElement("br"));
-                                                    container.appendChild(document.createTextNode("命中"));
-                                                    container.appendChild(createSelect("dfhit", 101, 40, "battle_s();", false));
-                                                    container.appendChild(document.createTextNode(" 必殺"));
-                                                    container.appendChild(createSelect("dfcrt", 101, 2, "battle_s();", false));
-                                                    container.appendChild(document.createTextNode(" 必殺係数"));
-                                                    container.appendChild(createSelect("dfcrtkei", 6, 1, "battle_s();", false));
-                                                    container.appendChild(document.createElement("br"));
-                                                    container.appendChild(document.createTextNode("Lv"));
-                                                    container.appendChild(createSelect("dflvl", 20, 9, "battle_s();", true));
-                                                    container.appendChild(document.createTextNode(" 技"));
-                                                    container.appendChild(createSelect("dfskl", 41, 5, "battle_s();", false));
-                                                    container.appendChild(document.createTextNode(" 攻速"));
-                                                    container.appendChild(createSelect("dfspd", 41, 5, "battle_s();", false));
-                                                    container.appendChild(document.createTextNode(" 運"));
-                                                    container.appendChild(createSelect("dfluck", 31, 5, "battle_s();", false));
-                                                });
-                                            </script>
-                                            <!-- Placeholder for defender selects, will be replaced by script above -->
+                                            <!-- Placeholder for defender selects, will be replaced by script -->
                                             <span style="display: none">
                                                 HP<select id="dfhp"></select>
                                                 最大HP<select id="dfmhp"></select>
