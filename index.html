@@ -1272,14 +1272,20 @@
                             "候補数：" + cnt + " map" + seed + "：" + global.search_vv.length;
                         for (i = 0; i < global.randmap; i++) {
                             if (ret[i].length) {
-                                document.getElementById("search_m_ret").innerHTML +=
-                                    '<br><span onclick="change_map(1,' +
-                                    i +
-                                    ')" class="chmap">' +
-                                    i +
-                                    ":" +
-                                    ret[i].join(" ") +
-                                    "</span>";
+                                // Instead of using innerHTML, append elements directly
+                                var container = document.getElementById("search_m_ret");
+                                var br = document.createElement("br");
+                                container.appendChild(br);
+
+                                var span = document.createElement("span");
+                                span.className = "chmap";
+                                span.onclick = (function (idx) {
+                                    return function () {
+                                        change_map(1, idx);
+                                    };
+                                })(i);
+                                span.textContent = i + ":" + ret[i].join(" ");
+                                container.appendChild(span);
                             }
                         }
                     }
@@ -2309,24 +2315,69 @@
                                         </td>
                                     </tr>
                                     <script type="text/javascript">
-                                        var i;
-                                        for (i = 0; i < global.prct; i++) {
-                                            document.write('<td class="view">' + global.para[i] + "：</td>");
-                                            document.write(
-                                                '<td><input type="text" id="' +
-                                                    global.prvn[i] +
-                                                    '" size="4" onchange="calc_lvlup();" class="view"></td>'
-                                            );
-                                            document.write('<td><select id="ch' + global.prvn[i] + '" onchange="calc_lvlup();">');
-                                            document.write("<option>上昇しないとダメ</option><option>+1以上上昇</option>");
-                                            document.write(
-                                                "<option selected>どちらでもよい</option><option>上昇しちゃダメ</option>"
-                                            );
-                                            document.write("<option>--MAX--</option></select></td>");
-                                            document.write('<td id="' + global.prvn[i] + 'pl" class="view"></td>');
-                                            document.write('<td id="' + global.prvn[i] + 'pm" class="view"></td>');
-                                            document.write('<td id="' + global.prvn[i] + 'pp" class="view"></td></tr>');
-                                        }
+                                        // Create table rows for each parameter without using document.write
+                                        (function () {
+                                            var tbody = document.currentScript.parentElement.parentElement;
+                                            for (var i = 0; i < global.prct; i++) {
+                                                var tr = document.createElement("tr");
+
+                                                // Parameter name
+                                                var tdName = document.createElement("td");
+                                                tdName.className = "view";
+                                                tdName.textContent = global.para[i] + "：";
+                                                tr.appendChild(tdName);
+
+                                                // Input box
+                                                var tdInput = document.createElement("td");
+                                                var input = document.createElement("input");
+                                                input.type = "text";
+                                                input.id = global.prvn[i];
+                                                input.size = 4;
+                                                input.className = "view";
+                                                input.setAttribute("onchange", "calc_lvlup();");
+                                                tdInput.appendChild(input);
+                                                tr.appendChild(tdInput);
+
+                                                // Select box
+                                                var tdSelect = document.createElement("td");
+                                                var select = document.createElement("select");
+                                                select.id = "ch" + global.prvn[i];
+                                                select.setAttribute("onchange", "calc_lvlup();");
+                                                var opts = [
+                                                    "上昇しないとダメ",
+                                                    "+1以上上昇",
+                                                    "どちらでもよい",
+                                                    "上昇しちゃダメ",
+                                                    "--MAX--",
+                                                ];
+                                                for (var j = 0; j < opts.length; j++) {
+                                                    var option = document.createElement("option");
+                                                    option.textContent = opts[j];
+                                                    if (j === 2) option.selected = true;
+                                                    select.appendChild(option);
+                                                }
+                                                tdSelect.appendChild(select);
+                                                tr.appendChild(tdSelect);
+
+                                                // Result columns
+                                                var tdPL = document.createElement("td");
+                                                tdPL.id = global.prvn[i] + "pl";
+                                                tdPL.className = "view";
+                                                tr.appendChild(tdPL);
+
+                                                var tdPM = document.createElement("td");
+                                                tdPM.id = global.prvn[i] + "pm";
+                                                tdPM.className = "view";
+                                                tr.appendChild(tdPM);
+
+                                                var tdPP = document.createElement("td");
+                                                tdPP.id = global.prvn[i] + "pp";
+                                                tdPP.className = "view";
+                                                tr.appendChild(tdPP);
+
+                                                tbody.insertBefore(tr, document.currentScript.parentElement);
+                                            }
+                                        })();
                                     </script>
                                     <tr>
                                         <td class="view">♪：</td>
@@ -2368,15 +2419,22 @@
                         <td>
                             聖戦士の書<br />
                             <script type="text/javascript">
-                                var i, j;
-                                for (i = 0; i < global.rict; i++) {
-                                    document.write('<select id="afua' + i + '" onchange="afua_change();">');
-                                    for (j in global.ring) {
-                                        document.write("<option>" + global.ring[j][0] + "</option>");
+                                (function () {
+                                    var container = document.currentScript.parentElement;
+                                    for (var i = 0; i < global.rict; i++) {
+                                        var select = document.createElement("select");
+                                        select.id = "afua" + i;
+                                        select.setAttribute("onchange", "afua_change();");
+                                        for (var j = 0; j < global.ring.length; j++) {
+                                            var option = document.createElement("option");
+                                            option.textContent = global.ring[j][0];
+                                            select.appendChild(option);
+                                        }
+                                        select.selectedIndex = 0;
+                                        container.appendChild(select);
+                                        container.appendChild(document.createElement("br"));
                                     }
-                                    document.write("</select><br>");
-                                    document.getElementById("afua" + i).selectedIndex = 0;
-                                }
+                                })();
                             </script>
                         </td>
                         <td>
@@ -2544,19 +2602,28 @@
                                             </select>
                                             <br />スキル<br />
                                             <script type="text/javascript">
-                                                var i;
-                                                for (i = 0; i < global.skilln; i++) {
-                                                    document.write('<span class="cbx">');
-                                                    document.write(
-                                                        '<input type="checkbox" id="atskill' +
-                                                            i +
-                                                            '" value="1" onclick="battle_s();">'
-                                                    );
-                                                    document.write(
-                                                        '<label for="atskill' + i + '">' + global.skilllist[i] + "</label>"
-                                                    );
-                                                    document.write("</span> ");
-                                                }
+                                                (function () {
+                                                    var container = document.currentScript.parentElement;
+                                                    for (var i = 0; i < global.skilln; i++) {
+                                                        var span = document.createElement("span");
+                                                        span.className = "cbx";
+
+                                                        var checkbox = document.createElement("input");
+                                                        checkbox.type = "checkbox";
+                                                        checkbox.id = "atskill" + i;
+                                                        checkbox.value = "1";
+                                                        checkbox.setAttribute("onclick", "battle_s();");
+
+                                                        var label = document.createElement("label");
+                                                        label.htmlFor = "atskill" + i;
+                                                        label.textContent = global.skilllist[i];
+
+                                                        span.appendChild(checkbox);
+                                                        span.appendChild(label);
+                                                        container.appendChild(span);
+                                                        container.appendChild(document.createTextNode(" "));
+                                                    }
+                                                })();
                                             </script>
                                             <br /><span class="cbx"
                                                 ><input
@@ -2670,19 +2737,28 @@
                                             </select>
                                             <br />スキル<br />
                                             <script type="text/javascript">
-                                                var i;
-                                                for (i = 0; i < global.skilln; i++) {
-                                                    document.write('<span class="cbx">');
-                                                    document.write(
-                                                        '<input type="checkbox" id="dfskill' +
-                                                            i +
-                                                            '" value="1" onclick="battle_s();">'
-                                                    );
-                                                    document.write(
-                                                        '<label for="dfskill' + i + '">' + global.skilllist[i] + "</label>"
-                                                    );
-                                                    document.write("</span> ");
-                                                }
+                                                (function () {
+                                                    var container = document.currentScript.parentElement;
+                                                    for (var i = 0; i < global.skilln; i++) {
+                                                        var span = document.createElement("span");
+                                                        span.className = "cbx";
+
+                                                        var checkbox = document.createElement("input");
+                                                        checkbox.type = "checkbox";
+                                                        checkbox.id = "dfskill" + i;
+                                                        checkbox.value = "1";
+                                                        checkbox.setAttribute("onclick", "battle_s();");
+
+                                                        var label = document.createElement("label");
+                                                        label.htmlFor = "dfskill" + i;
+                                                        label.textContent = global.skilllist[i];
+
+                                                        span.appendChild(checkbox);
+                                                        span.appendChild(label);
+                                                        container.appendChild(span);
+                                                        container.appendChild(document.createTextNode(" "));
+                                                    }
+                                                })();
                                             </script>
                                             <br /><span class="cbx"
                                                 ><input
