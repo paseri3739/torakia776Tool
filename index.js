@@ -1989,7 +1989,7 @@ const battle_search1 = () => {
 };
 const battle_search = () => {
     document.getElementById("bt_kouho").innerHTML = "検索中です…";
-    window.setTimeout("battle_search1()", 1);
+    window.setTimeout(battle_search1, 1);
 };
 const yosoku = () => {
     const start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
