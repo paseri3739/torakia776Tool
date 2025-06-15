@@ -609,41 +609,35 @@ const glance_a = () => {
     document.getElementById("glance_ck").checked = 0;
     lv_val_f();
 };
+
 const lv_val_f = () => {
     //目標位置
-    let ret = [];
-    let index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
-    if (isNaN(index) || index < 1) {
-        index = 1;
-    }
-    if (index <= 0) {
-        index = 0;
-    }
-    if (index > global.maxlen * 55) {
-        index = global.maxlen * 55;
-    }
-    document.getElementById("lv_val").value = index + global.prim * 55;
-    index = lv_val_glance();
-    for (let i = 0; i < 30; i++) {
-        if (index + i < 0 || index + i > global.maxlen * 55 + 55) {
-            ret.push("--");
-        } else {
-            let st = String(global.vv[index + i] + 99).slice(1);
-            if (ox(global.vv[index + i])) {
-                st = "<span class=maru>" + st + "</span>";
-            } else {
-                st = "<span class=batsu>" + st + "</span>";
-            }
-            ret.push(st);
-        }
-    }
-    document.getElementById("lv_val_v").innerHTML = ret.join(" ");
-    ret = [];
+    const raw = parseInt(document.getElementById("lv_val").value, 10);
+    const baseIndex = Number.isNaN(raw) ? 1 : raw - global.prim * 55;
+    const fixedIndex = clamp(baseIndex, 0, global.maxlen * 55);
+
+    // 入力欄を正規化した値で更新
+    document.getElementById("lv_val").value = fixedIndex + global.prim * 55;
+
+    /* ------------------------- 以降 index は不変 ------------------------ */
+    const index = lv_val_glance();
+
+    /* ------------------------- 乱数 30 個の描画 ------------------------- */
+    const cells = Array.from({ length: 30 }, (_, i) => {
+        const pos = index + i;
+        if (pos < 0 || pos > global.maxlen * 55 + 55) return "--";
+
+        const text = String(global.vv[pos] + 99).slice(1);
+        return ox(global.vv[pos]) ? `<span class="maru">${text}</span>` : `<span class="batsu">${text}</span>`;
+    });
+    document.getElementById("lv_val_v").innerHTML = cells.join(" ");
+
+    /* ------------------------- マップ部表示 ----------------------------- */
     const sp = Math.floor(index / 55);
-    for (let i = 0; i < 2; i++) {
-        ret.push(randtable(sp + i, index, -1));
-    }
-    document.getElementById("map_val_t").innerHTML = ret.join("<br>");
+    const maps = [0, 1].map((offset) => randtable(sp + offset, index, -1));
+    document.getElementById("map_val_t").innerHTML = maps.join("<br>");
+
+    /* ------------------------- 後続処理 -------------------------------- */
     sub_val_f();
     battle();
 };
