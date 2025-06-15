@@ -385,6 +385,7 @@ global.skilllist = [
     "毒",
 ]; //スキル
 global.skilln = global.skilllist.length;
+
 const rand_calc = (data) => {
     //乱数計算
     for (let i = 54; i >= 0; i--) {
@@ -406,8 +407,7 @@ const rand_ins = (data) => {
 
 const next = () => {
     //次の乱数
-    let nn = global.maxlen;
-    nn = parseInt(document.getElementById("rand_max").value);
+    let nn = parseInt(document.getElementById("rand_max").value);
     if (isNaN(nn)) {
         nn = global.maxlen;
     }
@@ -428,6 +428,7 @@ const next = () => {
         document.getElementById("rand_start").value = global.prim;
     }
 };
+
 const reset = () => {
     //再設定
     document.getElementById("rand_start").value = global.prim;
