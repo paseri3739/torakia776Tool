@@ -597,11 +597,9 @@ const view_val_updown = (v) => {
 };
 const lv_val_glance = () => {
     //目標位置先読み
-    let index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
-    if (document.getElementById("glance_ck").checked) {
-        index += document.getElementById("glance").selectedIndex - 999;
-    }
-    return index;
+    const baseIndex = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
+    const glanceOffset = document.getElementById("glance_ck").checked ? document.getElementById("glance").selectedIndex - 999 : 0;
+    return baseIndex + glanceOffset;
 };
 const glance_a = () => {
     //先読み反映
