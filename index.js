@@ -386,7 +386,7 @@ global.skilllist = [
 global.skilln = global.skilllist.length;
 function rand_calc(data) {
     //乱数計算
-    var i;
+    let i;
     for (i = 54; i >= 0; i--) {
         data[(i + 24) % 55] = ((99 + data[(i + 24) % 55] - data[i]) % 100) + 1;
     }
@@ -398,7 +398,7 @@ function rand_ins(data) {
     //乱数を配列に入れる
     global.vv = [];
     global.vv = global.vv.concat(data);
-    for (var i = 0; i <= global.maxlen; i++) {
+    for (let i = 0; i <= global.maxlen; i++) {
         rand_calc(data);
         global.vv = global.vv.concat(data);
     }
@@ -414,7 +414,7 @@ function init() {
 }
 function next() {
     //次の乱数
-    var nn = global.maxlen;
+    let nn = global.maxlen;
     nn = parseInt(document.getElementById("rand_max").value);
     if (isNaN(nn)) {
         nn = global.maxlen;
@@ -446,8 +446,8 @@ function reset() {
 }
 function change_max() {
     //乱数の個数変更
-    var np = global.prim;
-    var nn = global.maxlen;
+    let np = global.prim;
+    let nn = global.maxlen;
     np = parseInt(document.getElementById("rand_start").value);
     nn = parseInt(document.getElementById("rand_max").value);
     if (isNaN(np)) {
@@ -488,9 +488,9 @@ function mapselect(m) {
     }
 }
 function pikasort(f) {
-    var ret = [];
-    var map = f ? mapselected(1) : 30;
-    var i;
+    let ret = [];
+    let map = f ? mapselected(1) : 30;
+    let i;
     if (document.getElementById("pikacheck").checked) {
         for (i = 0; i < global.randmap; i++) {
             ret.push("<option>" + global.pika[i] + "</option>");
@@ -501,16 +501,16 @@ function pikasort(f) {
         }
     }
     // Remove old select if exists
-    var mapContainer = document.getElementById("map");
+    let mapContainer = document.getElementById("map");
     while (mapContainer.firstChild) mapContainer.removeChild(mapContainer.firstChild);
 
-    var select = document.createElement("select");
+    let select = document.createElement("select");
     select.id = "seed";
     select.onchange = function () {
         change_map(0, 0);
     };
-    for (var i = 0; i < ret.length; i++) {
-        var option = document.createElement("option");
+    for (let i = 0; i < ret.length; i++) {
+        let option = document.createElement("option");
         // Remove <option> and </option> tags from ret[i]
         option.innerHTML = ret[i].replace(/<\/?option>/g, "");
         select.appendChild(option);
@@ -533,11 +533,11 @@ function change_map(f, m) {
         document.getElementById("view_val").value = 0;
         document.getElementById("lv_val").value = 0;
     }
-    var map = mapselected(0);
+    let map = mapselected(0);
     if (global.vv_n == map) {
         1;
     } else if (global.vv_bn == map) {
-        var buf = global.vv;
+        let buf = global.vv;
         global.vv = global.vv_b;
         global.vv_b = buf;
         global.vv_bn = global.vv_n;
@@ -548,9 +548,9 @@ function change_map(f, m) {
             global.vv_b = global.vv_b.concat(global.vv);
             global.vv_bn = global.vv_n;
         }
-        var data = [];
+        let data = [];
         data = data.concat(global.msp[map]);
-        for (var i = 0; i < global.prim; i++) {
+        for (let i = 0; i < global.prim; i++) {
             rand_calc(data);
         }
         rand_ins(data);
@@ -586,14 +586,14 @@ function Change_type() {
 }
 function view_val_f() {
     //現在位置
-    var i;
-    var sp;
-    var st;
-    var index = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+    let i;
+    let sp;
+    let st;
+    let index = parseInt(document.getElementById("view_val").value) - global.prim * 55;
     if (isNaN(index) || index < 1) {
         index = 1;
     }
-    var ret = [];
+    let ret = [];
     if (index > global.maxlen * 55) {
         index = global.maxlen * 55;
     }
@@ -624,7 +624,7 @@ function view_val_updown(v) {
 }
 function lv_val_glance() {
     //目標位置先読み
-    var index;
+    let index;
     index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
     if (document.getElementById("glance_ck").checked) {
         index += document.getElementById("glance").selectedIndex - 999;
@@ -633,7 +633,7 @@ function lv_val_glance() {
 }
 function glance_a() {
     //先読み反映
-    var index;
+    let index;
     index = parseInt(document.getElementById("lv_val").value);
     index += document.getElementById("glance").selectedIndex - 999;
     document.getElementById("lv_val").value = index;
@@ -642,11 +642,11 @@ function glance_a() {
 }
 function lv_val_f() {
     //目標位置
-    var i;
-    var sp;
-    var st;
-    var ret = [];
-    var index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
+    let i;
+    let sp;
+    let st;
+    let ret = [];
+    let index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
     if (isNaN(index) || index < 1) {
         index = 1;
     }
@@ -687,13 +687,13 @@ function lv_val_updown(v) {
 }
 function sub_val_f() {
     //差
-    var i;
-    var val, hfal, vfal;
-    var fc, ft;
-    var mv = document.getElementById("mv").selectedIndex;
-    var start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-    var last = lv_val_glance();
-    var len = last - start;
+    let i;
+    let val, hfal, vfal;
+    let fc, ft;
+    let mv = document.getElementById("mv").selectedIndex;
+    let start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+    let last = lv_val_glance();
+    let len = last - start;
     document.getElementById("sub_val").innerHTML = len;
     if (len < 0 || last > global.maxlen * 55 + 55) {
         document.getElementById("sub_hfal").innerHTML = "　　　";
@@ -758,14 +758,15 @@ function addw(i, v) {
 }
 function lvup(flag, v) {
     //上昇量表示
-    var i;
-    var u;
-    var up;
-    var gr;
+    let i;
+    let u;
+    let up;
+    let gr;
     let index;
+    let plsp;
     if (flag) {
         index = lv_val_glance();
-        var plsp = parseInt(document.getElementById("pls").value);
+        plsp = parseInt(document.getElementById("pls").value);
         if (isNaN(plsp)) {
             document.getElementById("pls").value = plsp = 0;
         }
@@ -837,8 +838,8 @@ function lvup(flag, v) {
 }
 function ch_OnChange(flag) {
     //ユニット選択変更
-    var i;
-    var j = document.getElementById("unitname").selectedIndex;
+    let i;
+    let j = document.getElementById("unitname").selectedIndex;
     for (i = 0; i < global.prct; i++) {
         document.getElementById(global.prvn[i]).value = global.ud[j][i + 1];
     }
@@ -856,9 +857,9 @@ function ch_OnChange(flag) {
 }
 function afua_change() {
     //聖戦士の書
-    var i, j;
-    var o, n;
-    var pr = [];
+    let i, j;
+    let o, n;
+    let pr = [];
     for (j = 0; j < global.prct; j++) {
         pr[j] = parseInt(document.getElementById(global.prvn[j]).value);
     }
@@ -876,9 +877,9 @@ function afua_change() {
     calc_lvlup();
 }
 function randtable(sp, indexs, indexl) {
-    var i;
-    var st;
-    var ret = [];
+    let i;
+    let st;
+    let ret = [];
     ret.push("No." + (sp + global.prim + 1) + "<br>");
     if (sp < 0 || sp > global.maxlen + 1) {
         for (i = 0; i < 24; i++) {
@@ -947,19 +948,19 @@ function randtable(sp, indexs, indexl) {
 function createTable(f) {
     //乱数表表示
     if (f == 1) {
-        var ranvalue = [];
-        var map = mapselected(0);
-        var i;
+        let ranvalue = [];
+        let map = mapselected(0);
+        let i;
         for (i = 0; i < global.maxlen * 55; i++) {
             ranvalue.push(String(global.vv[i] + 99).slice(1));
         }
         document.getElementById("randnum").innerHTML = "map:" + map + "<br>" + ranvalue.join(" ");
     } else if (f == 2) {
-        var i;
-        var ret = [];
-        var indexs = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-        var indexl = lv_val_glance();
-        var map = mapselected(0);
+        let i;
+        let ret = [];
+        let indexs = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+        let indexl = lv_val_glance();
+        let map = mapselected(0);
         for (i = 0; i <= global.maxlen; i++) {
             ret.push(randtable(i, indexs, indexl));
         }
@@ -971,7 +972,7 @@ function createTable(f) {
 function ch_all() {
     //一括変更
     if (document.getElementById("chall").selectedIndex) {
-        for (var i = 0; i < global.prct; i++) {
+        for (let i = 0; i < global.prct; i++) {
             document.getElementById("ch" + global.prvn[i]).selectedIndex = document.getElementById("chall").selectedIndex - 1;
         }
         document.getElementById("chall").selectedIndex = 0;
@@ -995,7 +996,7 @@ function calc_lvlup() {
 }
 function kouho_show(ret) {
     //候補表示
-    var cnt = ret.length;
+    let cnt = ret.length;
     if (cnt == 0) {
         document.getElementById("kouho").innerHTML = "見つかりませんでした";
     } else {
@@ -1008,17 +1009,17 @@ function kouho_show(ret) {
 }
 function calc_lvlup_lv(all) {
     //レベルアップ候補
-    var i, j, k, l;
-    var sumc;
-    var f;
-    var ret = [];
+    let i, j, k, l;
+    let sumc;
+    let f;
+    let ret = [];
     global.kouho_vv = [];
     global.kouho_vv2 = [];
-    var minup = document.getElementById("growmin").selectedIndex;
-    var maxup = document.getElementById("growmax").selectedIndex;
-    var diff = [];
-    var gr = [];
-    var gh = [];
+    let minup = document.getElementById("growmin").selectedIndex;
+    let maxup = document.getElementById("growmax").selectedIndex;
+    let diff = [];
+    let gr = [];
+    let gh = [];
     j = 0;
     k = 0;
     for (i = 0; i < global.prct; i++) {
@@ -1096,8 +1097,8 @@ function calc_lvlup_lv(all) {
 function kouho_updown(v) {
     //前後の候補
     v -= 0;
-    var i;
-    var nowval = parseInt(document.getElementById("lv_val").value);
+    let i;
+    let nowval = parseInt(document.getElementById("lv_val").value);
     for (i = 0; i < global.kouho_vv.length; i++) {
         if (nowval <= global.kouho_vv[i]) {
             break;
@@ -1120,8 +1121,8 @@ function kouho_updown(v) {
 }
 function kouho_next(f) {
     //現在の次の候補
-    var i;
-    var nowval = parseInt(document.getElementById("view_val").value);
+    let i;
+    let nowval = parseInt(document.getElementById("view_val").value);
     for (i = 0; i < global.kouho_vv.length; i++) {
         if (nowval <= global.kouho_vv[i]) {
             break;
@@ -1142,7 +1143,7 @@ function kouho_next(f) {
 }
 function all_show(flag) {
     //全て表示
-    var ret = flag ? global.kouho_vv : global.search_vv;
+    let ret = flag ? global.kouho_vv : global.search_vv;
     if (flag) {
         document.getElementById("kouho").innerHTML = "候補数：" + ret.length + "<br>" + ret.join(" ");
     } else {
@@ -1151,7 +1152,7 @@ function all_show(flag) {
 }
 function search_mx_onchange() {
     //現在位置検索ボタン
-    var lox = document.getElementById("search_ma").value;
+    let lox = document.getElementById("search_ma").value;
     global.search_vv = [];
     if (lox.length < 4) {
         document.getElementById("search_m_ret").innerHTML = "４文字以上入力してください";
@@ -1162,19 +1163,19 @@ function search_mx_onchange() {
 }
 function search_m_onchange() {
     //現在位置検索
-    var i, j, k;
-    var cnt;
-    var len;
-    var pl = document.getElementById("inpl").checked ? 1 : 0;
-    var seed = mapselected(0);
-    var type = document.getElementById("search_dtb").checked;
-    var lox = document.getElementById("search_ma").value;
+    let i, j, k;
+    let cnt;
+    let len;
+    let pl = document.getElementById("inpl").checked ? 1 : 0;
+    let seed = mapselected(0);
+    let type = document.getElementById("search_dtb").checked;
+    let lox = document.getElementById("search_ma").value;
     if (!lox) {
         document.getElementById("search_m_ret").innerHTML = "";
         document.getElementById("search_len").innerHTML = 0;
         return false;
     }
-    var lox2 = [];
+    let lox2 = [];
     len = lox.length;
     for (i = 0; i < lox.length; i++) {
         if (lox.charAt(i) == "o") {
@@ -1196,7 +1197,7 @@ function search_m_onchange() {
         return false;
     }
     if (type) {
-        var ret = [];
+        let ret = [];
         global.search_vv = [];
         cnt = 0;
         for (i = 1; i < global.maxlen * 55; i++) {
@@ -1225,7 +1226,7 @@ function search_m_onchange() {
         }
     }
     if (!type) {
-        var ret = [];
+        let ret = [];
         global.search_vv = [];
         cnt = 0;
         for (k = 0; k < global.randmap; k++) {
@@ -1262,11 +1263,11 @@ function search_m_onchange() {
             for (i = 0; i < global.randmap; i++) {
                 if (ret[i].length) {
                     // Instead of using innerHTML, append elements directly
-                    var container = document.getElementById("search_m_ret");
-                    var br = document.createElement("br");
+                    let container = document.getElementById("search_m_ret");
+                    let br = document.createElement("br");
                     container.appendChild(br);
 
-                    var span = document.createElement("span");
+                    let span = document.createElement("span");
                     span.className = "chmap";
                     span.onclick = (function (idx) {
                         return function () {
@@ -1286,8 +1287,8 @@ function ox(r) {
 function search_updown(v) {
     //次の位置
     v = parseInt(v);
-    var i;
-    var nowval = parseInt(document.getElementById("view_val").value);
+    let i;
+    let nowval = parseInt(document.getElementById("view_val").value);
     for (i = 0; i < global.search_vv.length; i++) {
         if (nowval <= global.search_vv[i]) {
             break;
@@ -1309,16 +1310,16 @@ function search_updown(v) {
     view_val_f();
 }
 function search_thread() {
-    var i, j;
-    var min, max;
-    var l_type;
-    var lvf = 0;
-    var rvv = [];
-    var rec = [];
-    var t_rec = [];
-    var renstr = [];
-    var sv = [];
-    var rstr = document.getElementById("search_mc").value;
+    let i, j;
+    let min, max;
+    let l_type;
+    let lvf = 0;
+    let rvv = [];
+    let rec = [];
+    let t_rec = [];
+    let renstr = [];
+    let sv = [];
+    let rstr = document.getElementById("search_mc").value;
     if (!rstr.length) {
         document.getElementById("kouho").innerHTML = "";
         return;
@@ -1397,9 +1398,9 @@ function search_thread() {
     kouho_show(global.kouho_vv);
 }
 function do_search_thread(sv) {
-    var i, j, k;
-    var p;
-    var matchflag;
+    let i, j, k;
+    let p;
+    let matchflag;
     calc_lvlup_lv(1);
     global.kouho_vv = [];
     for (i = 0; i < global.maxlen * 55; i++) {
@@ -1449,7 +1450,7 @@ function do_search_thread(sv) {
     }
 }
 function thread_lvup() {
-    var str = document.getElementById("search_mc").value;
+    let str = document.getElementById("search_mc").value;
     if (str.length && str.slice(str.length - 1) != "\n") {
         document.getElementById("search_mc").value += "\n";
     }
@@ -1459,13 +1460,13 @@ function addt(i, v) {
     return "<span title='" + addw(i - 1, v) + "' class=ttl>" + v + "</span>";
 }
 function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
-    var gekko = 0;
-    var taiyo = 0;
-    var otate = 0;
-    var hissatsu = 0;
-    var meichu = 0;
-    var noroi = 0;
-    var kodt = [2, 1, 1, 4, 3, 3][type];
+    let gekko = 0;
+    let taiyo = 0;
+    let otate = 0;
+    let hissatsu = 0;
+    let meichu = 0;
+    let noroi = 0;
+    let kodt = [2, 1, 1, 4, 3, 3][type];
     if (sklsws[ater][kodt] != "") {
         sklsws[ater][kodt] += " ";
     }
@@ -1504,7 +1505,7 @@ function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp,
             sklsws[ater][kodt] += addt(index, "盾X");
         }
     }
-    var jcrt;
+    let jcrt;
     if (type % 3) {
         jcrt = Math.min(25, para[ater][3]);
         if (type % 3 == 2 && skill[ater][2]) {
@@ -1533,7 +1534,7 @@ function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp,
                 sklsws[ater][kodt] += addt(index, "命X");
             }
         }
-        var dmg = Math.max(0, para[ater][0] * (1 + hissatsu) - para[1 - ater][1] * (1 - gekko));
+        let dmg = Math.max(0, para[ater][0] * (1 + hissatsu) - para[1 - ater][1] * (1 - gekko));
         if (dmg >= hp[1 - ater] && skill[1 - ater][12]) {
             meichu = 0;
             sklsws[ater][kodt] += "祈";
@@ -1582,7 +1583,7 @@ function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp,
     return index;
 }
 function battle_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
-    var ct = 1;
+    let ct = 1;
     if (skill[ater][8] && para[ater][6]) {
         //流星剣
         if (para[ater][6] >= global.vv[index++]) {
@@ -1606,16 +1607,16 @@ function battle_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, 
     if (skill[ater][10]) {
         ct *= 2;
     }
-    for (var i = 0; i < ct; i++) {
+    for (let i = 0; i < ct; i++) {
         atju.push(ater);
         attp.push(type);
     }
     return index;
 }
 function battle2(hp, hitcnt, sklsws, para, skill, index) {
-    var i;
-    var atju = [];
-    var attp = [];
+    let i;
+    let atju = [];
+    let attp = [];
     if (!skill[0][12] && skill[0][3] && para[0][8]) {
         if (para[0][8] * 3 >= global.vv[index++]) {
             skill[0][12] = 1;
@@ -1677,7 +1678,7 @@ function battle2(hp, hitcnt, sklsws, para, skill, index) {
     return index;
 }
 function battle() {
-    var hp = [
+    let hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
@@ -1685,7 +1686,7 @@ function battle() {
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
     ];
-    var para = [];
+    let para = [];
     para[0] = [
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
@@ -1708,21 +1709,21 @@ function battle() {
         document.getElementById("dfspd").selectedIndex,
         document.getElementById("dfluck").selectedIndex,
     ];
-    var skill = [];
+    let skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
-    var m = [skill[0][12], skill[1][12]];
-    var hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
-    var sklsws = [
+    let m = [skill[0][12], skill[1][12]];
+    let hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
+    let sklsws = [
         ["", "", "", "", ""],
         ["", "", "", "", ""],
     ];
-    var index = lv_val_glance();
-    var index_p = index;
+    let index = lv_val_glance();
+    let index_p = index;
     if (document.getElementById("sakiyomi").checked) {
         index = battle2(hp, hitcnt, sklsws, para, skill, index);
     }
@@ -1775,13 +1776,13 @@ function battle_ss(f) {
     battle_s();
 }
 function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
-    var gekko = 0;
-    var taiyo = 0;
-    var otate = 0;
-    var hissatsu = 0;
-    var meichu = 0;
-    var noroi = 0;
-    var kodt = [2, 1, 1, 4, 3, 3][type];
+    let gekko = 0;
+    let taiyo = 0;
+    let otate = 0;
+    let hissatsu = 0;
+    let meichu = 0;
+    let noroi = 0;
+    let kodt = [2, 1, 1, 4, 3, 3][type];
     if (skill[ater][6] && para[ater][6]) {
         //月光剣
         if (para[ater][6] >= global.vv[index++]) {
@@ -1804,7 +1805,7 @@ function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju
             }
         }
     }
-    var jcrt;
+    let jcrt;
     if (type % 3) {
         jcrt = Math.min(25, para[ater][3]);
         if (type % 3 == 2 && skill[ater][2]) {
@@ -1827,7 +1828,7 @@ function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju
                 meichu = 1;
             }
         }
-        var dmg = Math.max(0, para[ater][0] * (1 + hissatsu) - para[1 - ater][1] * (1 - gekko));
+        let dmg = Math.max(0, para[ater][0] * (1 + hissatsu) - para[1 - ater][1] * (1 - gekko));
         if (dmg >= hp[1 - ater] && skill[1 - ater][12]) {
             meichu = 0;
         }
@@ -1870,7 +1871,7 @@ function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju
     return index;
 }
 function battle_search_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
-    var ct = 1;
+    let ct = 1;
     if (skill[ater][8] && para[ater][6]) {
         //流星剣
         if (para[ater][6] >= global.vv[index++]) {
@@ -1888,16 +1889,16 @@ function battle_search_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju,
     if (skill[ater][10]) {
         ct *= 2;
     }
-    for (var i = 0; i < ct; i++) {
+    for (let i = 0; i < ct; i++) {
         atju.push(ater);
         attp.push(type);
     }
     return index;
 }
 function battle_search2(hp, hitcnt, sklsws, para, skill, index) {
-    var i;
-    var atju = [];
-    var attp = [];
+    let i;
+    let atju = [];
+    let attp = [];
     if (!skill[0][12] && skill[0][3] && para[0][8]) {
         if (para[0][8] * 3 >= global.vv[index++]) {
             skill[0][12] = 1;
@@ -1953,10 +1954,10 @@ function battle_search2(hp, hitcnt, sklsws, para, skill, index) {
     return index;
 }
 function battle_search1() {
-    var i;
+    let i;
     global.battle_vv = [];
     global.battle_vv2 = [];
-    var hp = [
+    let hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
@@ -1970,7 +1971,7 @@ function battle_search1() {
         document.getElementById("athitf").checked ? 0 : 1,
         document.getElementById("dfhitf").checked ? 0 : 1,
     ];
-    var para = [];
+    let para = [];
     para[0] = [
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
@@ -1993,16 +1994,16 @@ function battle_search1() {
         document.getElementById("dfspd").selectedIndex,
         document.getElementById("dfluck").selectedIndex,
     ];
-    var hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
-    var sklsws = [];
-    var skill = [];
+    let hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
+    let sklsws = [];
+    let skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
-    var m = [skill[0][12], skill[1][12]];
+    let m = [skill[0][12], skill[1][12]];
     for (i = 1; i < global.maxlen * 55; i++) {
         let index;
         index = i;
@@ -2045,13 +2046,13 @@ function battle_search() {
     window.setTimeout("battle_search1()", 1);
 }
 function yosoku() {
-    var start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-    var last = lv_val_glance();
+    let start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+    let last = lv_val_glance();
     if (start > last) {
         document.getElementById("yosokukai").innerHTML = "----";
         return 0;
     }
-    var hp = [
+    let hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
@@ -2065,7 +2066,7 @@ function yosoku() {
         document.getElementById("athitf").checked ? 0 : 1,
         document.getElementById("dfhitf").checked ? 0 : 1,
     ];
-    var para = [];
+    let para = [];
     para[0] = [
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
@@ -2088,19 +2089,19 @@ function yosoku() {
         document.getElementById("dfspd").selectedIndex,
         document.getElementById("dfluck").selectedIndex,
     ];
-    var hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
-    var sklsws = [];
-    var skill = [];
+    let hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
+    let sklsws = [];
+    let skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
-    var m = [skill[0][12], skill[1][12]];
-    var index = start;
-    var index2 = index;
-    var cnt = -1;
+    let m = [skill[0][12], skill[1][12]];
+    let index = start;
+    let index2 = index;
+    let cnt = -1;
     while (index <= last) {
         index2 = index;
         cnt++;
@@ -2140,11 +2141,11 @@ function displaystyle(hlay, blay) {
 
 // Helper function to create a select element with options and default selected index
 function createSelect(id, count, defaultIndex, onchange, startFromOne) {
-    var select = document.createElement("select");
+    let select = document.createElement("select");
     select.id = id;
     select.setAttribute("onchange", onchange);
-    for (var i = 0; i < count; i++) {
-        var option = document.createElement("option");
+    for (let i = 0; i < count; i++) {
+        let option = document.createElement("option");
         option.textContent = startFromOne ? i + 1 : i;
         select.appendChild(option);
     }
