@@ -1,3 +1,5 @@
+"use strict";
+
 const global = {};
 global.prim = 0; //何個目の乱数から始めるか
 global.maxlen = 50; //何個の乱数表を発生させるか
@@ -700,7 +702,7 @@ function sub_val_f() {
     }
     fc = 0;
     ft = 0;
-    lvv = 0;
+    let lvv = 0;
     for (i = 0; i < len; i++) {
         if (ox(global.vv[start + i]) && fc < mv) {
             fc++;
@@ -760,6 +762,7 @@ function lvup(flag, v) {
     var u;
     var up;
     var gr;
+    let index;
     if (flag) {
         index = lv_val_glance();
         var plsp = parseInt(document.getElementById("pls").value);
@@ -1708,7 +1711,7 @@ function battle() {
     var skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
-    for (i = 0; i < global.skilln; i++) {
+    for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
@@ -2001,6 +2004,7 @@ function battle_search1() {
     }
     var m = [skill[0][12], skill[1][12]];
     for (i = 1; i < global.maxlen * 55; i++) {
+        let index;
         index = i;
         hp[0] = hp[4];
         hp[1] = hp[5];
@@ -2089,7 +2093,7 @@ function yosoku() {
     var skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
-    for (i = 0; i < global.skilln; i++) {
+    for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
