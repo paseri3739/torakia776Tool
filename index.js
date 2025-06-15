@@ -146,9 +146,7 @@ const pikasort = (flag) => {
     mapselect(map);
 };
 const map_swap = () => {
-    if (global.vv_bn < 0) {
-        1;
-    } else {
+    if (global.vv_bn > 0) {
         mapselect(global.vv_bn);
         change_map(0, 0);
     }
