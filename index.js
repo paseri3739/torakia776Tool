@@ -387,11 +387,10 @@ global.skilllist = [
 global.skilln = global.skilllist.length;
 const rand_calc = (data) => {
     //乱数計算
-    let i;
-    for (i = 54; i >= 0; i--) {
+    for (let i = 54; i >= 0; i--) {
         data[(i + 24) % 55] = ((99 + data[(i + 24) % 55] - data[i]) % 100) + 1;
     }
-    for (i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         data[i + 48] = ((data[i + 48] + data[i] - 1) % 100) + 1;
     }
 };
@@ -483,27 +482,26 @@ const mapselect = (m) => {
 const pikasort = (f) => {
     let ret = [];
     let map = f ? mapselected(1) : 30;
-    let i;
     if (document.getElementById("pikacheck").checked) {
-        for (i = 0; i < global.randmap; i++) {
+        for (let i = 0; i < global.randmap; i++) {
             ret.push("<option>" + global.pika[i] + "</option>");
         }
     } else {
-        for (i = 0; i < global.randmap; i++) {
+        for (let i = 0; i < global.randmap; i++) {
             ret.push("<option>" + i + "</option>");
         }
     }
     // Remove old select if exists
-    let mapContainer = document.getElementById("map");
+    const mapContainer = document.getElementById("map");
     while (mapContainer.firstChild) mapContainer.removeChild(mapContainer.firstChild);
 
-    let select = document.createElement("select");
+    const select = document.createElement("select");
     select.id = "seed";
     select.onchange = function () {
         change_map(0, 0);
     };
     for (let i = 0; i < ret.length; i++) {
-        let option = document.createElement("option");
+        const option = document.createElement("option");
         // Remove <option> and </option> tags from ret[i]
         option.innerHTML = ret[i].replace(/<\/?option>/g, "");
         select.appendChild(option);
@@ -526,11 +524,11 @@ const change_map = (f, m) => {
         document.getElementById("view_val").value = 0;
         document.getElementById("lv_val").value = 0;
     }
-    let map = mapselected(0);
+    const map = mapselected(0);
     if (global.vv_n == map) {
         1;
     } else if (global.vv_bn == map) {
-        let buf = global.vv;
+        const buf = global.vv;
         global.vv = global.vv_b;
         global.vv_b = buf;
         global.vv_bn = global.vv_n;
@@ -579,9 +577,6 @@ const Change_type = () => {
 };
 const view_val_f = () => {
     //現在位置
-    let i;
-    let sp;
-    let st;
     let index = parseInt(document.getElementById("view_val").value) - global.prim * 55;
     if (isNaN(index) || index < 1) {
         index = 1;
@@ -591,8 +586,8 @@ const view_val_f = () => {
         index = global.maxlen * 55;
     }
     document.getElementById("view_val").value = index + global.prim * 55;
-    for (i = 0; i < 30; i++) {
-        st = String(global.vv[index + i] + 99).slice(1);
+    for (let i = 0; i < 30; i++) {
+        let st = String(global.vv[index + i] + 99).slice(1);
         if (ox(global.vv[index + i])) {
             st = "<span class=maru>" + st + "</span>";
         } else {
@@ -602,8 +597,8 @@ const view_val_f = () => {
     }
     document.getElementById("view_val_v").innerHTML = ret.join(" ");
     ret = [];
-    sp = Math.floor(index / 55);
-    for (i = 0; i < 1; i++) {
+    const sp = Math.floor(index / 55);
+    for (let i = 0; i < 1; i++) {
         ret.push(randtable(sp + i, index, -1));
     }
     document.getElementById("map_val_n").innerHTML = ret.join("<br>");
@@ -617,8 +612,7 @@ const view_val_updown = (v) => {
 };
 const lv_val_glance = () => {
     //目標位置先読み
-    let index;
-    index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
+    let index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
     if (document.getElementById("glance_ck").checked) {
         index += document.getElementById("glance").selectedIndex - 999;
     }
@@ -626,8 +620,7 @@ const lv_val_glance = () => {
 };
 const glance_a = () => {
     //先読み反映
-    let index;
-    index = parseInt(document.getElementById("lv_val").value);
+    let index = parseInt(document.getElementById("lv_val").value);
     index += document.getElementById("glance").selectedIndex - 999;
     document.getElementById("lv_val").value = index;
     document.getElementById("glance_ck").checked = 0;
@@ -635,9 +628,6 @@ const glance_a = () => {
 };
 const lv_val_f = () => {
     //目標位置
-    let i;
-    let sp;
-    let st;
     let ret = [];
     let index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
     if (isNaN(index) || index < 1) {
@@ -651,11 +641,11 @@ const lv_val_f = () => {
     }
     document.getElementById("lv_val").value = index + global.prim * 55;
     index = lv_val_glance();
-    for (i = 0; i < 30; i++) {
+    for (let i = 0; i < 30; i++) {
         if (index + i < 0 || index + i > global.maxlen * 55 + 55) {
             ret.push("--");
         } else {
-            st = String(global.vv[index + i] + 99).slice(1);
+            let st = String(global.vv[index + i] + 99).slice(1);
             if (ox(global.vv[index + i])) {
                 st = "<span class=maru>" + st + "</span>";
             } else {
@@ -666,8 +656,8 @@ const lv_val_f = () => {
     }
     document.getElementById("lv_val_v").innerHTML = ret.join(" ");
     ret = [];
-    sp = Math.floor(index / 55);
-    for (i = 0; i < 2; i++) {
+    const sp = Math.floor(index / 55);
+    for (let i = 0; i < 2; i++) {
         ret.push(randtable(sp + i, index, -1));
     }
     document.getElementById("map_val_t").innerHTML = ret.join("<br>");
@@ -681,20 +671,18 @@ const lv_val_updown = (v) => {
 const sub_val_f = () => {
     //差
     let i;
-    let val, hfal, vfal;
-    let fc, ft;
-    let mv = document.getElementById("mv").selectedIndex;
-    let start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-    let last = lv_val_glance();
-    let len = last - start;
+    const mv = document.getElementById("mv").selectedIndex;
+    const start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+    const last = lv_val_glance();
+    const len = last - start;
     document.getElementById("sub_val").innerHTML = len;
     if (len < 0 || last > global.maxlen * 55 + 55) {
         document.getElementById("sub_hfal").innerHTML = "　　　";
         document.getElementById("sub_vfal").innerHTML = "　　　";
         return false;
     }
-    fc = 0;
-    ft = 0;
+    let fc = 0;
+    let ft = 0;
     let lvv = 0;
     for (i = 0; i < len; i++) {
         if (ox(global.vv[start + i]) && fc < mv) {
@@ -831,13 +819,12 @@ const lvup = (flag, v) => {
 };
 const ch_OnChange = (flag) => {
     //ユニット選択変更
-    let i;
-    let j = document.getElementById("unitname").selectedIndex;
-    for (i = 0; i < global.prct; i++) {
+    const j = document.getElementById("unitname").selectedIndex;
+    for (let i = 0; i < global.prct; i++) {
         document.getElementById(global.prvn[i]).value = global.ud[j][i + 1];
     }
     document.getElementById("react").value = global.ud[j][global.prct + 1];
-    for (i = 0; i < global.rict; i++) {
+    for (let i = 0; i < global.rict; i++) {
         global.ringselect[i] = 0;
     }
     afua_change();
@@ -851,14 +838,13 @@ const ch_OnChange = (flag) => {
 const afua_change = () => {
     //聖戦士の書
     let i, j;
-    let o, n;
     let pr = [];
     for (j = 0; j < global.prct; j++) {
         pr[j] = parseInt(document.getElementById(global.prvn[j]).value);
     }
     for (i = 0; i < global.rict; i++) {
-        o = global.ringselect[i];
-        n = document.getElementById("afua" + i).selectedIndex;
+        const o = global.ringselect[i];
+        const n = document.getElementById("afua" + i).selectedIndex;
         for (j = 0; j < global.prct; j++) {
             pr[j] -= global.ring[o][j + 1] - global.ring[n][j + 1];
         }
@@ -870,26 +856,25 @@ const afua_change = () => {
     calc_lvlup();
 };
 const randtable = (sp, indexs, indexl) => {
-    let i;
     let st;
-    let ret = [];
+    const ret = [];
     ret.push("No." + (sp + global.prim + 1) + "<br>");
     if (sp < 0 || sp > global.maxlen + 1) {
-        for (i = 0; i < 24; i++) {
+        for (let i = 0; i < 24; i++) {
             ret.push(" --");
         }
         ret.push("<br>");
-        for (i = 0; i < 24; i++) {
+        for (let i = 0; i < 24; i++) {
             ret.push(" --");
         }
         ret.push("<br>");
-        for (i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
             ret.push(" --");
         }
         return ret.join("");
     }
     sp *= 55;
-    for (i = 0; i < 24; i++) {
+    for (let i = 0; i < 24; i++) {
         st = String(global.vv[sp] + 99).slice(1);
         if (sp == indexs) {
             st = "<span class=trg>" + st + "</span>";
@@ -905,7 +890,7 @@ const randtable = (sp, indexs, indexl) => {
         sp++;
     }
     ret.push("<br>");
-    for (i = 0; i < 24; i++) {
+    for (let i = 0; i < 24; i++) {
         st = String(global.vv[sp] + 99).slice(1);
         if (sp == indexs) {
             st = "<span class=trg>" + st + "</span>";
@@ -921,7 +906,7 @@ const randtable = (sp, indexs, indexl) => {
         sp++;
     }
     ret.push("<br>");
-    for (i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         st = String(global.vv[sp] + 99).slice(1);
         if (sp == indexs) {
             st = "<span class=trg>" + st + "</span>";
@@ -941,20 +926,18 @@ const randtable = (sp, indexs, indexl) => {
 const createTable = (f) => {
     //乱数表表示
     if (f == 1) {
-        let ranvalue = [];
-        let map = mapselected(0);
-        let i;
-        for (i = 0; i < global.maxlen * 55; i++) {
+        const ranvalue = [];
+        const map = mapselected(0);
+        for (let i = 0; i < global.maxlen * 55; i++) {
             ranvalue.push(String(global.vv[i] + 99).slice(1));
         }
         document.getElementById("randnum").innerHTML = "map:" + map + "<br>" + ranvalue.join(" ");
     } else if (f == 2) {
-        let i;
-        let ret = [];
-        let indexs = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-        let indexl = lv_val_glance();
-        let map = mapselected(0);
-        for (i = 0; i <= global.maxlen; i++) {
+        const ret = [];
+        const indexs = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+        const indexl = lv_val_glance();
+        const map = mapselected(0);
+        for (let i = 0; i <= global.maxlen; i++) {
             ret.push(randtable(i, indexs, indexl));
         }
         document.getElementById("randnum").innerHTML = "map:" + map + "<br>" + ret.join("<br>");
@@ -989,7 +972,7 @@ const calc_lvlup = () => {
 };
 const kouho_show = (ret) => {
     //候補表示
-    let cnt = ret.length;
+    const cnt = ret.length;
     if (cnt == 0) {
         document.getElementById("kouho").innerHTML = "見つかりませんでした";
     } else {
@@ -1002,19 +985,18 @@ const kouho_show = (ret) => {
 };
 const calc_lvlup_lv = (all) => {
     //レベルアップ候補
-    let i, j, k, l;
-    let sumc;
+    let i;
     let f;
-    let ret = [];
+    const ret = [];
     global.kouho_vv = [];
     global.kouho_vv2 = [];
     let minup = document.getElementById("growmin").selectedIndex;
     let maxup = document.getElementById("growmax").selectedIndex;
-    let diff = [];
-    let gr = [];
-    let gh = [];
-    j = 0;
-    k = 0;
+    const diff = [];
+    const gr = [];
+    const gh = [];
+    let j = 0;
+    let k = 0;
     for (i = 0; i < global.prct; i++) {
         gr[i] = parseInt(document.getElementById(global.prvn[i]).value);
         if (isNaN(gr[i]) || gr[i] < 0) {
@@ -1041,11 +1023,11 @@ const calc_lvlup_lv = (all) => {
         document.getElementById("kouho").innerHTML = "条件が矛盾しています";
         return false;
     }
-    l = all ? global.maxlen * 55 : global.battle_vv.length;
+    const l = all ? global.maxlen * 55 : global.battle_vv.length;
     for (k = 0; k < l; k++) {
         i = all ? k : global.battle_vv[k] - global.prim * 55 + global.battle_vv2[k];
         f = 0;
-        sumc = 0;
+        let sumc = 0;
         for (j = 0; j < global.prct; j++) {
             if (global.vv[i + j] <= gr[j]) {
                 f += diff[j] == 3 ? 1 : 0;
@@ -1091,7 +1073,7 @@ const kouho_updown = (v) => {
     //前後の候補
     v -= 0;
     let i;
-    let nowval = parseInt(document.getElementById("lv_val").value);
+    const nowval = parseInt(document.getElementById("lv_val").value);
     for (i = 0; i < global.kouho_vv.length; i++) {
         if (nowval <= global.kouho_vv[i]) {
             break;
@@ -1115,7 +1097,7 @@ const kouho_updown = (v) => {
 const kouho_next = (f) => {
     //現在の次の候補
     let i;
-    let nowval = parseInt(document.getElementById("view_val").value);
+    const nowval = parseInt(document.getElementById("view_val").value);
     for (i = 0; i < global.kouho_vv.length; i++) {
         if (nowval <= global.kouho_vv[i]) {
             break;
@@ -1136,7 +1118,7 @@ const kouho_next = (f) => {
 };
 const all_show = (flag) => {
     //全て表示
-    let ret = flag ? global.kouho_vv : global.search_vv;
+    const ret = flag ? global.kouho_vv : global.search_vv;
     if (flag) {
         document.getElementById("kouho").innerHTML = "候補数：" + ret.length + "<br>" + ret.join(" ");
     } else {
@@ -1145,7 +1127,7 @@ const all_show = (flag) => {
 };
 const search_mx_onchange = () => {
     //現在位置検索ボタン
-    let lox = document.getElementById("search_ma").value;
+    const lox = document.getElementById("search_ma").value;
     global.search_vv = [];
     if (lox.length < 4) {
         document.getElementById("search_m_ret").innerHTML = "４文字以上入力してください";
@@ -1158,18 +1140,17 @@ const search_m_onchange = () => {
     //現在位置検索
     let i, j, k;
     let cnt;
-    let len;
-    let pl = document.getElementById("inpl").checked ? 1 : 0;
-    let seed = mapselected(0);
+    const pl = document.getElementById("inpl").checked ? 1 : 0;
+    const seed = mapselected(0);
     let type = document.getElementById("search_dtb").checked;
-    let lox = document.getElementById("search_ma").value;
+    const lox = document.getElementById("search_ma").value;
     if (!lox) {
         document.getElementById("search_m_ret").innerHTML = "";
         document.getElementById("search_len").innerHTML = 0;
         return false;
     }
-    let lox2 = [];
-    len = lox.length;
+    const lox2 = [];
+    let len = lox.length;
     for (i = 0; i < lox.length; i++) {
         if (lox.charAt(i) == "o") {
             lox2.push(0);
@@ -1281,7 +1262,7 @@ const search_updown = (v) => {
     //次の位置
     v = parseInt(v);
     let i;
-    let nowval = parseInt(document.getElementById("view_val").value);
+    const nowval = parseInt(document.getElementById("view_val").value);
     for (i = 0; i < global.search_vv.length; i++) {
         if (nowval <= global.search_vv[i]) {
             break;
@@ -1303,9 +1284,6 @@ const search_updown = (v) => {
     view_val_f();
 };
 const search_thread = () => {
-    let i, j;
-    let min, max;
-    let l_type;
     let lvf = 0;
     let rvv = [];
     let rec = [];
@@ -1319,7 +1297,7 @@ const search_thread = () => {
     }
     rstr = rstr.replace(/\r\n/g, "\n");
     rvv = rstr.split("\n");
-    for (i = 0; i < rvv.length; i++) {
+    for (let i = 0; i < rvv.length; i++) {
         sv[i] = [];
         if (!rvv[i].length) {
             continue;
@@ -1337,7 +1315,10 @@ const search_thread = () => {
             }
         } else {
             rec = t_rec.split("|");
-            for (j = 0; j < rec.length; j++) {
+
+            let min, max;
+            let l_type;
+            for (let j = 0; j < rec.length; j++) {
                 if (rec[j] == "o" || rec[j] == "c" || rec[j] == "○") {
                     l_type = 3;
                     min = 0;
@@ -1391,16 +1372,14 @@ const search_thread = () => {
     kouho_show(global.kouho_vv);
 };
 const do_search_thread = (sv) => {
-    let i, j, k;
-    let p;
     let matchflag;
     calc_lvlup_lv(1);
     global.kouho_vv = [];
-    for (i = 0; i < global.maxlen * 55; i++) {
-        p = 0;
-        for (j = 0; j < sv.length; j++) {
+    for (let i = 0; i < global.maxlen * 55; i++) {
+        let p = 0;
+        for (let j = 0; j < sv.length; j++) {
             matchflag = 0;
-            for (k = 0; k * 3 < sv[j].length; k++) {
+            for (let k = 0; k * 3 < sv[j].length; k++) {
                 if (sv[j][k * 3] == 3) {
                     //ox
                     if (ox(global.vv[i + j + p]) ^ sv[j][k * 3 + 1]) {
@@ -1443,7 +1422,7 @@ const do_search_thread = (sv) => {
     }
 };
 const thread_lvup = () => {
-    let str = document.getElementById("search_mc").value;
+    const str = document.getElementById("search_mc").value;
     if (str.length && str.slice(str.length - 1) != "\n") {
         document.getElementById("search_mc").value += "\n";
     }
@@ -1607,9 +1586,8 @@ const battle_koudou = (ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, 
     return index;
 };
 const battle2 = (hp, hitcnt, sklsws, para, skill, index) => {
-    let i;
-    let atju = [];
-    let attp = [];
+    const atju = [];
+    const attp = [];
     if (!skill[0][12] && skill[0][3] && para[0][8]) {
         if (para[0][8] * 3 >= global.vv[index++]) {
             skill[0][12] = 1;
@@ -1671,7 +1649,7 @@ const battle2 = (hp, hitcnt, sklsws, para, skill, index) => {
     return index;
 };
 const battle = () => {
-    let hp = [
+    const hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
@@ -1679,7 +1657,7 @@ const battle = () => {
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
     ];
-    let para = [];
+    const para = [];
     para[0] = [
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
@@ -1702,14 +1680,14 @@ const battle = () => {
         document.getElementById("dfspd").selectedIndex,
         document.getElementById("dfluck").selectedIndex,
     ];
-    let skill = [];
+    const skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
-    let m = [skill[0][12], skill[1][12]];
+    const m = [skill[0][12], skill[1][12]];
     let hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
     let sklsws = [
         ["", "", "", "", ""],
@@ -1775,7 +1753,6 @@ const battle_search_kougeki = (ater, type, hp, hitcnt, sklsws, para, skill, atju
     let hissatsu = 0;
     let meichu = 0;
     let noroi = 0;
-    let kodt = [2, 1, 1, 4, 3, 3][type];
     if (skill[ater][6] && para[ater][6]) {
         //月光剣
         if (para[ater][6] >= global.vv[index++]) {
@@ -1889,9 +1866,8 @@ const battle_search_koudou = (ater, type, hp, hitcnt, sklsws, para, skill, atju,
     return index;
 };
 const battle_search2 = (hp, hitcnt, sklsws, para, skill, index) => {
-    let i;
-    let atju = [];
-    let attp = [];
+    const atju = [];
+    const attp = [];
     if (!skill[0][12] && skill[0][3] && para[0][8]) {
         if (para[0][8] * 3 >= global.vv[index++]) {
             skill[0][12] = 1;
@@ -1947,10 +1923,9 @@ const battle_search2 = (hp, hitcnt, sklsws, para, skill, index) => {
     return index;
 };
 const battle_search1 = () => {
-    let i;
     global.battle_vv = [];
     global.battle_vv2 = [];
-    let hp = [
+    const hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
@@ -1964,7 +1939,7 @@ const battle_search1 = () => {
         document.getElementById("athitf").checked ? 0 : 1,
         document.getElementById("dfhitf").checked ? 0 : 1,
     ];
-    let para = [];
+    const para = [];
     para[0] = [
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
@@ -1988,16 +1963,16 @@ const battle_search1 = () => {
         document.getElementById("dfluck").selectedIndex,
     ];
     let hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
-    let sklsws = [];
-    let skill = [];
+    const sklsws = [];
+    const skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
-    for (i = 0; i < global.skilln; i++) {
+    for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
-    let m = [skill[0][12], skill[1][12]];
-    for (i = 1; i < global.maxlen * 55; i++) {
+    const m = [skill[0][12], skill[1][12]];
+    for (let i = 1; i < global.maxlen * 55; i++) {
         let index;
         index = i;
         hp[0] = hp[4];
@@ -2039,13 +2014,13 @@ const battle_search = () => {
     window.setTimeout("battle_search1()", 1);
 };
 const yosoku = () => {
-    let start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-    let last = lv_val_glance();
+    const start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
+    const last = lv_val_glance();
     if (start > last) {
         document.getElementById("yosokukai").innerHTML = "----";
         return 0;
     }
-    let hp = [
+    const hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
         document.getElementById("atmhp").selectedIndex + 1,
@@ -2059,7 +2034,7 @@ const yosoku = () => {
         document.getElementById("athitf").checked ? 0 : 1,
         document.getElementById("dfhitf").checked ? 0 : 1,
     ];
-    let para = [];
+    const para = [];
     para[0] = [
         document.getElementById("atatc").selectedIndex,
         document.getElementById("atdef").selectedIndex,
@@ -2083,15 +2058,15 @@ const yosoku = () => {
         document.getElementById("dfluck").selectedIndex,
     ];
     let hitcnt = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0];
-    let sklsws = [];
-    let skill = [];
+    const sklsws = [];
+    const skill = [];
     skill[0] = [1, document.getElementById("attsuigeki").checked];
     skill[1] = [document.getElementById("hangeki").checked, document.getElementById("dftsuigeki").checked];
     for (let i = 0; i < global.skilln; i++) {
         skill[0][i + 2] = document.getElementById("atskill" + i).checked;
         skill[1][i + 2] = document.getElementById("dfskill" + i).checked;
     }
-    let m = [skill[0][12], skill[1][12]];
+    const m = [skill[0][12], skill[1][12]];
     let index = start;
     let index2 = index;
     let cnt = -1;
@@ -2134,7 +2109,7 @@ const displaystyle = (hlay, blay) => {
 
 // Helper function to create a select element with options and default selected index
 const createSelect = (id, count, defaultIndex, onchange, startFromOne) => {
-    let select = document.createElement("select");
+    const select = document.createElement("select");
     select.id = id;
     select.setAttribute("onchange", onchange);
     for (let i = 0; i < count; i++) {
