@@ -438,22 +438,11 @@ const reset = () => {
 };
 const change_max = () => {
     //乱数の個数変更
-    let np = global.prim;
-    let nn = global.maxlen;
-    np = parseInt(document.getElementById("rand_start").value);
-    nn = parseInt(document.getElementById("rand_max").value);
-    if (isNaN(np)) {
-        np = global.prim;
-    }
-    if (isNaN(nn)) {
-        nn = global.maxlen;
-    }
-    if (np < 0) {
-        np = 0;
-    }
-    if (nn < 0) {
-        nn = 0;
-    }
+    const npInput = parseInt(document.getElementById("rand_start").value);
+    const nnInput = parseInt(document.getElementById("rand_max").value);
+    const np = isNaN(npInput) ? global.prim : Math.max(0, npInput);
+    const nn = isNaN(nnInput) ? global.maxlen : Math.max(0, nnInput);
+
     if (nn < 501 || window.confirm("乱数を" + np + "個からの" + nn + "個に変更します。\nよろしいですか？")) {
         global.vv_n = -1;
         global.vv_bn = -1;
