@@ -57,14 +57,7 @@
                 id="btn_lv_val_updown_55"
             />
             <input type="button" value="目標位置←現在位置" id="btn_lv_val_set_view_val" />
-            +<input type="checkbox" id="glance_ck" /><select id="glance" class="right">
-                <script type="text/javascript">
-                    var i;
-                    for (i = -999; i < 1001; i++) {
-                        document.write("<option>" + i + "</option>");
-                    }
-                    document.getElementById("glance").selectedIndex = 999;
-                </script></select
+            +<input type="checkbox" id="glance_ck" /><select id="glance" class="right"></select
             >個先を見る<input type="button" value="反映" id="btn_glance_a" /><br />
             乱数値：<span id="lv_val_v">(乱数の値)</span>
             <hr />
@@ -103,18 +96,11 @@
                 <tbody>
                     <tr id="tlvup">
                         <td>
-                            <select id="unitname">
-                                <script type="text/javascript">
-                                    var i;
-                                    for (i in global.ud) {
-                                        document.write("<option>" + global.ud[i][0] + "</option>");
-                                    }
-                                    document.getElementById("unitname").selectedIndex = global.unitindex;
-                                </script>
-                            </select>
+                            <select id="unitname"></select>
                             <input type="button" value="セット" id="btn_unitname_set" />
                             <table border="0" cellpadding="0" cellspacing="0">
-                                <tbody>
+                                <tbody id="paramTableBody">
+                                    <!-- Parameter rows will be inserted here -->
                                     <tr>
                                         <td><br /></td>
                                         <td><br /></td>
@@ -134,69 +120,7 @@
                                             <input type="text" id="pls" size="4" class="right" />
                                         </td>
                                     </tr>
-                                    <script type="text/javascript">
-                                        // Create table rows for each parameter without using document.write
-                                        (function () {
-                                            var tbody = document.currentScript.parentElement.parentElement;
-                                            for (var i = 0; i < global.prct; i++) {
-                                                var tr = document.createElement("tr");
-
-                                                // Parameter name
-                                                var tdName = document.createElement("td");
-                                                tdName.className = "view";
-                                                tdName.textContent = global.para[i] + "：";
-                                                tr.appendChild(tdName);
-
-                                                // Input box
-                                                var tdInput = document.createElement("td");
-                                                var input = document.createElement("input");
-                                                input.type = "text";
-                                                input.id = global.prvn[i];
-                                                input.size = 4;
-                                                input.className = "view";
-                                                tdInput.appendChild(input);
-                                                tr.appendChild(tdInput);
-
-                                                // Select box
-                                                var tdSelect = document.createElement("td");
-                                                var select = document.createElement("select");
-                                                select.id = "ch" + global.prvn[i];
-                                                var opts = [
-                                                    "上昇しないとダメ",
-                                                    "+1以上上昇",
-                                                    "どちらでもよい",
-                                                    "上昇しちゃダメ",
-                                                    "--MAX--",
-                                                ];
-                                                for (var j = 0; j < opts.length; j++) {
-                                                    var option = document.createElement("option");
-                                                    option.textContent = opts[j];
-                                                    if (j === 2) option.selected = true;
-                                                    select.appendChild(option);
-                                                }
-                                                tdSelect.appendChild(select);
-                                                tr.appendChild(tdSelect);
-
-                                                // Result columns
-                                                var tdPL = document.createElement("td");
-                                                tdPL.id = global.prvn[i] + "pl";
-                                                tdPL.className = "view";
-                                                tr.appendChild(tdPL);
-
-                                                var tdPM = document.createElement("td");
-                                                tdPM.id = global.prvn[i] + "pm";
-                                                tdPM.className = "view";
-                                                tr.appendChild(tdPM);
-
-                                                var tdPP = document.createElement("td");
-                                                tdPP.id = global.prvn[i] + "pp";
-                                                tdPP.className = "view";
-                                                tr.appendChild(tdPP);
-
-                                                tbody.insertBefore(tr, document.currentScript.parentElement);
-                                            }
-                                        })();
-                                    </script>
+                                    <!-- Parameter rows will be inserted here by script -->
                                     <tr>
                                         <td class="view">♪：</td>
                                         <td><input type="text" id="react" size="4" class="view" /></td>
@@ -214,45 +138,15 @@
                                 </tbody>
                             </table>
                             かつ
-                            <select id="growmin">
-                                <script type="text/javascript">
-                                    var i;
-                                    for (i = 0; i < global.prct + 1; i++) {
-                                        document.write("<option>" + i + "</option>");
-                                    }
-                                    document.getElementById("growmin").selectedIndex = 8;
-                                </script></select
+                            <select id="growmin"></select
                             >個以上
-                            <select id="growmax">
-                                <script type="text/javascript">
-                                    var i;
-                                    for (i = 0; i < global.prct + 1; i++) {
-                                        document.write("<option>" + i + "</option>");
-                                    }
-                                    document.getElementById("growmax").selectedIndex = global.prct;
-                                </script></select
+                            <select id="growmax"></select
                             >個以下の能力が上昇<br />
                             ・上記条件を満たす場所
                         </td>
                         <td>
                             聖戦士の書<br />
-                            <script type="text/javascript">
-                                (function () {
-                                    var container = document.currentScript.parentElement;
-                                    for (var i = 0; i < global.rict; i++) {
-                                        var select = document.createElement("select");
-                                        select.id = "afua" + i;
-                                        for (var j = 0; j < global.ring.length; j++) {
-                                            var option = document.createElement("option");
-                                            option.textContent = global.ring[j][0];
-                                            select.appendChild(option);
-                                        }
-                                        select.selectedIndex = 0;
-                                        container.appendChild(select);
-                                        container.appendChild(document.createElement("br"));
-                                    }
-                                })();
-                            </script>
+                            <div id="ringContainer"></div>
                         </td>
                         <td>
                             <div id="map_val_n" class="tbl">(乱数の値)</div>
@@ -313,129 +207,19 @@
                                     </tr>
                                     <tr>
                                         <td class="bt">
-                                            HP<select id="athp">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 80; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("athp").selectedIndex = 39;
-                                                </script>
-                                            </select>
-                                            最大HP<select id="atmhp">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 80; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("atmhp").selectedIndex = 59;
-                                                </script>
-                                            </select>
-                                            攻撃<select id="atatc">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 100; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atatc").selectedIndex = 20;
-                                                </script>
-                                            </select>
-                                            防御<select id="atdef">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 51; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atdef").selectedIndex = 10;
-                                                </script>
-                                            </select>
-                                            <br />命中<select id="athit">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 101; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("athit").selectedIndex = 90;
-                                                </script>
-                                            </select>
-                                            必殺<select id="atcrt">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 101; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atcrt").selectedIndex = 10;
-                                                </script>
-                                            </select>
-                                            必殺係数<select id="atcrtkei">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 6; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atcrtkei").selectedIndex = 1;
-                                                </script>
-                                            </select>
-                                            <br />Lv<select id="atlvl">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 20; i++) {
-                                                        document.write("<option>" + (i + 1) + "</option>");
-                                                    }
-                                                    document.getElementById("atlvl").selectedIndex = 9;
-                                                </script>
-                                            </select>
-                                            技<select id="atskl">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 41; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atskl").selectedIndex = 10;
-                                                </script>
-                                            </select>
-                                            攻速<select id="atspd">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 41; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atspd").selectedIndex = 10;
-                                                </script>
-                                            </select>
-                                            運<select id="atluck">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 31; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("atluck").selectedIndex = 10;
-                                                </script>
-                                            </select>
+                                            HP<select id="athp"></select>
+                                            最大HP<select id="atmhp"></select>
+                                            攻撃<select id="atatc"></select>
+                                            防御<select id="atdef"></select>
+                                            <br />命中<select id="athit"></select>
+                                            必殺<select id="atcrt"></select>
+                                            必殺係数<select id="atcrtkei"></select>
+                                            <br />Lv<select id="atlvl"></select>
+                                            技<select id="atskl"></select>
+                                            攻速<select id="atspd"></select>
+                                            運<select id="atluck"></select>
                                             <br />スキル<br />
-                                            <script type="text/javascript">
-                                                (function () {
-                                                    var container = document.currentScript.parentElement;
-                                                    for (var i = 0; i < global.skilln; i++) {
-                                                        var span = document.createElement("span");
-                                                        span.className = "cbx";
-
-                                                        var checkbox = document.createElement("input");
-                                                        checkbox.type = "checkbox";
-                                                        checkbox.id = "atskill" + i;
-                                                        checkbox.value = "1";
-
-                                                        var label = document.createElement("label");
-                                                        label.htmlFor = "atskill" + i;
-                                                        label.textContent = global.skilllist[i];
-
-                                                        span.appendChild(checkbox);
-                                                        span.appendChild(label);
-                                                        container.appendChild(span);
-                                                        container.appendChild(document.createTextNode(" "));
-                                                    }
-                                                })();
-                                            </script>
+                                            <span id="atskillContainer"></span>
                                             <br /><span class="cbx"
                                                 ><input type="checkbox" id="attsuigeki" value="1" checked /><label
                                                     for="attsuigeki"
@@ -444,7 +228,6 @@
                                             >
                                         </td>
                                         <td class="bt">
-                                            <!-- Placeholder for defender selects, will be replaced by script -->
                                             <span style="display: none">
                                                 HP<select id="dfhp"></select>
                                                 最大HP<select id="dfmhp"></select>
@@ -459,29 +242,7 @@
                                                 運<select id="dfluck"></select>
                                             </span>
                                             <br />スキル<br />
-                                            <script type="text/javascript">
-                                                (function () {
-                                                    var container = document.currentScript.parentElement;
-                                                    for (var i = 0; i < global.skilln; i++) {
-                                                        var span = document.createElement("span");
-                                                        span.className = "cbx";
-
-                                                        var checkbox = document.createElement("input");
-                                                        checkbox.type = "checkbox";
-                                                        checkbox.id = "dfskill" + i;
-                                                        checkbox.value = "1";
-
-                                                        var label = document.createElement("label");
-                                                        label.htmlFor = "dfskill" + i;
-                                                        label.textContent = global.skilllist[i];
-
-                                                        span.appendChild(checkbox);
-                                                        span.appendChild(label);
-                                                        container.appendChild(span);
-                                                        container.appendChild(document.createTextNode(" "));
-                                                    }
-                                                })();
-                                            </script>
+                                            <span id="dfskillContainer"></span>
                                             <br /><span class="cbx"
                                                 ><input type="checkbox" id="hangeki" value="1" checked /><label for="hangeki"
                                                     >反撃</label
@@ -496,43 +257,15 @@
                                     </tr>
                                     <tr>
                                         <td class="bt">
-                                            HP<select id="athpmin">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("athpmin").selectedIndex = 1;
-                                                </script></select
-                                            >以上<select id="athpmax">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("athpmax").selectedIndex = 80;
-                                                </script></select
+                                            HP<select id="athpmin"></select
+                                            >以上<select id="athpmax"></select
                                             >以下 <input type="checkbox" id="athitf" value="1" /><label for="athitf"
                                                 >スリープ</label
                                             >
                                         </td>
                                         <td class="bt">
-                                            HP<select id="dfhpmin">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfhpmin").selectedIndex = 0;
-                                                </script></select
-                                            >以上<select id="dfhpmax">
-                                                <script type="text/javascript">
-                                                    var i;
-                                                    for (i = 0; i < 81; i++) {
-                                                        document.write("<option>" + i + "</option>");
-                                                    }
-                                                    document.getElementById("dfhpmax").selectedIndex = 0;
-                                                </script></select
+                                            HP<select id="dfhpmin"></select
+                                            >以上<select id="dfhpmax"></select
                                             >以下 <input type="checkbox" id="dfhitf" value="1" /><label for="dfhitf"
                                                 >スリープ</label
                                             >
@@ -593,5 +326,247 @@
             <div id="randnum">(乱数の値)</div>
         </form>
         <div><a href="https://web.archive.org/web/20120716121633/http://hpcgi1.nifty.com/mickeyinu/fe/rand/">戻る</a></div>
-    </body>
+        <script>
+            // Glance select
+            (function () {
+                var glance = document.getElementById("glance");
+                for (var i = -999; i < 1001; i++) {
+                    var option = document.createElement("option");
+                    option.textContent = i;
+                    glance.appendChild(option);
+                }
+                glance.selectedIndex = 999;
+            })();
+
+            // Unitname select
+            (function () {
+                var unitname = document.getElementById("unitname");
+                for (var i in global.ud) {
+                    var option = document.createElement("option");
+                    option.textContent = global.ud[i][0];
+                    unitname.appendChild(option);
+                }
+                unitname.selectedIndex = global.unitindex;
+            })();
+
+            // Parameter table rows
+            (function () {
+                var tbody = document.getElementById("paramTableBody");
+                for (var i = 0; i < global.prct; i++) {
+                    var tr = document.createElement("tr");
+
+                    // Parameter name
+                    var tdName = document.createElement("td");
+                    tdName.className = "view";
+                    tdName.textContent = global.para[i] + "：";
+                    tr.appendChild(tdName);
+
+                    // Input box
+                    var tdInput = document.createElement("td");
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.id = global.prvn[i];
+                    input.size = 4;
+                    input.className = "view";
+                    tdInput.appendChild(input);
+                    tr.appendChild(tdInput);
+
+                    // Select box
+                    var tdSelect = document.createElement("td");
+                    var select = document.createElement("select");
+                    select.id = "ch" + global.prvn[i];
+                    var opts = [
+                        "上昇しないとダメ",
+                        "+1以上上昇",
+                        "どちらでもよい",
+                        "上昇しちゃダメ",
+                        "--MAX--",
+                    ];
+                    for (var j = 0; j < opts.length; j++) {
+                        var option = document.createElement("option");
+                        option.textContent = opts[j];
+                        if (j === 2) option.selected = true;
+                        select.appendChild(option);
+                    }
+                    tdSelect.appendChild(select);
+                    tr.appendChild(tdSelect);
+
+                    // Result columns
+                    var tdPL = document.createElement("td");
+                    tdPL.id = global.prvn[i] + "pl";
+                    tdPL.className = "view";
+                    tr.appendChild(tdPL);
+
+                    var tdPM = document.createElement("td");
+                    tdPM.id = global.prvn[i] + "pm";
+                    tdPM.className = "view";
+                    tr.appendChild(tdPM);
+
+                    var tdPP = document.createElement("td");
+                    tdPP.id = global.prvn[i] + "pp";
+                    tdPP.className = "view";
+                    tr.appendChild(tdPP);
+
+                    tbody.insertBefore(tr, tbody.children[tbody.children.length - 1]);
+                }
+            })();
+
+            // Growmin and growmax selects
+            (function () {
+                var growmin = document.getElementById("growmin");
+                var growmax = document.getElementById("growmax");
+                for (var i = 0; i < global.prct + 1; i++) {
+                    var option1 = document.createElement("option");
+                    option1.textContent = i;
+                    growmin.appendChild(option1);
+
+                    var option2 = document.createElement("option");
+                    option2.textContent = i;
+                    growmax.appendChild(option2);
+                }
+                growmin.selectedIndex = 8;
+                growmax.selectedIndex = global.prct;
+            })();
+
+            // Ring selects
+            (function () {
+                var container = document.getElementById("ringContainer");
+                for (var i = 0; i < global.rict; i++) {
+                    var select = document.createElement("select");
+                    select.id = "afua" + i;
+                    for (var j = 0; j < global.ring.length; j++) {
+                        var option = document.createElement("option");
+                        option.textContent = global.ring[j][0];
+                        select.appendChild(option);
+                    }
+                    select.selectedIndex = 0;
+                    container.appendChild(select);
+                    container.appendChild(document.createElement("br"));
+                }
+            })();
+
+            // Battle: attacker selects
+            (function () {
+                function fillSelect(id, count, offset, selected) {
+                    var sel = document.getElementById(id);
+                    for (var i = 0; i < count; i++) {
+                        var option = document.createElement("option");
+                        option.textContent = i + (offset || 0);
+                        sel.appendChild(option);
+                    }
+                    sel.selectedIndex = selected || 0;
+                }
+                fillSelect("athp", 80, 1, 39);
+                fillSelect("atmhp", 80, 1, 59);
+                fillSelect("atatc", 100, 0, 20);
+                fillSelect("atdef", 51, 0, 10);
+                fillSelect("athit", 101, 0, 90);
+                fillSelect("atcrt", 101, 0, 10);
+                fillSelect("atcrtkei", 6, 0, 1);
+                fillSelect("atlvl", 20, 1, 9);
+                fillSelect("atskl", 41, 0, 10);
+                fillSelect("atspd", 41, 0, 10);
+                fillSelect("atluck", 31, 0, 10);
+            })();
+
+            // Battle: attacker skill checkboxes
+            (function () {
+                var container = document.getElementById("atskillContainer");
+                for (var i = 0; i < global.skilln; i++) {
+                    var span = document.createElement("span");
+                    span.className = "cbx";
+
+                    var checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.id = "atskill" + i;
+                    checkbox.value = "1";
+
+                    var label = document.createElement("label");
+                    label.htmlFor = "atskill" + i;
+                    label.textContent = global.skilllist[i];
+
+                    span.appendChild(checkbox);
+                    span.appendChild(label);
+                    container.appendChild(span);
+                    container.appendChild(document.createTextNode(" "));
+                }
+            })();
+
+            // Battle: defender selects
+            (function () {
+                function fillSelect(id, count, offset, selected) {
+                    var sel = document.getElementById(id);
+                    for (var i = 0; i < count; i++) {
+                        var option = document.createElement("option");
+                        option.textContent = i + (offset || 0);
+                        sel.appendChild(option);
+                    }
+                    sel.selectedIndex = selected || 0;
+                }
+                fillSelect("dfhp", 80, 1, 39);
+                fillSelect("dfmhp", 80, 1, 59);
+                fillSelect("dfatc", 100, 0, 20);
+                fillSelect("dfdef", 51, 0, 10);
+                fillSelect("dfhit", 101, 0, 90);
+                fillSelect("dfcrt", 101, 0, 10);
+                fillSelect("dfcrtkei", 6, 0, 1);
+                fillSelect("dflvl", 20, 1, 9);
+                fillSelect("dfskl", 41, 0, 10);
+                fillSelect("dfspd", 41, 0, 10);
+                fillSelect("dfluck", 31, 0, 10);
+            })();
+
+            // Battle: defender skill checkboxes
+            (function () {
+                var container = document.getElementById("dfskillContainer");
+                for (var i = 0; i < global.skilln; i++) {
+                    var span = document.createElement("span");
+                    span.className = "cbx";
+
+                    var checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.id = "dfskill" + i;
+                    checkbox.value = "1";
+
+                    var label = document.createElement("label");
+                    label.htmlFor = "dfskill" + i;
+                    label.textContent = global.skilllist[i];
+
+                    span.appendChild(checkbox);
+                    span.appendChild(label);
+                    container.appendChild(span);
+                    container.appendChild(document.createTextNode(" "));
+                }
+            })();
+
+            // Battle: attacker min/max HP selects
+            (function () {
+                function fillSelect(id, count, offset, selected) {
+                    var sel = document.getElementById(id);
+                    for (var i = 0; i < count; i++) {
+                        var option = document.createElement("option");
+                        option.textContent = i + (offset || 0);
+                        sel.appendChild(option);
+                    }
+                    sel.selectedIndex = selected || 0;
+                }
+                fillSelect("athpmin", 81, 0, 1);
+                fillSelect("athpmax", 81, 0, 80);
+            })();
+
+            // Battle: defender min/max HP selects
+            (function () {
+                function fillSelect(id, count, offset, selected) {
+                    var sel = document.getElementById(id);
+                    for (var i = 0; i < count; i++) {
+                        var option = document.createElement("option");
+                        option.textContent = i + (offset || 0);
+                        sel.appendChild(option);
+                    }
+                    sel.selectedIndex = selected || 0;
+                }
+                fillSelect("dfhpmin", 81, 0, 0);
+                fillSelect("dfhpmax", 81, 0, 0);
+            })();
+        </script>
 </html>
