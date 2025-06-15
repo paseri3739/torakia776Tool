@@ -558,37 +558,39 @@ const Change_type = () => {
     view_val_f();
     lv_val_f();
 };
+/** 値を最小値～最大値の範囲に収めるユーティリティ */
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
 const view_val_f = () => {
-    //現在位置
-    let index = parseInt(document.getElementById("view_val").value) - global.prim * 55;
-    if (isNaN(index) || index < 1) {
-        index = 1;
-    }
-    let ret = [];
-    if (index > global.maxlen * 55) {
-        index = global.maxlen * 55;
-    }
+    // 入力値取得 → prim オフセットを引いた基準値
+    const raw = parseInt(document.getElementById("view_val").value, 10);
+    const baseIndex = Number.isNaN(raw) ? 1 : raw - global.prim * 55;
+
+    /** index は以降変更しない */
+    const index = clamp(baseIndex, 1, global.maxlen * 55);
+
+    // 入力欄を正規化した値で更新
     document.getElementById("view_val").value = index + global.prim * 55;
+
+    /* ------------------------- 乱数 30 個の描画 ------------------------- */
+    const cells = [];
     for (let i = 0; i < 30; i++) {
-        let st = String(global.vv[index + i] + 99).slice(1);
-        if (ox(global.vv[index + i])) {
-            st = "<span class=maru>" + st + "</span>";
-        } else {
-            st = "<span class=batsu>" + st + "</span>";
-        }
-        ret.push(st);
+        const val = global.vv[index + i];
+        const text = String(val + 99).slice(1);
+        cells.push(ox(val) ? `<span class="maru">${text}</span>` : `<span class="batsu">${text}</span>`);
     }
-    document.getElementById("view_val_v").innerHTML = ret.join(" ");
-    ret = [];
+    document.getElementById("view_val_v").innerHTML = cells.join(" ");
+
+    /* ------------------------- マップ部表示 ----------------------------- */
     const sp = Math.floor(index / 55);
-    for (let i = 0; i < 1; i++) {
-        ret.push(randtable(sp + i, index, -1));
-    }
-    document.getElementById("map_val_n").innerHTML = ret.join("<br>");
+    document.getElementById("map_val_n").innerHTML = randtable(sp, index, -1);
+
+    /* ------------------------- 後続処理 -------------------------------- */
     sub_val_f();
     lvup(0, 0);
     yosoku();
 };
+
 const view_val_updown = (v) => {
     document.getElementById("view_val").value -= -v;
     view_val_f();
