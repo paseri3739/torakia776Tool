@@ -107,8 +107,8 @@ const change_max = () => {
         document.getElementById("rand_start").value = global.prim;
     }
 };
-const mapselected = (f) => {
-    if (f ^ document.getElementById("pikacheck").checked) {
+const mapselected = (flag) => {
+    if (flag ^ document.getElementById("pikacheck").checked) {
         return global.pika[document.getElementById("seed").selectedIndex];
     } else {
         return document.getElementById("seed").selectedIndex;
@@ -121,9 +121,9 @@ const mapselect = (m) => {
         document.getElementById("seed").selectedIndex = m;
     }
 };
-const pikasort = (f) => {
+const pikasort = (flag) => {
     const ret = [];
-    const map = f ? mapselected(1) : 30;
+    const map = flag ? mapselected(1) : 30;
     const isPika = document.getElementById("pikacheck").checked;
     for (let i = 0; i < global.randmap; i++) {
         ret.push("<option>" + (isPika ? global.pika[i] : i) + "</option>");
