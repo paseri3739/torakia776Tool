@@ -2148,12 +2148,12 @@ function createSelect(id, count, defaultIndex, onchange, startFromOne) {
     return select;
 }
 // Insert the selects for the defender side
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", () => {
     // Glance select
-    (function () {
-        var glance = document.getElementById("glance");
-        for (var i = -999; i < 1001; i++) {
-            var option = document.createElement("option");
+    (() => {
+        const glance = document.getElementById("glance");
+        for (let i = -999; i < 1001; i++) {
+            const option = document.createElement("option");
             option.textContent = i;
             glance.appendChild(option);
         }
@@ -2161,31 +2161,31 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Unitname select
-    (function () {
-        var unitname = document.getElementById("unitname");
-        for (var i in global.ud) {
-            var option = document.createElement("option");
-            option.textContent = global.ud[i][0];
+    (() => {
+        const unitname = document.getElementById("unitname");
+        for (const ud of global.ud) {
+            const option = document.createElement("option");
+            option.textContent = ud[0];
             unitname.appendChild(option);
         }
         unitname.selectedIndex = global.unitindex;
     })();
 
     // Parameter table rows
-    (function () {
-        var tbody = document.getElementById("paramTableBody");
-        for (var i = 0; i < global.prct; i++) {
-            var tr = document.createElement("tr");
+    (() => {
+        const tbody = document.getElementById("paramTableBody");
+        for (let i = 0; i < global.prct; i++) {
+            const tr = document.createElement("tr");
 
             // Parameter name
-            var tdName = document.createElement("td");
+            const tdName = document.createElement("td");
             tdName.className = "view";
             tdName.textContent = global.para[i] + "：";
             tr.appendChild(tdName);
 
             // Input box
-            var tdInput = document.createElement("td");
-            var input = document.createElement("input");
+            const tdInput = document.createElement("td");
+            const input = document.createElement("input");
             input.type = "text";
             input.id = global.prvn[i];
             input.size = 4;
@@ -2194,12 +2194,12 @@ window.addEventListener("DOMContentLoaded", function () {
             tr.appendChild(tdInput);
 
             // Select box
-            var tdSelect = document.createElement("td");
-            var select = document.createElement("select");
+            const tdSelect = document.createElement("td");
+            const select = document.createElement("select");
             select.id = "ch" + global.prvn[i];
-            var opts = ["上昇しないとダメ", "+1以上上昇", "どちらでもよい", "上昇しちゃダメ", "--MAX--"];
-            for (var j = 0; j < opts.length; j++) {
-                var option = document.createElement("option");
+            const opts = ["上昇しないとダメ", "+1以上上昇", "どちらでもよい", "上昇しちゃダメ", "--MAX--"];
+            for (let j = 0; j < opts.length; j++) {
+                const option = document.createElement("option");
                 option.textContent = opts[j];
                 if (j === 2) option.selected = true;
                 select.appendChild(option);
@@ -2208,17 +2208,17 @@ window.addEventListener("DOMContentLoaded", function () {
             tr.appendChild(tdSelect);
 
             // Result columns
-            var tdPL = document.createElement("td");
+            const tdPL = document.createElement("td");
             tdPL.id = global.prvn[i] + "pl";
             tdPL.className = "view";
             tr.appendChild(tdPL);
 
-            var tdPM = document.createElement("td");
+            const tdPM = document.createElement("td");
             tdPM.id = global.prvn[i] + "pm";
             tdPM.className = "view";
             tr.appendChild(tdPM);
 
-            var tdPP = document.createElement("td");
+            const tdPP = document.createElement("td");
             tdPP.id = global.prvn[i] + "pp";
             tdPP.className = "view";
             tr.appendChild(tdPP);
@@ -2228,15 +2228,15 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Growmin and growmax selects
-    (function () {
-        var growmin = document.getElementById("growmin");
-        var growmax = document.getElementById("growmax");
-        for (var i = 0; i < global.prct + 1; i++) {
-            var option1 = document.createElement("option");
+    (() => {
+        const growmin = document.getElementById("growmin");
+        const growmax = document.getElementById("growmax");
+        for (let i = 0; i < global.prct + 1; i++) {
+            const option1 = document.createElement("option");
             option1.textContent = i;
             growmin.appendChild(option1);
 
-            var option2 = document.createElement("option");
+            const option2 = document.createElement("option");
             option2.textContent = i;
             growmax.appendChild(option2);
         }
@@ -2245,13 +2245,13 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Ring selects
-    (function () {
-        var container = document.getElementById("ringContainer");
-        for (var i = 0; i < global.rict; i++) {
-            var select = document.createElement("select");
+    (() => {
+        const container = document.getElementById("ringContainer");
+        for (let i = 0; i < global.rict; i++) {
+            const select = document.createElement("select");
             select.id = "afua" + i;
-            for (var j = 0; j < global.ring.length; j++) {
-                var option = document.createElement("option");
+            for (let j = 0; j < global.ring.length; j++) {
+                const option = document.createElement("option");
                 option.textContent = global.ring[j][0];
                 select.appendChild(option);
             }
@@ -2262,16 +2262,16 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Battle: attacker selects
-    (function () {
-        function fillSelect(id, count, offset, selected) {
-            var sel = document.getElementById(id);
-            for (var i = 0; i < count; i++) {
-                var option = document.createElement("option");
+    (() => {
+        const fillSelect = (id, count, offset, selected) => {
+            const sel = document.getElementById(id);
+            for (let i = 0; i < count; i++) {
+                const option = document.createElement("option");
                 option.textContent = i + (offset || 0);
                 sel.appendChild(option);
             }
             sel.selectedIndex = selected || 0;
-        }
+        };
         fillSelect("athp", 80, 1, 39);
         fillSelect("atmhp", 80, 1, 59);
         fillSelect("atatc", 100, 0, 20);
@@ -2286,18 +2286,18 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Battle: attacker skill checkboxes
-    (function () {
-        var container = document.getElementById("atskillContainer");
-        for (var i = 0; i < global.skilln; i++) {
-            var span = document.createElement("span");
+    (() => {
+        const container = document.getElementById("atskillContainer");
+        for (let i = 0; i < global.skilln; i++) {
+            const span = document.createElement("span");
             span.className = "cbx";
 
-            var checkbox = document.createElement("input");
+            const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = "atskill" + i;
             checkbox.value = "1";
 
-            var label = document.createElement("label");
+            const label = document.createElement("label");
             label.htmlFor = "atskill" + i;
             label.textContent = global.skilllist[i];
 
@@ -2309,16 +2309,16 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Battle: defender selects
-    (function () {
-        function fillSelect(id, count, offset, selected) {
-            var sel = document.getElementById(id);
-            for (var i = 0; i < count; i++) {
-                var option = document.createElement("option");
+    (() => {
+        const fillSelect = (id, count, offset, selected) => {
+            const sel = document.getElementById(id);
+            for (let i = 0; i < count; i++) {
+                const option = document.createElement("option");
                 option.textContent = i + (offset || 0);
                 sel.appendChild(option);
             }
             sel.selectedIndex = selected || 0;
-        }
+        };
         fillSelect("dfhp", 80, 1, 39);
         fillSelect("dfmhp", 80, 1, 59);
         fillSelect("dfatc", 100, 0, 20);
@@ -2333,18 +2333,18 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Battle: defender skill checkboxes
-    (function () {
-        var container = document.getElementById("dfskillContainer");
-        for (var i = 0; i < global.skilln; i++) {
-            var span = document.createElement("span");
+    (() => {
+        const container = document.getElementById("dfskillContainer");
+        for (let i = 0; i < global.skilln; i++) {
+            const span = document.createElement("span");
             span.className = "cbx";
 
-            var checkbox = document.createElement("input");
+            const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = "dfskill" + i;
             checkbox.value = "1";
 
-            var label = document.createElement("label");
+            const label = document.createElement("label");
             label.htmlFor = "dfskill" + i;
             label.textContent = global.skilllist[i];
 
@@ -2356,31 +2356,31 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // Battle: attacker min/max HP selects
-    (function () {
-        function fillSelect(id, count, offset, selected) {
-            var sel = document.getElementById(id);
-            for (var i = 0; i < count; i++) {
-                var option = document.createElement("option");
+    (() => {
+        const fillSelect = (id, count, offset, selected) => {
+            const sel = document.getElementById(id);
+            for (let i = 0; i < count; i++) {
+                const option = document.createElement("option");
                 option.textContent = i + (offset || 0);
                 sel.appendChild(option);
             }
             sel.selectedIndex = selected || 0;
-        }
+        };
         fillSelect("athpmin", 81, 0, 1);
         fillSelect("athpmax", 81, 0, 80);
     })();
 
     // Battle: defender min/max HP selects
-    (function () {
-        function fillSelect(id, count, offset, selected) {
-            var sel = document.getElementById(id);
-            for (var i = 0; i < count; i++) {
-                var option = document.createElement("option");
+    (() => {
+        const fillSelect = (id, count, offset, selected) => {
+            const sel = document.getElementById(id);
+            for (let i = 0; i < count; i++) {
+                const option = document.createElement("option");
                 option.textContent = i + (offset || 0);
                 sel.appendChild(option);
             }
             sel.selectedIndex = selected || 0;
-        }
+        };
         fillSelect("dfhpmin", 81, 0, 0);
         fillSelect("dfhpmax", 81, 0, 0);
     })();
@@ -2394,50 +2394,26 @@ window.addEventListener("DOMContentLoaded", function () {
 
     // view_val events
     document.getElementById("view_val").onchange = view_val_f;
-    document.getElementById("btn_view_val_updown_m55").onclick = function () {
-        view_val_updown(-55);
-    };
-    document.getElementById("btn_view_val_updown_m10").onclick = function () {
-        view_val_updown(-10);
-    };
-    document.getElementById("btn_view_val_updown_m1").onclick = function () {
-        view_val_updown(-1);
-    };
-    document.getElementById("btn_view_val_updown_1").onclick = function () {
-        view_val_updown(1);
-    };
-    document.getElementById("btn_view_val_updown_10").onclick = function () {
-        view_val_updown(10);
-    };
-    document.getElementById("btn_view_val_updown_55").onclick = function () {
-        view_val_updown(55);
-    };
-    document.getElementById("btn_view_val_set_lv_val").onclick = function () {
+    document.getElementById("btn_view_val_updown_m55").onclick = () => view_val_updown(-55);
+    document.getElementById("btn_view_val_updown_m10").onclick = () => view_val_updown(-10);
+    document.getElementById("btn_view_val_updown_m1").onclick = () => view_val_updown(-1);
+    document.getElementById("btn_view_val_updown_1").onclick = () => view_val_updown(1);
+    document.getElementById("btn_view_val_updown_10").onclick = () => view_val_updown(10);
+    document.getElementById("btn_view_val_updown_55").onclick = () => view_val_updown(55);
+    document.getElementById("btn_view_val_set_lv_val").onclick = () => {
         document.getElementById("view_val").value = document.getElementById("lv_val").value;
         view_val_f();
     };
 
     // lv_val events
     document.getElementById("lv_val").onchange = lv_val_f;
-    document.getElementById("btn_lv_val_updown_m55").onclick = function () {
-        lv_val_updown(-55);
-    };
-    document.getElementById("btn_lv_val_updown_m10").onclick = function () {
-        lv_val_updown(-10);
-    };
-    document.getElementById("btn_lv_val_updown_m1").onclick = function () {
-        lv_val_updown(-1);
-    };
-    document.getElementById("btn_lv_val_updown_1").onclick = function () {
-        lv_val_updown(1);
-    };
-    document.getElementById("btn_lv_val_updown_10").onclick = function () {
-        lv_val_updown(10);
-    };
-    document.getElementById("btn_lv_val_updown_55").onclick = function () {
-        lv_val_updown(55);
-    };
-    document.getElementById("btn_lv_val_set_view_val").onclick = function () {
+    document.getElementById("btn_lv_val_updown_m55").onclick = () => lv_val_updown(-55);
+    document.getElementById("btn_lv_val_updown_m10").onclick = () => lv_val_updown(-10);
+    document.getElementById("btn_lv_val_updown_m1").onclick = () => lv_val_updown(-1);
+    document.getElementById("btn_lv_val_updown_1").onclick = () => lv_val_updown(1);
+    document.getElementById("btn_lv_val_updown_10").onclick = () => lv_val_updown(10);
+    document.getElementById("btn_lv_val_updown_55").onclick = () => lv_val_updown(55);
+    document.getElementById("btn_lv_val_set_view_val").onclick = () => {
         document.getElementById("lv_val").value = document.getElementById("view_val").value;
         lv_val_f();
     };
@@ -2451,33 +2427,25 @@ window.addEventListener("DOMContentLoaded", function () {
     // search
     document.getElementById("search_dtb").onclick = search_m_onchange;
     document.getElementById("search_ma").onkeyup = search_m_onchange;
-    document.getElementById("btn_search_ma_o").onclick = function () {
+    document.getElementById("btn_search_ma_o").onclick = () => {
         document.getElementById("search_ma").value += "o";
         search_mx_onchange();
     };
-    document.getElementById("btn_search_ma_x").onclick = function () {
+    document.getElementById("btn_search_ma_x").onclick = () => {
         document.getElementById("search_ma").value += "x";
         search_mx_onchange();
     };
-    document.getElementById("btn_search_ma_clear").onclick = function () {
+    document.getElementById("btn_search_ma_clear").onclick = () => {
         document.getElementById("search_ma").value = "";
         search_m_onchange();
     };
-    document.getElementById("btn_search_updown_m1").onclick = function () {
-        search_updown(-1);
-    };
-    document.getElementById("btn_search_updown_1").onclick = function () {
-        search_updown(1);
-    };
-    document.getElementById("btn_all_show_0").onclick = function () {
-        all_show(0);
-    };
+    document.getElementById("btn_search_updown_m1").onclick = () => search_updown(-1);
+    document.getElementById("btn_search_updown_1").onclick = () => search_updown(1);
+    document.getElementById("btn_all_show_0").onclick = () => all_show(0);
     document.getElementById("inpl").onclick = search_m_onchange;
 
     // pikacheck
-    document.getElementById("pikacheck").onclick = function () {
-        pikasort(1);
-    };
+    document.getElementById("pikacheck").onclick = () => pikasort(1);
 
     // mapsw
     document.getElementById("mapsw").onclick = map_swap;
@@ -2486,26 +2454,18 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search_type").onchange = Change_type;
 
     // displaystyle
-    document.getElementById("btn_displaystyle_tlvup").onclick = function () {
-        displaystyle("tlvup", 0);
-    };
+    document.getElementById("btn_displaystyle_tlvup").onclick = () => displaystyle("tlvup", 0);
 
     // unitname
-    document.getElementById("unitname").onchange = function () {
-        ch_OnChange(1);
-    };
-    document.getElementById("unitname").onkeyup = function () {
-        ch_OnChange(1);
-    };
-    document.getElementById("btn_unitname_set").onclick = function () {
-        ch_OnChange(1);
-    };
+    document.getElementById("unitname").onchange = () => ch_OnChange(1);
+    document.getElementById("unitname").onkeyup = () => ch_OnChange(1);
+    document.getElementById("btn_unitname_set").onclick = () => ch_OnChange(1);
 
     // chall
     document.getElementById("chall").onchange = ch_all;
 
     // pls
-    document.getElementById("pls").onchange = function () {
+    document.getElementById("pls").onchange = () => {
         document.getElementById("plkae").checked = 0;
         lvup(1, 0);
     };
@@ -2515,8 +2475,8 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("growmax").onchange = calc_lvlup;
 
     // afua
-    for (var i = 0; i < global.rict; i++) {
-        var afua = document.getElementById("afua" + i);
+    for (let i = 0; i < global.rict; i++) {
+        const afua = document.getElementById("afua" + i);
         if (afua) afua.onchange = afua_change;
     }
 
@@ -2530,26 +2490,18 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("react").onchange = calc_lvlup;
 
     // ch* for each param
-    for (var i = 0; i < global.prct; i++) {
-        var ch = document.getElementById("ch" + global.prvn[i]);
+    for (let i = 0; i < global.prct; i++) {
+        const ch = document.getElementById("ch" + global.prvn[i]);
         if (ch) ch.onchange = calc_lvlup;
-        var inp = document.getElementById(global.prvn[i]);
+        const inp = document.getElementById(global.prvn[i]);
         if (inp) inp.onchange = calc_lvlup;
     }
 
     // kouho
-    document.getElementById("btn_kouho_updown_m1").onclick = function () {
-        kouho_updown(-1);
-    };
-    document.getElementById("btn_kouho_updown_1").onclick = function () {
-        kouho_updown(1);
-    };
-    document.getElementById("btn_kouho_next").onclick = function () {
-        kouho_next(1);
-    };
-    document.getElementById("btn_all_show_1").onclick = function () {
-        all_show(1);
-    };
+    document.getElementById("btn_kouho_updown_m1").onclick = () => kouho_updown(-1);
+    document.getElementById("btn_kouho_updown_1").onclick = () => kouho_updown(1);
+    document.getElementById("btn_kouho_next").onclick = () => kouho_next(1);
+    document.getElementById("btn_all_show_1").onclick = () => all_show(1);
 
     // search_thread
     document.getElementById("btn_search_thread").onclick = search_thread;
@@ -2573,27 +2525,21 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("atskl").onchange = battle_s;
     document.getElementById("atspd").onchange = battle_s;
     document.getElementById("atluck").onchange = battle_s;
-    for (var i = 0; i < global.skilln; i++) {
-        var atskill = document.getElementById("atskill" + i);
+    for (let i = 0; i < global.skilln; i++) {
+        const atskill = document.getElementById("atskill" + i);
         if (atskill) atskill.onclick = battle_s;
     }
-    document.getElementById("attsuigeki").onclick = function () {
-        battle_ss(0);
-    };
+    document.getElementById("attsuigeki").onclick = () => battle_ss(0);
 
     // Defender side (created by script)
-    document.getElementById("hangeki").onclick = function () {
-        battle_ss(1);
-    };
-    document.getElementById("dftsuigeki").onclick = function () {
-        battle_ss(2);
-    };
-    for (var i = 0; i < global.skilln; i++) {
-        var dfskill = document.getElementById("dfskill" + i);
+    document.getElementById("hangeki").onclick = () => battle_ss(1);
+    document.getElementById("dftsuigeki").onclick = () => battle_ss(2);
+    for (let i = 0; i < global.skilln; i++) {
+        const dfskill = document.getElementById("dfskill" + i);
         if (dfskill) dfskill.onclick = battle_s;
     }
-    ["dfhp", "dfmhp", "dfatc", "dfdef", "dfhit", "dfcrt", "dfcrtkei", "dflvl", "dfskl", "dfspd", "dfluck"].forEach(function (id) {
-        var el = document.getElementById(id);
+    ["dfhp", "dfmhp", "dfatc", "dfdef", "dfhit", "dfcrt", "dfcrtkei", "dflvl", "dfskl", "dfspd", "dfluck"].forEach((id) => {
+        const el = document.getElementById(id);
         if (el) el.onchange = battle_s;
     });
 
@@ -2610,17 +2556,11 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("plkae").onclick = battle_s;
 
     // createTable
-    document.getElementById("btn_create_table_1").onclick = function () {
-        createTable(1);
-    };
-    document.getElementById("btn_create_table_2").onclick = function () {
-        createTable(2);
-    };
-    document.getElementById("btn_create_table_0").onclick = function () {
-        createTable(0);
-    };
+    document.getElementById("btn_create_table_1").onclick = () => createTable(1);
+    document.getElementById("btn_create_table_2").onclick = () => createTable(2);
+    document.getElementById("btn_create_table_0").onclick = () => createTable(0);
 
-    var container = document.getElementById("dfhp").parentElement;
+    const container = document.getElementById("dfhp").parentElement;
     // Remove old selects and scripts
     while (container.firstChild) container.removeChild(container.firstChild);
 
