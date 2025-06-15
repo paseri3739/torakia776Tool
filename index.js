@@ -522,8 +522,8 @@ const change_map = (f, m) => {
             global.vv_b = global.vv_b.concat(global.vv);
             global.vv_bn = global.vv_n;
         }
-        let data = [];
-        data = data.concat(global.msp[map]);
+        const data = [];
+        data.push(...global.msp[map]);
         for (let i = 0; i < global.prim; i++) {
             rand_calc(data);
         }
