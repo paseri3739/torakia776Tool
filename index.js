@@ -384,7 +384,7 @@ global.skilllist = [
     "毒",
 ]; //スキル
 global.skilln = global.skilllist.length;
-function rand_calc(data) {
+const rand_calc = (data) => {
     //乱数計算
     let i;
     for (i = 54; i >= 0; i--) {
@@ -393,8 +393,8 @@ function rand_calc(data) {
     for (i = 0; i < 7; i++) {
         data[i + 48] = ((data[i + 48] + data[i] - 1) % 100) + 1;
     }
-}
-function rand_ins(data) {
+};
+const rand_ins = (data) => {
     //乱数を配列に入れる
     global.vv = [];
     global.vv = global.vv.concat(data);
@@ -402,8 +402,8 @@ function rand_ins(data) {
         rand_calc(data);
         global.vv = global.vv.concat(data);
     }
-}
-function init() {
+};
+const init = () => {
     //初期化
     pikasort(0);
     createTable(0);
@@ -411,8 +411,8 @@ function init() {
     search_m_onchange();
     reset();
     document.getElementById("mainwindow").style.visibility = "visible";
-}
-function next() {
+};
+const next = () => {
     //次の乱数
     let nn = global.maxlen;
     nn = parseInt(document.getElementById("rand_max").value);
@@ -435,16 +435,16 @@ function next() {
         document.getElementById("rand_max").value = global.maxlen;
         document.getElementById("rand_start").value = global.prim;
     }
-}
-function reset() {
+};
+const reset = () => {
     //再設定
     document.getElementById("rand_start").value = global.prim;
     document.getElementById("rand_max").value = global.maxlen;
     document.getElementById("view_val").value = 0;
     change_map(0, 0);
     kouho_next(1);
-}
-function change_max() {
+};
+const change_max = () => {
     //乱数の個数変更
     let np = global.prim;
     let nn = global.maxlen;
@@ -472,22 +472,22 @@ function change_max() {
         document.getElementById("rand_max").value = global.maxlen;
         document.getElementById("rand_start").value = global.prim;
     }
-}
-function mapselected(f) {
+};
+const mapselected = (f) => {
     if (f ^ document.getElementById("pikacheck").checked) {
         return global.pika[document.getElementById("seed").selectedIndex];
     } else {
         return document.getElementById("seed").selectedIndex;
     }
-}
-function mapselect(m) {
+};
+const mapselect = (m) => {
     if (document.getElementById("pikacheck").checked) {
         document.getElementById("seed").selectedIndex = global.pika2[m];
     } else {
         document.getElementById("seed").selectedIndex = m;
     }
-}
-function pikasort(f) {
+};
+const pikasort = (f) => {
     let ret = [];
     let map = f ? mapselected(1) : 30;
     let i;
@@ -517,16 +517,16 @@ function pikasort(f) {
     }
     mapContainer.appendChild(select);
     mapselect(map);
-}
-function map_swap() {
+};
+const map_swap = () => {
     if (global.vv_bn < 0) {
         1;
     } else {
         mapselect(global.vv_bn);
         change_map(0, 0);
     }
-}
-function change_map(f, m) {
+};
+const change_map = (f, m) => {
     if (f) {
         document.getElementById("search_dtb").checked = 1;
         mapselect(m);
@@ -568,8 +568,8 @@ function change_map(f, m) {
         kouho_next(1);
     }
     document.getElementById("bt_kouho").innerHTML = "未検索";
-}
-function Change_type() {
+};
+const Change_type = () => {
     if (document.getElementById("search_type").selectedIndex == 0) {
         calc_lvlup_lv(1);
     } else if (document.getElementById("search_type").selectedIndex == 1) {
@@ -583,8 +583,8 @@ function Change_type() {
     document.getElementById("rasucmpt").innerHTML = global.rasu[mapselected(0)];
     view_val_f();
     lv_val_f();
-}
-function view_val_f() {
+};
+const view_val_f = () => {
     //現在位置
     let i;
     let sp;
@@ -617,12 +617,12 @@ function view_val_f() {
     sub_val_f();
     lvup(0, 0);
     yosoku();
-}
-function view_val_updown(v) {
+};
+const view_val_updown = (v) => {
     document.getElementById("view_val").value -= -v;
     view_val_f();
-}
-function lv_val_glance() {
+};
+const lv_val_glance = () => {
     //目標位置先読み
     let index;
     index = parseInt(document.getElementById("lv_val").value) - global.prim * 55;
@@ -630,8 +630,8 @@ function lv_val_glance() {
         index += document.getElementById("glance").selectedIndex - 999;
     }
     return index;
-}
-function glance_a() {
+};
+const glance_a = () => {
     //先読み反映
     let index;
     index = parseInt(document.getElementById("lv_val").value);
@@ -639,8 +639,8 @@ function glance_a() {
     document.getElementById("lv_val").value = index;
     document.getElementById("glance_ck").checked = 0;
     lv_val_f();
-}
-function lv_val_f() {
+};
+const lv_val_f = () => {
     //目標位置
     let i;
     let sp;
@@ -680,12 +680,12 @@ function lv_val_f() {
     document.getElementById("map_val_t").innerHTML = ret.join("<br>");
     sub_val_f();
     battle();
-}
-function lv_val_updown(v) {
+};
+const lv_val_updown = (v) => {
     document.getElementById("lv_val").value -= -v;
     lv_val_f();
-}
-function sub_val_f() {
+};
+const sub_val_f = () => {
     //差
     let i;
     let val, hfal, vfal;
@@ -736,8 +736,8 @@ function sub_val_f() {
     } else {
         document.getElementById("sub_vfal").innerHTML += "　 　";
     }
-}
-function addw(i, v) {
+};
+const addw = (i, v) => {
     if (i < 0 || i > global.maxlen * 55 + 55) {
         return undefined;
     }
@@ -755,8 +755,8 @@ function addw(i, v) {
         (((i % 55) % 24) + 1) +
         ")"
     );
-}
-function lvup(flag, v) {
+};
+const lvup = (flag, v) => {
     //上昇量表示
     let i;
     let u;
@@ -835,8 +835,8 @@ function lvup(flag, v) {
         document.getElementById("reactpl").innerHTML = up ? "○" : "×";
         document.getElementById("reactpl").title = addw(index + i, "♪:" + (up ? "○" : "×"));
     }
-}
-function ch_OnChange(flag) {
+};
+const ch_OnChange = (flag) => {
     //ユニット選択変更
     let i;
     let j = document.getElementById("unitname").selectedIndex;
@@ -854,8 +854,8 @@ function ch_OnChange(flag) {
         }
         calc_lvlup();
     }
-}
-function afua_change() {
+};
+const afua_change = () => {
     //聖戦士の書
     let i, j;
     let o, n;
@@ -875,8 +875,8 @@ function afua_change() {
         document.getElementById(global.prvn[j]).value = pr[j];
     }
     calc_lvlup();
-}
-function randtable(sp, indexs, indexl) {
+};
+const randtable = (sp, indexs, indexl) => {
     let i;
     let st;
     let ret = [];
@@ -944,8 +944,8 @@ function randtable(sp, indexs, indexl) {
         sp++;
     }
     return ret.join("");
-}
-function createTable(f) {
+};
+const createTable = (f) => {
     //乱数表表示
     if (f == 1) {
         let ranvalue = [];
@@ -968,8 +968,8 @@ function createTable(f) {
     } else {
         document.getElementById("randnum").innerHTML = "";
     }
-}
-function ch_all() {
+};
+const ch_all = () => {
     //一括変更
     if (document.getElementById("chall").selectedIndex) {
         for (let i = 0; i < global.prct; i++) {
@@ -978,8 +978,8 @@ function ch_all() {
         document.getElementById("chall").selectedIndex = 0;
         calc_lvlup();
     }
-}
-function calc_lvlup() {
+};
+const calc_lvlup = () => {
     //レベルアップ
     if (document.getElementById("search_type").selectedIndex == 1) {
         document.getElementById("search_type").selectedIndex = 0;
@@ -993,8 +993,8 @@ function calc_lvlup() {
     }
     lvup(0, 0);
     lvup(1, 0);
-}
-function kouho_show(ret) {
+};
+const kouho_show = (ret) => {
     //候補表示
     let cnt = ret.length;
     if (cnt == 0) {
@@ -1006,8 +1006,8 @@ function kouho_show(ret) {
         }
         document.getElementById("kouho").innerHTML = "候補数：" + cnt + "<br>" + ret.join(" ");
     }
-}
-function calc_lvlup_lv(all) {
+};
+const calc_lvlup_lv = (all) => {
     //レベルアップ候補
     let i, j, k, l;
     let sumc;
@@ -1093,8 +1093,8 @@ function calc_lvlup_lv(all) {
     }
     global.kouho_vv = ret;
     kouho_show(ret);
-}
-function kouho_updown(v) {
+};
+const kouho_updown = (v) => {
     //前後の候補
     v -= 0;
     let i;
@@ -1118,8 +1118,8 @@ function kouho_updown(v) {
         document.getElementById("lv_val").value = global.kouho_vv[i];
     }
     lv_val_f();
-}
-function kouho_next(f) {
+};
+const kouho_next = (f) => {
     //現在の次の候補
     let i;
     let nowval = parseInt(document.getElementById("view_val").value);
@@ -1140,8 +1140,8 @@ function kouho_next(f) {
     if (f) {
         lv_val_f();
     }
-}
-function all_show(flag) {
+};
+const all_show = (flag) => {
     //全て表示
     let ret = flag ? global.kouho_vv : global.search_vv;
     if (flag) {
@@ -1149,8 +1149,8 @@ function all_show(flag) {
     } else {
         document.getElementById("search_m_ret").innerHTML = "候補数：" + ret.length + "<br>" + ret.join(" ");
     }
-}
-function search_mx_onchange() {
+};
+const search_mx_onchange = () => {
     //現在位置検索ボタン
     let lox = document.getElementById("search_ma").value;
     global.search_vv = [];
@@ -1160,8 +1160,8 @@ function search_mx_onchange() {
         return false;
     }
     search_m_onchange();
-}
-function search_m_onchange() {
+};
+const search_m_onchange = () => {
     //現在位置検索
     let i, j, k;
     let cnt;
@@ -1280,11 +1280,11 @@ function search_m_onchange() {
             }
         }
     }
-}
-function ox(r) {
+};
+const ox = (r) => {
     return global.svv_tora[(r %= 25)];
-}
-function search_updown(v) {
+};
+const search_updown = (v) => {
     //次の位置
     v = parseInt(v);
     let i;
@@ -1308,8 +1308,8 @@ function search_updown(v) {
         document.getElementById("view_val").value = global.search_vv[i];
     }
     view_val_f();
-}
-function search_thread() {
+};
+const search_thread = () => {
     let i, j;
     let min, max;
     let l_type;
@@ -1396,8 +1396,8 @@ function search_thread() {
     do_search_thread(sv);
     document.getElementById("search_type").selectedIndex = 3;
     kouho_show(global.kouho_vv);
-}
-function do_search_thread(sv) {
+};
+const do_search_thread = (sv) => {
     let i, j, k;
     let p;
     let matchflag;
@@ -1448,18 +1448,18 @@ function do_search_thread(sv) {
             global.kouho_vv.push(i + global.prim * 55);
         }
     }
-}
-function thread_lvup() {
+};
+const thread_lvup = () => {
     let str = document.getElementById("search_mc").value;
     if (str.length && str.slice(str.length - 1) != "\n") {
         document.getElementById("search_mc").value += "\n";
     }
     document.getElementById("search_mc").value += "lvup()";
-}
-function addt(i, v) {
+};
+const addt = (i, v) => {
     return "<span title='" + addw(i - 1, v) + "' class=ttl>" + v + "</span>";
-}
-function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
+};
+const battle_kougeki = (ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) => {
     let gekko = 0;
     let taiyo = 0;
     let otate = 0;
@@ -1581,8 +1581,8 @@ function battle_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp,
         hitcnt[2] = 1;
     }
     return index;
-}
-function battle_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
+};
+const battle_koudou = (ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) => {
     let ct = 1;
     if (skill[ater][8] && para[ater][6]) {
         //流星剣
@@ -1612,8 +1612,8 @@ function battle_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, 
         attp.push(type);
     }
     return index;
-}
-function battle2(hp, hitcnt, sklsws, para, skill, index) {
+};
+const battle2 = (hp, hitcnt, sklsws, para, skill, index) => {
     let i;
     let atju = [];
     let attp = [];
@@ -1676,8 +1676,8 @@ function battle2(hp, hitcnt, sklsws, para, skill, index) {
         }
     }
     return index;
-}
-function battle() {
+};
+const battle = () => {
     let hp = [
         document.getElementById("athp").selectedIndex + 1,
         document.getElementById("dfhp").selectedIndex + 1,
@@ -1759,12 +1759,12 @@ function battle() {
     }
     yosoku();
     lvup(1, 0);
-}
-function battle_s() {
+};
+const battle_s = () => {
     document.getElementById("bt_kouho").innerHTML = "未検索";
     battle();
-}
-function battle_ss(f) {
+};
+const battle_ss = (f) => {
     if (f == 0 && document.getElementById("attsuigeki").checked) {
         document.getElementById("dftsuigeki").checked = 0;
     } else if (f == 1 && !document.getElementById("hangeki").checked) {
@@ -1774,8 +1774,8 @@ function battle_ss(f) {
         document.getElementById("hangeki").checked = 1;
     }
     battle_s();
-}
-function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
+};
+const battle_search_kougeki = (ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) => {
     let gekko = 0;
     let taiyo = 0;
     let otate = 0;
@@ -1869,8 +1869,8 @@ function battle_search_kougeki(ater, type, hp, hitcnt, sklsws, para, skill, atju
         hitcnt[2] = 1;
     }
     return index;
-}
-function battle_search_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) {
+};
+const battle_search_koudou = (ater, type, hp, hitcnt, sklsws, para, skill, atju, attp, index) => {
     let ct = 1;
     if (skill[ater][8] && para[ater][6]) {
         //流星剣
@@ -1894,8 +1894,8 @@ function battle_search_koudou(ater, type, hp, hitcnt, sklsws, para, skill, atju,
         attp.push(type);
     }
     return index;
-}
-function battle_search2(hp, hitcnt, sklsws, para, skill, index) {
+};
+const battle_search2 = (hp, hitcnt, sklsws, para, skill, index) => {
     let i;
     let atju = [];
     let attp = [];
@@ -1952,8 +1952,8 @@ function battle_search2(hp, hitcnt, sklsws, para, skill, index) {
         }
     }
     return index;
-}
-function battle_search1() {
+};
+const battle_search1 = () => {
     let i;
     global.battle_vv = [];
     global.battle_vv2 = [];
@@ -2040,12 +2040,12 @@ function battle_search1() {
     }
     document.getElementById("plkae").checked = 1;
     Change_type();
-}
-function battle_search() {
+};
+const battle_search = () => {
     document.getElementById("bt_kouho").innerHTML = "検索中です…";
     window.setTimeout("battle_search1()", 1);
-}
-function yosoku() {
+};
+const yosoku = () => {
     let start = parseInt(document.getElementById("view_val").value) - global.prim * 55;
     let last = lv_val_glance();
     if (start > last) {
@@ -2124,8 +2124,8 @@ function yosoku() {
         (cnt
             ? " (約" + Math.floor(((cnt - 1) * 3) / 20) + "." + ((Math.floor((cnt - 1) * 15) % 100) + 100 + "秒)").slice(1)
             : "");
-}
-function displaystyle(hlay, blay) {
+};
+const displaystyle = (hlay, blay) => {
     if (document.getElementById(hlay).style.display) {
         document.getElementById(hlay).style.display = "";
         if (blay) {
@@ -2137,10 +2137,10 @@ function displaystyle(hlay, blay) {
             document.getElementById(blay).value = "表示";
         }
     }
-}
+};
 
 // Helper function to create a select element with options and default selected index
-function createSelect(id, count, defaultIndex, onchange, startFromOne) {
+const createSelect = (id, count, defaultIndex, onchange, startFromOne) => {
     let select = document.createElement("select");
     select.id = id;
     select.setAttribute("onchange", onchange);
@@ -2151,7 +2151,7 @@ function createSelect(id, count, defaultIndex, onchange, startFromOne) {
     }
     select.selectedIndex = defaultIndex;
     return select;
-}
+};
 // Insert the selects for the defender side
 window.addEventListener("DOMContentLoaded", () => {
     // Glance select
