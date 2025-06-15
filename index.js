@@ -2149,6 +2149,242 @@ function createSelect(id, count, defaultIndex, onchange, startFromOne) {
 }
 // Insert the selects for the defender side
 window.addEventListener("DOMContentLoaded", function () {
+    // Glance select
+    (function () {
+        var glance = document.getElementById("glance");
+        for (var i = -999; i < 1001; i++) {
+            var option = document.createElement("option");
+            option.textContent = i;
+            glance.appendChild(option);
+        }
+        glance.selectedIndex = 999;
+    })();
+
+    // Unitname select
+    (function () {
+        var unitname = document.getElementById("unitname");
+        for (var i in global.ud) {
+            var option = document.createElement("option");
+            option.textContent = global.ud[i][0];
+            unitname.appendChild(option);
+        }
+        unitname.selectedIndex = global.unitindex;
+    })();
+
+    // Parameter table rows
+    (function () {
+        var tbody = document.getElementById("paramTableBody");
+        for (var i = 0; i < global.prct; i++) {
+            var tr = document.createElement("tr");
+
+            // Parameter name
+            var tdName = document.createElement("td");
+            tdName.className = "view";
+            tdName.textContent = global.para[i] + "：";
+            tr.appendChild(tdName);
+
+            // Input box
+            var tdInput = document.createElement("td");
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = global.prvn[i];
+            input.size = 4;
+            input.className = "view";
+            tdInput.appendChild(input);
+            tr.appendChild(tdInput);
+
+            // Select box
+            var tdSelect = document.createElement("td");
+            var select = document.createElement("select");
+            select.id = "ch" + global.prvn[i];
+            var opts = ["上昇しないとダメ", "+1以上上昇", "どちらでもよい", "上昇しちゃダメ", "--MAX--"];
+            for (var j = 0; j < opts.length; j++) {
+                var option = document.createElement("option");
+                option.textContent = opts[j];
+                if (j === 2) option.selected = true;
+                select.appendChild(option);
+            }
+            tdSelect.appendChild(select);
+            tr.appendChild(tdSelect);
+
+            // Result columns
+            var tdPL = document.createElement("td");
+            tdPL.id = global.prvn[i] + "pl";
+            tdPL.className = "view";
+            tr.appendChild(tdPL);
+
+            var tdPM = document.createElement("td");
+            tdPM.id = global.prvn[i] + "pm";
+            tdPM.className = "view";
+            tr.appendChild(tdPM);
+
+            var tdPP = document.createElement("td");
+            tdPP.id = global.prvn[i] + "pp";
+            tdPP.className = "view";
+            tr.appendChild(tdPP);
+
+            tbody.insertBefore(tr, tbody.children[tbody.children.length - 1]);
+        }
+    })();
+
+    // Growmin and growmax selects
+    (function () {
+        var growmin = document.getElementById("growmin");
+        var growmax = document.getElementById("growmax");
+        for (var i = 0; i < global.prct + 1; i++) {
+            var option1 = document.createElement("option");
+            option1.textContent = i;
+            growmin.appendChild(option1);
+
+            var option2 = document.createElement("option");
+            option2.textContent = i;
+            growmax.appendChild(option2);
+        }
+        growmin.selectedIndex = 8;
+        growmax.selectedIndex = global.prct;
+    })();
+
+    // Ring selects
+    (function () {
+        var container = document.getElementById("ringContainer");
+        for (var i = 0; i < global.rict; i++) {
+            var select = document.createElement("select");
+            select.id = "afua" + i;
+            for (var j = 0; j < global.ring.length; j++) {
+                var option = document.createElement("option");
+                option.textContent = global.ring[j][0];
+                select.appendChild(option);
+            }
+            select.selectedIndex = 0;
+            container.appendChild(select);
+            container.appendChild(document.createElement("br"));
+        }
+    })();
+
+    // Battle: attacker selects
+    (function () {
+        function fillSelect(id, count, offset, selected) {
+            var sel = document.getElementById(id);
+            for (var i = 0; i < count; i++) {
+                var option = document.createElement("option");
+                option.textContent = i + (offset || 0);
+                sel.appendChild(option);
+            }
+            sel.selectedIndex = selected || 0;
+        }
+        fillSelect("athp", 80, 1, 39);
+        fillSelect("atmhp", 80, 1, 59);
+        fillSelect("atatc", 100, 0, 20);
+        fillSelect("atdef", 51, 0, 10);
+        fillSelect("athit", 101, 0, 90);
+        fillSelect("atcrt", 101, 0, 10);
+        fillSelect("atcrtkei", 6, 0, 1);
+        fillSelect("atlvl", 20, 1, 9);
+        fillSelect("atskl", 41, 0, 10);
+        fillSelect("atspd", 41, 0, 10);
+        fillSelect("atluck", 31, 0, 10);
+    })();
+
+    // Battle: attacker skill checkboxes
+    (function () {
+        var container = document.getElementById("atskillContainer");
+        for (var i = 0; i < global.skilln; i++) {
+            var span = document.createElement("span");
+            span.className = "cbx";
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = "atskill" + i;
+            checkbox.value = "1";
+
+            var label = document.createElement("label");
+            label.htmlFor = "atskill" + i;
+            label.textContent = global.skilllist[i];
+
+            span.appendChild(checkbox);
+            span.appendChild(label);
+            container.appendChild(span);
+            container.appendChild(document.createTextNode(" "));
+        }
+    })();
+
+    // Battle: defender selects
+    (function () {
+        function fillSelect(id, count, offset, selected) {
+            var sel = document.getElementById(id);
+            for (var i = 0; i < count; i++) {
+                var option = document.createElement("option");
+                option.textContent = i + (offset || 0);
+                sel.appendChild(option);
+            }
+            sel.selectedIndex = selected || 0;
+        }
+        fillSelect("dfhp", 80, 1, 39);
+        fillSelect("dfmhp", 80, 1, 59);
+        fillSelect("dfatc", 100, 0, 20);
+        fillSelect("dfdef", 51, 0, 10);
+        fillSelect("dfhit", 101, 0, 90);
+        fillSelect("dfcrt", 101, 0, 10);
+        fillSelect("dfcrtkei", 6, 0, 1);
+        fillSelect("dflvl", 20, 1, 9);
+        fillSelect("dfskl", 41, 0, 10);
+        fillSelect("dfspd", 41, 0, 10);
+        fillSelect("dfluck", 31, 0, 10);
+    })();
+
+    // Battle: defender skill checkboxes
+    (function () {
+        var container = document.getElementById("dfskillContainer");
+        for (var i = 0; i < global.skilln; i++) {
+            var span = document.createElement("span");
+            span.className = "cbx";
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = "dfskill" + i;
+            checkbox.value = "1";
+
+            var label = document.createElement("label");
+            label.htmlFor = "dfskill" + i;
+            label.textContent = global.skilllist[i];
+
+            span.appendChild(checkbox);
+            span.appendChild(label);
+            container.appendChild(span);
+            container.appendChild(document.createTextNode(" "));
+        }
+    })();
+
+    // Battle: attacker min/max HP selects
+    (function () {
+        function fillSelect(id, count, offset, selected) {
+            var sel = document.getElementById(id);
+            for (var i = 0; i < count; i++) {
+                var option = document.createElement("option");
+                option.textContent = i + (offset || 0);
+                sel.appendChild(option);
+            }
+            sel.selectedIndex = selected || 0;
+        }
+        fillSelect("athpmin", 81, 0, 1);
+        fillSelect("athpmax", 81, 0, 80);
+    })();
+
+    // Battle: defender min/max HP selects
+    (function () {
+        function fillSelect(id, count, offset, selected) {
+            var sel = document.getElementById(id);
+            for (var i = 0; i < count; i++) {
+                var option = document.createElement("option");
+                option.textContent = i + (offset || 0);
+                sel.appendChild(option);
+            }
+            sel.selectedIndex = selected || 0;
+        }
+        fillSelect("dfhpmin", 81, 0, 0);
+        fillSelect("dfhpmax", 81, 0, 0);
+    })();
+
     // onload
     init();
 
