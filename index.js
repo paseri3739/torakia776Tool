@@ -469,16 +469,11 @@ const mapselect = (m) => {
     }
 };
 const pikasort = (f) => {
-    let ret = [];
-    let map = f ? mapselected(1) : 30;
-    if (document.getElementById("pikacheck").checked) {
-        for (let i = 0; i < global.randmap; i++) {
-            ret.push("<option>" + global.pika[i] + "</option>");
-        }
-    } else {
-        for (let i = 0; i < global.randmap; i++) {
-            ret.push("<option>" + i + "</option>");
-        }
+    const ret = [];
+    const map = f ? mapselected(1) : 30;
+    const isPika = document.getElementById("pikacheck").checked;
+    for (let i = 0; i < global.randmap; i++) {
+        ret.push("<option>" + (isPika ? global.pika[i] : i) + "</option>");
     }
     // Remove old select if exists
     const mapContainer = document.getElementById("map");
@@ -491,7 +486,6 @@ const pikasort = (f) => {
     };
     for (let i = 0; i < ret.length; i++) {
         const option = document.createElement("option");
-        // Remove <option> and </option> tags from ret[i]
         option.innerHTML = ret[i].replace(/<\/?option>/g, "");
         select.appendChild(option);
     }
