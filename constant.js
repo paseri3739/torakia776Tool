@@ -272,6 +272,9 @@ export const pika2 = [
     25, 28, 31, 34, 37, 40, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41,
 ];
 
+export const parameters = ["HP", "力", "魔力", "技", "速さ", "守備", "体格", "幸運", "移動"];
+export const innerParams = ["mhp", "str", "mag", "skl", "spd", "def", "bld", "luc", "mov"];
+
 export const svv_tora = [1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0];
 
 export const ud = [

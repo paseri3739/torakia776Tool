@@ -1,7 +1,7 @@
 /// @ts-check
 "use strict";
 
-import { msp, pika, pika2, rasu, ring, skillList, svv_tora, ud } from "./constant.js";
+import { innerParams, msp, parameters, pika, pika2, rasu, ring, skillList, svv_tora, ud } from "./constant.js";
 
 const global = {};
 global.prim = 0; //何個目の乱数から始めるか
@@ -15,8 +15,8 @@ global.kouho_vv2 = []; //レベルアップ候補乱数
 global.battle_vv = []; //戦闘検索候補乱数位置
 global.battle_vv2 = []; //戦闘乱数使用個数
 global.search_vv = []; //現在位置検索にヒットした乱数
-global.para = ["HP", "力", "魔力", "技", "速さ", "守備", "体格", "幸運", "移動"]; //能力名 表示用
-global.prvn = ["mhp", "str", "mag", "skl", "spd", "def", "bld", "luc", "mov"]; //能力名 計算用
+global.para = parameters; //能力名 表示用
+global.prvn = innerParams; //能力名 計算用
 global.prct = global.prvn.length; //能力の数
 global.ringselect = [0, 0, 0, 0, 0, 0, 0]; //書選択状況
 global.rict = global.ringselect.length; //書個数
