@@ -1,3 +1,4 @@
+/// @ts-check
 "use strict";
 
 const global = {};
@@ -403,15 +404,7 @@ const rand_ins = (data) => {
         global.vv = global.vv.concat(data);
     }
 };
-const init = () => {
-    //初期化
-    pikasort(0);
-    createTable(0);
-    ch_OnChange(0);
-    search_m_onchange();
-    reset();
-    document.getElementById("mainwindow").style.visibility = "visible";
-};
+
 const next = () => {
     //次の乱数
     let nn = global.maxlen;
@@ -2151,6 +2144,16 @@ const createSelect = (id, count, defaultIndex, onchange, startFromOne) => {
     }
     select.selectedIndex = defaultIndex;
     return select;
+};
+
+const init = () => {
+    //初期化
+    pikasort(0);
+    createTable(0);
+    ch_OnChange(0);
+    search_m_onchange();
+    reset();
+    document.getElementById("mainwindow").style.visibility = "visible";
 };
 // Insert the selects for the defender side
 window.addEventListener("DOMContentLoaded", () => {
