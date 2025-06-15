@@ -603,9 +603,9 @@ const lv_val_glance = () => {
 };
 const glance_a = () => {
     //先読み反映
-    let index = parseInt(document.getElementById("lv_val").value);
-    index += document.getElementById("glance").selectedIndex - 999;
-    document.getElementById("lv_val").value = index;
+    const lvVal = parseInt(document.getElementById("lv_val").value);
+    const glanceOffset = document.getElementById("glance").selectedIndex - 999;
+    document.getElementById("lv_val").value = lvVal + glanceOffset;
     document.getElementById("glance_ck").checked = 0;
     lv_val_f();
 };
